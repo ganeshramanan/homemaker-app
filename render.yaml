@@ -12,3 +12,7 @@ services:
         sync: false
       - key: BRAND_NAME
         sync: false
+      - key: ADMIN_PHONE
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false

@@ -3,18 +3,18 @@ import path from "node:path";
 import fs from "node:fs";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
-import { PrismaClient } from "@prisma/client";
 import baseBrand from "../shared/brand.config.js";
-import { parseList } from "./parser.js";
-import { CATALOG } from "./catalog.js";
+import { prisma } from "./db.js";
+import { authRouter, adminRouter, loadUser, requireUser, bootstrapAdmin } from "./auth.js";
+import provisions from "./provisions.js";
 
-const prisma = new PrismaClient();
 const app = express();
 const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), "../dist");
 const brand = () => ({ ...baseBrand, name: process.env.BRAND_NAME || baseBrand.name });
-const wrap = (fn) => (req, res) => fn(req, res).catch((e) => { console.error(e); res.status(500).json({ error: e.message }); });
 
-app.use(express.json());
+app.set("trust proxy", 1);
+app.use(express.json({ limit: "100kb" }));
+app.use(loadUser);
 // No service worker, no offline cache: always fetch fresh.
 app.use((req, res, next) => { if (!req.path.startsWith("/assets/")) res.set("Cache-Control", "no-cache, no-store, must-revalidate"); next(); });
 
@@ -47,115 +47,13 @@ function png(size, hex) { // theme-colour square with a white basket-like ring
 }
 app.get("/icon-:size.png", (req, res) => res.type("png").send(png(Math.min(512, +req.params.size || 192), brand().themeColor)));
 
-// ---------- helpers ----------
-const FACTOR = { "kg>g": 1000, "g>kg": 0.001, "L>ml": 1000, "ml>L": 0.001 };
-const convert = (qty, from, to) => (from === to ? qty : qty * (FACTOR[`${from}>${to}`] ?? 1));
-const activeList = async () =>
-  (await prisma.list.findFirst({ where: { status: "active" }, include: { items: { orderBy: { position: "asc" } } } })) ??
-  prisma.list.create({ data: {}, include: { items: true } });
-const dict = Object.fromEntries(CATALOG.map((c) => [c.name, { category: c.category, unit: c.unit, minQty: c.min }]));
-
-// ---------- voice text -> rows ----------
-app.post("/api/parse", (req, res) => res.json(parseList(req.body.text)));
-
-// ---------- shopping list ----------
-app.get("/api/list", wrap(async (_, res) => res.json(await activeList())));
-
-app.post("/api/list/items", wrap(async (req, res) => {
-  const list = await activeList();
-  let pos = list.items.length;
-  const rows = [].concat(req.body.items ?? req.body);
-  for (const r of rows) {
-    const item = r.itemId ? { id: r.itemId } : await prisma.item.findUnique({ where: { name: r.name } });
-    const existing = list.items.find((i) => !i.bought && i.name.toLowerCase() === r.name.toLowerCase());
-    if (existing) {
-      await prisma.listItem.update({ where: { id: existing.id }, data: { qty: existing.qty + convert(r.qty ?? 1, r.unit ?? existing.unit, existing.unit) } });
-    } else {
-      await prisma.listItem.create({ data: { listId: list.id, itemId: item?.id ?? null, name: r.name, qty: r.qty ?? 1, unit: r.unit ?? "pcs", position: pos++ } });
-    }
-  }
-  res.json(await activeList());
-}));
-
-app.patch("/api/list/items/:id", wrap(async (req, res) => {
-  const id = +req.params.id, { qty, unit, name } = req.body;
-  await prisma.listItem.update({ where: { id }, data: { ...(qty != null && { qty }), ...(unit && { unit }), ...(name && { name }) } });
-  res.json(await activeList());
-}));
-
-app.delete("/api/list/items/:id", wrap(async (req, res) => {
-  await prisma.listItem.delete({ where: { id: +req.params.id } });
-  res.json(await activeList());
-}));
-
-app.put("/api/list/order", wrap(async (req, res) => {
-  await prisma.$transaction(req.body.ids.map((id, position) => prisma.listItem.update({ where: { id }, data: { position } })));
-  res.json(await activeList());
-}));
-
-// Mark bought / not bought. Bought adds to inventory, un-bought reverses it.
-app.post("/api/list/items/:id/bought", wrap(async (req, res) => {
-  const li = await prisma.listItem.findUnique({ where: { id: +req.params.id } });
-  if (!li) return res.status(404).json({ error: "not found" });
-  const bought = req.body.bought ?? !li.bought;
-  if (bought !== li.bought) {
-    const d = dict[li.name];
-    let item = li.itemId ? await prisma.item.findUnique({ where: { id: li.itemId } }) : await prisma.item.findUnique({ where: { name: li.name } });
-    if (!item) item = await prisma.item.create({ data: { name: li.name, unit: li.unit, category: d?.category ?? "Other", minQty: d ? convert(d.minQty, d.unit, li.unit) : 0 } });
-    const delta = convert(li.qty, li.unit, item.unit) * (bought ? 1 : -1);
-    await prisma.item.update({ where: { id: item.id }, data: { stock: Math.max(0, item.stock + delta) } });
-    await prisma.listItem.update({ where: { id: li.id }, data: { bought, itemId: item.id } });
-  }
-  res.json(await activeList());
-}));
-
-// Start next month's list: copies everything from the finished one.
-app.post("/api/list/new", wrap(async (req, res) => {
-  const old = await activeList();
-  await prisma.list.update({ where: { id: old.id }, data: { status: "done" } });
-  const copy = req.body.copy ? old.items.map((i, position) => ({ itemId: i.itemId, name: i.name, qty: i.qty, unit: i.unit, position })) : [];
-  await prisma.list.create({ data: { items: { create: copy } } });
-  res.json(await activeList());
-}));
-
-// ---------- inventory ----------
-app.get("/api/inventory", wrap(async (_, res) => res.json(await prisma.item.findMany({ orderBy: [{ category: "asc" }, { name: "asc" }] }))));
-
-app.patch("/api/inventory/:id", wrap(async (req, res) => {
-  const { stock, minQty, delta } = req.body, id = +req.params.id;
-  const cur = await prisma.item.findUnique({ where: { id } });
-  const data = {};
-  if (delta != null) data.stock = Math.max(0, +(cur.stock + delta).toFixed(3));
-  if (stock != null) data.stock = Math.max(0, stock);
-  if (minQty != null) data.minQty = Math.max(0, minQty);
-  res.json(await prisma.item.update({ where: { id }, data }));
-}));
-
-app.post("/api/inventory", wrap(async (req, res) => {
-  const { name, unit = "pcs", stock = 0, minQty = 0, category = "Other" } = req.body;
-  res.json(await prisma.item.upsert({ where: { name }, update: { unit, stock, minQty, category }, create: { name, unit, stock, minQty, category } }));
-}));
-
-app.delete("/api/inventory/:id", wrap(async (req, res) => { await prisma.item.delete({ where: { id: +req.params.id } }); res.json({ ok: true }); }));
-
-// 100-item catalog (for the picker) and a demo loader that puts it into inventory.
-app.get("/api/catalog", (_, res) => res.json(CATALOG));
-app.post("/api/inventory/seed", wrap(async (_, res) => {
-  const data = CATALOG.map((c, i) => ({ name: c.name, category: c.category, unit: c.unit, minQty: c.min, stock: +(c.min * (i % 6 === 0 ? 0.5 : 3)).toFixed(2) }));
-  res.json({ added: (await prisma.item.createMany({ data, skipDuplicates: true })).count });
-}));
-
-// ---------- dashboard ----------
-app.get("/api/dashboard", wrap(async (_, res) => {
-  const [items, list] = await Promise.all([prisma.item.findMany(), activeList()]);
-  const low = items.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty);
-  const onList = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
-  res.json({
-    low: low.map((i) => ({ ...i, onList: onList.has(i.name) })),
-    totalItems: items.length,
-    list: { total: list.items.length, bought: list.items.filter((i) => i.bought).length },
-  });
-}));
+// ---------- API ----------
+app.use("/api/auth", authRouter);
+app.use("/api", requireUser);
+app.use("/api/provisions", provisions);   // future: /api/budget, /api/reminders, /api/diary ...
+app.use("/api/admin", adminRouter);
+app.use("/api", (_, res) => res.status(404).json({ error: "Not found" }));
+app.use((e, _req, res, _next) => { console.error(e); res.status(e.status || 500).json({ error: e.status ? e.message : "Something went wrong. Please try again." }); });
 
 // ---------- static frontend ----------
 app.use(express.static(dist, { index: false, maxAge: "1y", setHeaders: (res, p) => { if (!p.includes("/assets/")) res.set("Cache-Control", "no-cache"); } }));
@@ -165,4 +63,6 @@ app.get(/^(?!\/api).*/, (_, res) => {
   res.type("html").send(html);
 });
 
-app.listen(process.env.PORT || 3000, () => console.log("up"));
+bootstrapAdmin()
+  .catch((e) => console.error("bootstrapAdmin failed:", e))
+  .finally(() => app.listen(process.env.PORT || 3000, () => console.log("up")));

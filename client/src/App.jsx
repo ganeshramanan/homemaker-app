@@ -5,7 +5,11 @@ import { CSS } from "@dnd-kit/utilities";
 
 const api = async (url, method = "GET", body) => {
   const r = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: body && JSON.stringify(body), cache: "no-store" });
-  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.statusText);
+  if (!r.ok) {
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401 && !url.startsWith("/api/auth")) window.dispatchEvent(new Event("unauth"));
+    throw Object.assign(new Error(j.error || r.statusText), { status: r.status, code: j.code });
+  }
   return r.json();
 };
 
@@ -13,12 +17,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -89,7 +93,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onParsed, onDone 
                 <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
                 {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{c}</button>)}
               </div>
-              {looksList && <Btn onClick={async () => setRows(await api("/api/parse", "POST", { text: q }))} className="w-full py-2.5 bg-white border-2 border-brand text-brand text-sm">✍️ {t.readList}</Btn>}
+              {looksList && <Btn onClick={async () => setRows(await api("/api/provisions/parse", "POST", { text: q }))} className="w-full py-2.5 bg-white border-2 border-brand text-brand text-sm">✍️ {t.readList}</Btn>}
             </div>
             <div className="flex-1 overflow-auto px-4 pb-2">
               {!shown.length && <p className="text-center text-gray-400 py-8">{t.noMatch}</p>}
@@ -171,20 +175,21 @@ function ListTab({ t, brand, list, setList, refresh }) {
     if (!over || active.id === over.id) return;
     const ids = arrayMove(todo.map((i) => i.id), todo.findIndex((i) => i.id === active.id), todo.findIndex((i) => i.id === over.id));
     setList({ ...list, items: [...ids.map((id) => todo.find((i) => i.id === id)), ...done] });
-    await api("/api/list/order", "PUT", { ids }); refresh();
+    await api("/api/provisions/list/order", "PUT", { ids }); refresh();
   };
-  const qty = async (i, q) => { setList({ ...list, items: list.items.map((x) => (x.id === i.id ? { ...x, qty: q } : x)) }); await api(`/api/list/items/${i.id}`, "PATCH", { qty: q }); };
-  const del = async (i) => setList(await api(`/api/list/items/${i.id}`, "DELETE"));
-  const toggle = async (i) => { setList(await api(`/api/list/items/${i.id}/bought`, "POST", {})); refresh(); };
+  const qty = async (i, q) => { setList({ ...list, items: list.items.map((x) => (x.id === i.id ? { ...x, qty: q } : x)) }); await api(`/api/provisions/list/items/${i.id}`, "PATCH", { qty: q }); };
+  const del = async (i) => setList(await api(`/api/provisions/list/items/${i.id}`, "DELETE"));
+  const toggle = async (i) => { setList(await api(`/api/provisions/list/items/${i.id}/bought`, "POST", {})); refresh(); };
   const share = () => {
     const lines = todo.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
     const msg = `🛒 *${brand.name}*\n${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}\n\n${lines}\n\n_Sent via ${brand.name}_`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
   };
-  const next = async () => { setList(await api("/api/list/new", "POST", { copy: true })); refresh(); };
+  const [nextOpen, setNextOpen] = useState(false);
 
   return (
     <div className="space-y-3">
+      {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
       {!list.items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.empty}</p>}
       {!!todo.length && (
         <>
@@ -212,7 +217,7 @@ function ListTab({ t, brand, list, setList, refresh }) {
           </div>
         </>
       )}
-      {!!list.items.length && <Btn onClick={next} className="w-full py-3 border-2 border-dashed border-green-300 text-brand">🔁 {t.newMonth}</Btn>}
+      {!!list.items.length && <Btn onClick={() => setNextOpen(true)} className="w-full py-3 border-2 border-dashed border-green-300 text-brand">🔁 {t.newMonth}</Btn>}
     </div>
   );
 }
@@ -220,9 +225,9 @@ function ListTab({ t, brand, list, setList, refresh }) {
 function Stock({ t, items, refresh, onSeed }) {
   const [adding, setAdding] = useState(false);
   const [f, setF] = useState({ name: "", unit: "kg", minQty: 1 });
-  const patch = async (i, body) => { await api(`/api/inventory/${i.id}`, "PATCH", body); refresh(); };
+  const patch = async (i, body) => { await api(`/api/provisions/inventory/${i.id}`, "PATCH", body); refresh(); };
   const groups = useMemo(() => items.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [items]);
-  const save = async () => { if (!f.name.trim()) return; await api("/api/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
+  const save = async () => { if (!f.name.trim()) return; await api("/api/provisions/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
   return (
     <div className="space-y-4">
       {!items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.stockEmpty}</p>}
@@ -266,9 +271,189 @@ function Stock({ t, items, refresh, onSeed }) {
   );
 }
 
+
+// ---------- next-month preview ----------
+function NextSheet({ t, onClose, onDone }) {
+  const [rows, setRows] = useState(null);
+  const [off, setOff] = useState(new Set());
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { api("/api/provisions/list/next-preview").then((r) => setRows(r.items)).catch(() => setRows([])); }, []);
+  const chosen = (rows || []).filter((r) => !off.has(r.name));
+  const go = async () => { setBusy(true); try { onDone(await api("/api/provisions/list/new", "POST", { items: chosen.map(({ name, qty, unit }) => ({ name, qty, unit })) })); } finally { setBusy(false); } };
+  return (
+    <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
+      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl max-h-[88vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="p-4 pb-2"><h3 className="font-bold text-lg">{t.nextTitle}</h3><p className="text-sm text-gray-500">{t.nextNote}</p></div>
+        <div className="flex-1 overflow-auto px-4 space-y-1.5">
+          {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
+          {(rows || []).map((r) => {
+            const on = !off.has(r.name);
+            return (
+              <button key={r.name} onClick={() => { const n = new Set(off); on ? n.add(r.name) : n.delete(r.name); setOff(n); }}
+                className={`w-full flex items-center gap-3 rounded-2xl p-2.5 text-left ${on ? "bg-white shadow-sm" : "bg-green-100/50 opacity-60"}`}>
+                <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${on ? "bg-brand" : "border-2 border-green-300"}`}>{on && "✓"}</span>
+                <span className="text-2xl">{emoji(r.name)}</span>
+                <span className="flex-1 font-semibold">{dn(r.name)}{r.reason === "low" && <span className="ml-2 text-xs font-bold text-red-500">{t.lowTag}</span>}</span>
+                <span className="text-sm text-gray-500">{fmt(r.qty)} {r.unit}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="p-4 flex gap-2">
+          <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{t.cancel}</Btn>
+          <Btn onClick={go} disabled={busy} className="flex-[2] py-3 bg-brand text-white disabled:opacity-50">{t.startList} ({chosen.length})</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------- history ----------
+const monthOf = (d) => new Date(d).toLocaleDateString("en-IN", { month: "long", year: "numeric" });
+function History({ t, brand, onCopied }) {
+  const [rows, setRows] = useState(null);
+  const [open, setOpen] = useState(null);
+  const [note, setNote] = useState("");
+  useEffect(() => { api("/api/provisions/history").then(setRows).catch(() => setRows([])); }, []);
+  const view = async (id) => setOpen(await api(`/api/provisions/history/${id}`));
+  if (open) {
+    const share = () => {
+      const lines = open.items.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
+      window.open(`https://wa.me/?text=${encodeURIComponent(`🛒 *${brand.name}* · ${monthOf(open.closedAt)}\n\n${lines}`)}`, "_blank");
+    };
+    return (
+      <div className="space-y-3">
+        <Btn onClick={() => { setOpen(null); setNote(""); }} className="text-brand px-1">← {t.back}</Btn>
+        <h2 className="font-bold text-lg">{monthOf(open.closedAt)}</h2>
+        <div className="space-y-1.5">
+          {open.items.map((i) => (
+            <div key={i.id} className="flex items-center gap-2 rounded-2xl bg-white p-2.5 shadow-sm">
+              <span className="text-2xl">{emoji(i.name)}</span><span className={`flex-1 font-semibold ${i.bought ? "text-gray-400 line-through" : ""}`}>{dn(i.name)}</span>
+              <span className="text-sm text-gray-500">{fmt(i.qty)} {i.unit}</span>
+            </div>
+          ))}
+        </div>
+        {note && <p className="rounded-xl bg-green-100 p-2.5 text-center text-sm text-green-800">{note}</p>}
+        <Btn onClick={async () => { await api(`/api/provisions/history/${open.id}/copy`, "POST"); setNote(t.copied); onCopied(); }} className="w-full py-3.5 bg-brand text-white">{t.copyToList}</Btn>
+        <Btn onClick={share} className="w-full py-3 bg-[#25D366] text-white">💬 {t.send}</Btn>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
+      {rows?.length === 0 && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.historyEmpty}</p>}
+      {rows?.map((h) => (
+        <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-sm text-left active:scale-[.99]">
+          <span className="text-2xl">🗓️</span>
+          <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {t.items} · {h.bought} {t.boughtOf}</span></span>
+          <span className="text-gray-300 text-xl">›</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ---------- admin ----------
+function Admin() {
+  const [data, setData] = useState(null);
+  const [err, setErr] = useState("");
+  const load = useCallback(() => api("/api/admin/users").then(setData).catch((e) => setErr(e.message)), []);
+  useEffect(() => { load(); }, [load]);
+  const act = async (fn) => { try { await fn(); await load(); } catch (e) { setErr(e.message); } };
+  const set = (u, status) => act(() => api(`/api/admin/users/${u.id}`, "PATCH", { status }));
+  const del = (u) => confirm(`Delete ${u.name} and all their data?`) && act(() => api(`/api/admin/users/${u.id}`, "DELETE"));
+  if (err) return <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>;
+  if (!data) return <p className="text-center text-gray-400 py-6">…</p>;
+  const pending = data.users.filter((u) => u.status === "pending").length;
+  const badge = { pending: "bg-amber-100 text-amber-800", active: "bg-green-100 text-green-800", disabled: "bg-gray-200 text-gray-600" };
+  return (
+    <div className="space-y-2">
+      <p className="text-sm text-gray-500">{data.users.length} users · {pending} waiting for approval</p>
+      {data.users.map((u) => (
+        <div key={u.id} className={`rounded-2xl bg-white p-3 shadow-sm ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
+          <div className="flex items-center gap-2">
+            <div className="flex-1 min-w-0"><p className="font-bold truncate">{u.name} {u.role === "admin" && "👑"}</p><p className="text-sm text-gray-500">{u.phone} · {new Date(u.createdAt).toLocaleDateString("en-IN")}</p></div>
+            <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${badge[u.status]}`}>{u.status}</span>
+          </div>
+          {u.role !== "admin" && (
+            <div className="flex gap-2 mt-2.5">
+              {u.status !== "active" && <Btn onClick={() => set(u, "active")} className="flex-1 py-2 bg-brand text-white text-sm">{u.status === "pending" ? "Approve" : "Enable"}</Btn>}
+              {u.status === "active" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">Disable</Btn>}
+              {u.status === "pending" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">Reject</Btn>}
+              <Btn onClick={() => del(u)} className="px-4 py-2 bg-red-50 text-red-600 text-sm">Delete</Btn>
+            </div>
+          )}
+        </div>
+      ))}
+      {data.demoCount > 0 && <p className="text-xs text-gray-400 text-center pt-2">{data.demoCount} demo accounts (auto-deleted after a day)</p>}
+    </div>
+  );
+}
+
+function More({ t, brand, user, onLogout, onCopied }) {
+  const [view, setView] = useState(null);
+  if (view) return (
+    <div className="space-y-3">
+      <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
+      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : <Admin />}
+    </div>
+  );
+  const Row2 = ({ icon, label, onClick, danger }) => (
+    <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm text-left font-semibold active:scale-[.99] ${danger ? "text-red-600" : ""}`}><span className="text-2xl">{icon}</span><span className="flex-1">{label}</span><span className="text-gray-300 text-xl">›</span></button>
+  );
+  return (
+    <div className="space-y-2.5">
+      <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
+      <Row2 icon="🗓️" label={t.history} onClick={() => setView("history")} />
+      {user.role === "admin" && <Row2 icon="👑" label="Admin: users" onClick={() => setView("admin")} />}
+      <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
+    </div>
+  );
+}
+
+// ---------- sign in / sign up / demo ----------
+function AuthScreen({ brand, onUser }) {
+  const [mode, setMode] = useState("login");
+  const [f, setF] = useState({ name: "", phone: "", password: "" });
+  const [err, setErr] = useState("");
+  const [done, setDone] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const run = async (fn) => { setErr(""); setBusy(true); try { await fn(); } catch (e) { setErr(e.message); } finally { setBusy(false); } };
+  const submit = (e) => { e.preventDefault(); run(async () => {
+    if (mode === "signup") { await api("/api/auth/signup", "POST", f); setDone(true); }
+    else onUser((await api("/api/auth/login", "POST", f)).user);
+  }); };
+  const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
+  return (
+    <div className="min-h-screen max-w-md mx-auto px-6 py-10 flex flex-col justify-center">
+      <div className="text-center mb-8"><div className="text-5xl mb-2">🛒</div><h1 className="text-3xl font-extrabold text-brand">{brand.name}</h1><p className="text-gray-500 mt-1">{brand.tagline}</p></div>
+      {done ? (
+        <div className="rounded-3xl bg-white p-6 text-center shadow-sm space-y-3">
+          <div className="text-4xl">⏳</div><h2 className="font-bold text-xl">Thank you!</h2>
+          <p className="text-gray-600">Your account is waiting for approval. You can sign in once it is approved.</p>
+          <Btn onClick={() => { setDone(false); setMode("login"); }} className="w-full py-3 bg-brand text-white">Back to sign in</Btn>
+        </div>
+      ) : (
+        <form onSubmit={submit} className="space-y-3">
+          <div className="flex rounded-2xl bg-green-100 p-1">
+            {[["login", "Sign in"], ["signup", "Sign up"]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
+          </div>
+          {mode === "signup" && <input className={input} placeholder="Your name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
+          <input className={input} placeholder="Phone number" inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
+          <input className={input} placeholder="Password" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+          {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
+          <Btn type="submit" disabled={busy} className="w-full py-3.5 bg-brand text-white text-lg disabled:opacity-50">{mode === "login" ? "Sign in" : "Create account"}</Btn>
+          <div className="flex items-center gap-3 text-gray-400 text-sm"><span className="flex-1 h-px bg-green-200" />or<span className="flex-1 h-px bg-green-200" /></div>
+          <Btn type="button" disabled={busy} onClick={() => run(async () => onUser((await api("/api/auth/demo", "POST")).user))} className="w-full py-3 bg-white border-2 border-brand text-brand">✨ Try demo</Btn>
+        </form>
+      )}
+    </div>
+  );
+}
+
 // ---------- app ----------
-export default function App() {
-  const [brand, setBrand] = useState({ name: "", tagline: "" });
+function Main({ user, brand, onLogout }) {
   const [lang, setLang] = useState(localStorage.getItem("lang") || "en");
   const [tab, setTab] = useState("home");
   const [list, setList] = useState({ items: [] });
@@ -281,18 +466,18 @@ export default function App() {
   LANG = lang;
 
   const refresh = useCallback(async () => {
-    try { const [l, d, i] = await Promise.all([api("/api/list"), api("/api/dashboard"), api("/api/inventory")]); setList(l); setDash(d); setInv(i); setErr(""); }
+    try { const [l, d, i] = await Promise.all([api("/api/provisions/list"), api("/api/provisions/dashboard"), api("/api/provisions/inventory")]); setList(l); setDash(d); setInv(i); setErr(""); }
     catch (e) { setErr(e.message); }
   }, []);
-  useEffect(() => { api("/api/brand").then(setBrand).catch(() => {}); api("/api/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh]);
+  useEffect(() => { api("/api/provisions/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh]);
   useEffect(() => { document.title = brand.name || document.title; }, [brand]);
   const toggleLang = () => { const n = lang === "en" ? "ta" : "en"; setLang(n); localStorage.setItem("lang", n); };
 
-  const addRows = async (rows) => { setList(await api("/api/list/items", "POST", { items: rows })); setMic(false); setTab("list"); refresh(); };
-  const quick = async (c) => { setList(await api("/api/list/items", "POST", { items: [{ name: c.name, qty: Math.max(c.min || 0, step(c.unit)), unit: c.unit }] })); refresh(); };
-  const seed = async () => { if (confirm(t.seed + "?")) { await api("/api/inventory/seed", "POST", {}); refresh(); } };
+  const addRows = async (rows) => { setList(await api("/api/provisions/list/items", "POST", { items: rows })); setMic(false); setTab("list"); refresh(); };
+  const quick = async (c) => { setList(await api("/api/provisions/list/items", "POST", { items: [{ name: c.name, qty: Math.max(c.min || 0, step(c.unit)), unit: c.unit }] })); refresh(); };
+  const seed = async () => { if (confirm(t.seed + "?")) { await api("/api/provisions/inventory/seed", "POST", {}); refresh(); } };
   const closePicker = () => { setMic(false); setTab("list"); };
-  const restock = async (i) => { await api("/api/list/items", "POST", { items: [{ name: i.name, itemId: i.id, qty: Math.max(i.minQty * 2 - i.stock, step(i.unit)), unit: i.unit }] }); refresh(); };
+  const restock = async (i) => { await api("/api/provisions/list/items", "POST", { items: [{ name: i.name, itemId: i.id, qty: Math.max(i.minQty * 2 - i.stock, step(i.unit)), unit: i.unit }] }); refresh(); };
 
   const Tab = ({ id, icon, label }) => (
     <button onClick={() => setTab(id)} className={`flex-1 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
@@ -307,9 +492,11 @@ export default function App() {
         <Btn onClick={toggleLang} className="px-3 py-1.5 bg-white shadow-sm text-sm border border-green-200">{lang === "en" ? "தமிழ்" : "English"}</Btn>
       </header>
       <main className="px-4 pt-2">
+        {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
         {tab === "home" && <Home t={t} dash={dash} onRestock={restock} />}
         {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} refresh={refresh} />}
+        {tab === "more" && <More t={t} brand={brand} user={user} onLogout={onLogout} onCopied={refresh} />}
         {tab === "stock" && <Stock t={t} items={inv} refresh={refresh} onSeed={seed} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
@@ -318,10 +505,27 @@ export default function App() {
           <Tab id="list" icon="📋" label={t.list} />
           <div className="flex-1 flex justify-center"><Btn onClick={() => setMic(true)} className="-mt-8 w-16 h-16 rounded-full bg-brand text-white text-4xl font-light shadow-xl ring-4 ring-green-50" aria-label="add">＋</Btn></div>
           <Tab id="stock" icon="📦" label={t.stock} />
-          <div className="flex-1" />
+          <Tab id="more" icon="☰" label={t.more} />
         </div>
       </nav>
       {mic && <AddSheet t={t} lang={lang} catalog={catalog} inv={inv} listNames={new Set(list.items.filter((i) => !i.bought).map((i) => i.name))} onQuick={quick} onParsed={addRows} onDone={closePicker} />}
     </div>
   );
+}
+
+export default function App() {
+  const [brand, setBrand] = useState({ name: "", tagline: "" });
+  const [user, setUser] = useState(undefined);
+  useEffect(() => {
+    api("/api/brand").then(setBrand).catch(() => {});
+    api("/api/auth/me").then((r) => setUser(r.user)).catch(() => setUser(null));
+    const h = () => setUser(null);
+    window.addEventListener("unauth", h);
+    return () => window.removeEventListener("unauth", h);
+  }, []);
+  useEffect(() => { if (brand.name) document.title = brand.name; }, [brand]);
+  const logout = async () => { await api("/api/auth/logout", "POST").catch(() => {}); setUser(null); };
+  if (user === undefined) return <div className="min-h-screen flex items-center justify-center text-gray-400">…</div>;
+  if (!user) return <AuthScreen brand={brand} onUser={setUser} />;
+  return <Main key={user.id} user={user} brand={brand} onLogout={logout} />;
 }

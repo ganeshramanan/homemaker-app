@@ -8,21 +8,54 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  phone        String    @unique
+  passwordHash String
+  role         String    @default("user")    // user | admin
+  status       String    @default("pending") // pending | active | disabled
+  isDemo       Boolean   @default(false)
+  modules      String    @default("provisions") // comma list; admin can switch sections on/off per user
+  createdAt    DateTime  @default(now())
+  sessions     Session[]
+  items        Item[]
+  lists        List[]
+}
+
+model Session {
+  id        String   @id
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+
+  @@index([userId])
+}
+
 model Item {
   id        Int        @id @default(autoincrement())
-  name      String     @unique
+  userId    Int?
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
   category  String     @default("Other")
   unit      String     @default("pcs")
   stock     Float      @default(0)
   minQty    Float      @default(0)
   listItems ListItem[]
+
+  @@unique([userId, name])
 }
 
 model List {
   id        Int        @id @default(autoincrement())
-  status    String     @default("active")
+  userId    Int?
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    String     @default("active") // active | done
   createdAt DateTime   @default(now())
+  closedAt  DateTime?
   items     ListItem[]
+
+  @@index([userId, status])
 }
 
 model ListItem {
@@ -35,6 +68,7 @@ model ListItem {
   qty      Float   @default(1)
   unit     String  @default("pcs")
   bought   Boolean @default(false)
+  price    Float? // for the future Budget module
   position Int     @default(0)
 
   @@index([listId])
