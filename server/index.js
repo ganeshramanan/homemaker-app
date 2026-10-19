@@ -8,6 +8,7 @@ import { prisma } from "./db.js";
 import { authRouter, adminRouter, loadUser, requireUser, bootstrapAdmin } from "./auth.js";
 import provisions from "./provisions.js";
 import budget from "./budget.js";
+import calendar from "./calendar.js";
 
 const app = express();
 const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), "../dist");
@@ -53,6 +54,7 @@ app.use("/api/auth", authRouter);
 app.use("/api", requireUser);
 app.use("/api/provisions", provisions);   // future: /api/budget, /api/reminders, /api/diary ...
 app.use("/api/budget", budget);
+app.use("/api/calendar", calendar);
 app.use("/api/admin", adminRouter);
 app.use("/api", (_, res) => res.status(404).json({ error: "Not found" }));
 app.use((e, _req, res, _next) => { console.error(e); res.status(e.status || 500).json({ error: e.status ? e.message : "Something went wrong. Please try again." }); });

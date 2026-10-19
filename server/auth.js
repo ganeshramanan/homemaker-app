@@ -4,7 +4,7 @@ import { prisma } from "./db.js";
 import { seedInventory, addRows, activeList } from "./provisions.js";
 
 // Add new section ids here as modules are built (budget, reminders, diary, fitness).
-export const ALL_MODULES = ["provisions", "budget"];
+export const ALL_MODULES = ["provisions", "budget", "calendar"];
 const SESSION_DAYS = 30;
 
 const hashPw = (pw) => { const salt = crypto.randomBytes(16); return `${salt.toString("hex")}:${crypto.scryptSync(pw, salt, 64).toString("hex")}`; };

@@ -16,12 +16,13 @@ model User {
   role         String    @default("user")    // user | admin
   status       String    @default("pending") // pending | active | disabled
   isDemo       Boolean   @default(false)
-  modules      String    @default("provisions,budget") // comma list; admin can switch sections on/off per user
+  modules      String    @default("provisions,budget,calendar") // comma list; admin can switch sections on/off per user
   createdAt    DateTime  @default(now())
   sessions     Session[]
   items        Item[]
   lists        List[]
   budgetEntries BudgetEntry[]
+  calendarEvents CalendarEvent[]
 }
 
 model Session {
@@ -88,4 +89,19 @@ model BudgetEntry {
   createdAt DateTime @default(now())
 
   @@index([userId, month])
+}
+
+model CalendarEvent {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  date      String   // "2026-10-25": the first (or only) date
+  time      String?  // "14:30", or null for an all-day event
+  category  String   @default("Other")
+  repeat    String   @default("none") // none | yearly | monthly
+  note      String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([userId, date])
 }

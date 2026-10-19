@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { pad, ymd, daysIn, parseYmd, localToday, nowMin, addDays, weekday, fmtTime, occurrences, statusOf } from "./calendar-utils.js";
 
 const api = async (url, method = "GET", body) => {
   const r = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: body && JSON.stringify(body), cache: "no-store" });
@@ -140,7 +141,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Home({ t, lang, inv, list, showBudget, onOpenBudget, onRestock, onUnrestock }) {
+function Home({ t, lang, inv, list, showBudget, onOpenBudget, cal, onOpenCalendar, onRestock, onUnrestock }) {
   const names = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
   const dash = {
     low: inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) })),
@@ -154,6 +155,7 @@ function Home({ t, lang, inv, list, showBudget, onOpenBudget, onRestock, onUnres
         <p className="text-3xl font-extrabold">{dash.list.bought}/{dash.list.total} <span className="text-base font-medium">{t.boughtOf}</span></p>
         <div className="mt-3 h-2.5 rounded-full bg-white/30"><div className="h-full rounded-full bg-white transition-all" style={{ width: pct + "%" }} /></div>
       </div>
+      {cal && <CalendarCard lang={lang} cal={cal} onOpen={onOpenCalendar} />}
       {showBudget && <BudgetCard lang={lang} onOpen={onOpenBudget} />}
       <section>
         <h2 className="font-bold text-lg mb-2">🔴 {t.low} <span className="text-gray-400 text-sm">({dash.low.length})</span></h2>
@@ -461,11 +463,11 @@ function Admin({ t }) {
   );
 }
 
-function More({ t, lang, brand, user, view, setView, onLogout, onCopied }) {
+function More({ t, lang, brand, user, view, setView, cal, onLogout, onCopied }) {
   if (view) return (
     <div className="space-y-3">
       <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
-      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : view === "budget" ? <Budget t={t} lang={lang} /> : <Admin t={t} />}
+      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : view === "budget" ? <Budget t={t} lang={lang} /> : view === "calendar" ? <Calendar lang={lang} cal={cal} /> : <Admin t={t} />}
     </div>
   );
   const Row2 = ({ icon, label, onClick, danger }) => (
@@ -474,6 +476,7 @@ function More({ t, lang, brand, user, view, setView, onLogout, onCopied }) {
   return (
     <div className="space-y-2.5">
       <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
+      {user.modules.includes("calendar") && <Row2 icon="📅" label={CT[lang].title} onClick={() => setView("calendar")} />}
       {user.modules.includes("budget") && <Row2 icon="💰" label={BT[lang].title} onClick={() => setView("budget")} />}
       <Row2 icon="🗓️" label={t.history} onClick={() => setView("history")} />
       {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
@@ -867,6 +870,209 @@ function BudgetCard({ lang, onOpen }) {
   );
 }
 
+// ---------- calendar ----------
+const EVENT_CATS = ["Birthday", "Anniversary", "Bill due", "EMI due", "Credit card", "Doctor", "Meeting", "School", "Festival", "Reminder", "Other"];
+const ECAT_ICON = { Birthday: "🎂", Anniversary: "💑", "Bill due": "🧾", "EMI due": "💳", "Credit card": "💳", Doctor: "🩺", Meeting: "👥", School: "🎓", Festival: "🪔", Reminder: "⏰", Other: "📌" };
+const ECAT_TA = { Birthday: "பிறந்தநாள்", Anniversary: "திருமண நாள்", "Bill due": "பில் கட்டணம்", "EMI due": "EMI தேதி", "Credit card": "கிரெடிட் கார்டு", Doctor: "மருத்துவர்", Meeting: "சந்திப்பு", School: "பள்ளி", Festival: "பண்டிகை", Reminder: "நினைவூட்டல்", Other: "மற்றவை" };
+const CT = {
+  en: { title: "Calendar", addEvent: "Add event", newEvent: "New event", editEvent: "Edit event", eventTitle: "What is it?", date: "Date", time: "Time", allDay: "All day", repeat: "Repeat", none: "Does not repeat", yearly: "Every year", monthly: "Every month", note: "Note (optional)", category: "Type", today: "Today", tomorrow: "Tomorrow", now: "Now", soon: "Later today", upcoming: "Coming up", nothingToday: "Nothing planned today", nothingSoon: "No events in the next 7 days", noEvents: "No events on this day", onThisDay: "On this day", viewAll: "Open calendar", save: "Save", cancel: "Cancel", del: "Delete", pickDate: "Choose a date", gotoToday: "Today", repeatsYearly: "every year", repeatsMonthly: "every month", wd: ["S", "M", "T", "W", "T", "F", "S"] },
+  ta: { title: "நாட்காட்டி", addEvent: "நிகழ்வு சேர்", newEvent: "புதிய நிகழ்வு", editEvent: "நிகழ்வைத் திருத்து", eventTitle: "என்ன நிகழ்வு?", date: "தேதி", time: "நேரம்", allDay: "நாள் முழுவதும்", repeat: "மீண்டும் வருமா", none: "மீண்டும் வராது", yearly: "ஒவ்வொரு ஆண்டும்", monthly: "ஒவ்வொரு மாதமும்", note: "குறிப்பு (விருப்பம்)", category: "வகை", today: "இன்று", tomorrow: "நாளை", now: "இப்போது", soon: "இன்று பின்னர்", upcoming: "வரவிருப்பவை", nothingToday: "இன்று எதுவும் இல்லை", nothingSoon: "அடுத்த 7 நாட்களில் நிகழ்வுகள் இல்லை", noEvents: "இந்த நாளில் நிகழ்வுகள் இல்லை", onThisDay: "இந்த நாளில்", viewAll: "நாட்காட்டியைத் திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", pickDate: "தேதியைத் தேர்ந்தெடுக்கவும்", gotoToday: "இன்று", repeatsYearly: "ஒவ்வொரு ஆண்டும்", repeatsMonthly: "ஒவ்வொரு மாதமும்", wd: ["ஞா", "தி", "செ", "பு", "வி", "வெ", "ச"] },
+};
+const ecat = (c, lang) => (lang === "ta" && ECAT_TA[c]) || c;
+const longDate = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "short", day: "numeric", month: "short" }); };
+const monthTitle = (y, m, lang) => new Date(y, m - 1, 1).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { month: "long", year: "numeric" });
+const dayLabel = (d, today, c, lang) => (d === today ? c.today : d === addDays(today, 1) ? c.tomorrow : longDate(d, lang));
+
+// Re-renders every 30 seconds so "Now" and "Later today" stay correct while the app is open.
+function useClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const tick = () => setNow(new Date());
+    const id = setInterval(tick, 30_000);
+    const vis = () => { if (!document.hidden) tick(); };
+    document.addEventListener("visibilitychange", vis);
+    return () => { clearInterval(id); document.removeEventListener("visibilitychange", vis); };
+  }, []);
+  return now;
+}
+
+function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
+  const editing = !!initial.id;
+  const [title, setTitle] = useState(initial.title || "");
+  const [category, setCategory] = useState(initial.category || "Reminder");
+  const [date, setDate] = useState(initial.date || localToday());
+  const [allDay, setAllDay] = useState(editing ? !initial.time : false);
+  const [time, setTime] = useState(initial.time || "09:00");
+  const [repeat, setRepeat] = useState(initial.repeat || "none");
+  const [note, setNote] = useState(initial.note || "");
+  const [err, setErr] = useState("");
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
+  const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
+  const save = () => {
+    if (!date) return setErr(c.pickDate);
+    onSave({ ...(editing && { id: initial.id }), title: title.trim() || ecat(category, lang), category, date, time: allDay ? "" : time, repeat, note: note.trim() });
+  };
+  return (
+    <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
+      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
+        <h3 className="font-bold text-lg">{editing ? c.editEvent : c.newEvent}</h3>
+        <div>
+          <p className="text-sm text-gray-500 mb-1.5">{c.category}</p>
+          <div className="flex flex-wrap gap-2">{EVENT_CATS.map((k) => <button key={k} onClick={() => setCategory(k)} className={chip(category === k)}>{ECAT_ICON[k]} {ecat(k, lang)}</button>)}</div>
+        </div>
+        <input className={input} placeholder={c.eventTitle} value={title} maxLength={80} onChange={(e) => setTitle(e.target.value)} />
+        <div className="grid grid-cols-2 gap-2">
+          <label className="block"><span className="text-sm text-gray-500">{c.date}</span><input type="date" className={input} value={date} onChange={(e) => { setDate(e.target.value); setErr(""); }} /></label>
+          <label className="block"><span className="text-sm text-gray-500">{c.time}</span><input type="time" disabled={allDay} className={`${input} disabled:opacity-40`} value={time} onChange={(e) => setTime(e.target.value)} /></label>
+        </div>
+        <button onClick={() => setAllDay(!allDay)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3 text-left">
+          <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${allDay ? "bg-brand" : "border-2 border-green-300"}`}>{allDay && "✓"}</span><span className="font-semibold">{c.allDay}</span>
+        </button>
+        <div>
+          <p className="text-sm text-gray-500 mb-1.5">{c.repeat}</p>
+          <div className="flex gap-2 flex-wrap">{[["none", c.none], ["yearly", c.yearly], ["monthly", c.monthly]].map(([k, l]) => <button key={k} onClick={() => setRepeat(k)} className={chip(repeat === k)}>{l}</button>)}</div>
+        </div>
+        <textarea className={`${input} text-base`} rows={2} placeholder={c.note} value={note} maxLength={300} onChange={(e) => setNote(e.target.value)} />
+        {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
+        <div className="flex gap-2">
+          {editing && <Btn onClick={() => onDelete(initial.id)} className="px-4 py-3 bg-red-50 text-red-600">{c.del}</Btn>}
+          <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{c.cancel}</Btn>
+          <Btn onClick={save} className="flex-[2] py-3 bg-brand text-white">{c.save}</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EventRow({ o, c, lang, today, nowM, onOpen }) {
+  const st = statusOf(o, today, nowM);
+  const ring = st === "now" ? "ring-2 ring-brand bg-green-50" : st === "past" ? "opacity-50" : "";
+  return (
+    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-2xl bg-white p-3 text-left shadow-sm active:scale-[.99] ${ring}`}>
+      <span className="text-2xl">{ECAT_ICON[o.category] ?? "📌"}</span>
+      <span className="flex-1 min-w-0">
+        <span className="block font-semibold truncate">{o.title}</span>
+        <span className="block text-xs text-gray-500 truncate">
+          {o.time ? fmtTime(o.time) : c.allDay}{o.repeat === "yearly" ? ` · ${c.repeatsYearly}` : o.repeat === "monthly" ? ` · ${c.repeatsMonthly}` : ""}{o.note ? ` · ${o.note}` : ""}
+        </span>
+      </span>
+      {st === "now" && <span className="rounded-full bg-brand text-white text-xs font-bold px-2.5 py-1 animate-pulse">{c.now}</span>}
+    </button>
+  );
+}
+
+function useEvents(enabled) {
+  const [events, setEvents] = useState(null);
+  const [err, setErr] = useState("");
+  const load = useCallback(() => api("/api/calendar/events").then((r) => { setEvents(r); setErr(""); }).catch((e) => { setErr(e.message); setEvents((p) => p ?? []); }), []);
+  useEffect(() => { if (enabled) load(); }, [enabled, load]);
+  const mutate = async (fn) => { try { await fn(); } catch (e) { setErr(e.message); load(); } };
+  const save = (e) => {
+    const body = { title: e.title, category: e.category, date: e.date, time: e.time, repeat: e.repeat, note: e.note };
+    if (e.id) {
+      setEvents((p) => p.map((x) => (x.id === e.id ? { ...x, ...body, time: body.time || null } : x)));
+      return mutate(() => api(`/api/calendar/events/${e.id}`, "PATCH", body));
+    }
+    const tmp = -Date.now();
+    setEvents((p) => [...p, { ...body, time: body.time || null, id: tmp }]);
+    return mutate(async () => { const real = await api("/api/calendar/events", "POST", body); setEvents((p) => p.map((x) => (x.id === tmp ? real : x))); });
+  };
+  const remove = (id) => { setEvents((p) => p.filter((x) => x.id !== id)); if (id > 0) return mutate(() => api(`/api/calendar/events/${id}`, "DELETE")); };
+  return { events, err, save, remove };
+}
+
+function Calendar({ lang, cal }) {
+  const c = CT[lang], now = useClock(), today = localToday(now), nowM = nowMin(now);
+  const { events, err, save, remove } = cal;
+  const t0 = parseYmd(today);
+  const [ym, setYm] = useState({ y: t0.y, m: t0.m });
+  const [sel, setSel] = useState(today);
+  const [sheet, setSheet] = useState(null);
+  const first = ymd(ym.y, ym.m, 1), last = ymd(ym.y, ym.m, daysIn(ym.y, ym.m));
+  const occ = useMemo(() => occurrences(events || [], first, last), [events, first, last]);
+  const byDay = useMemo(() => { const m = {}; occ.forEach((o) => (m[o.date] ||= []).push(o)); return m; }, [occ]);
+  const lead = weekday(first);
+  const cells = [...Array(lead).fill(null), ...Array.from({ length: daysIn(ym.y, ym.m) }, (_, i) => ymd(ym.y, ym.m, i + 1))];
+  const go = (n) => { const d = new Date(ym.y, ym.m - 1 + n, 1); setYm({ y: d.getFullYear(), m: d.getMonth() + 1 }); };
+  const openDay = (d) => { setSel(d); };
+  const dayEvents = byDay[sel] || [];
+  const onOpen = (o) => { const ev = (events || []).find((e) => e.id === o.id); if (ev && ev.id > 0) setSheet(ev); }; // still-saving events have a temporary id
+  const saveSheet = (e) => { setSheet(null); save(e); };
+  const delSheet = (id) => { setSheet(null); remove(id); };
+  return (
+    <div className="space-y-3">
+      {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
+      <div className="rounded-3xl bg-white p-3 shadow-sm">
+        <div className="flex items-center justify-between mb-2">
+          <Btn onClick={() => go(-1)} className="w-10 h-10 text-2xl text-brand" aria-label="previous month">‹</Btn>
+          <button onClick={() => { setYm({ y: t0.y, m: t0.m }); setSel(today); }} className="font-bold">{monthTitle(ym.y, ym.m, lang)}</button>
+          <Btn onClick={() => go(1)} className="w-10 h-10 text-2xl text-brand" aria-label="next month">›</Btn>
+        </div>
+        <div className="grid grid-cols-7 text-center text-xs text-gray-400 mb-1">{c.wd.map((w, i) => <span key={i}>{w}</span>)}</div>
+        <div className="grid grid-cols-7 gap-y-1">
+          {cells.map((d, i) => {
+            if (!d) return <span key={`b${i}`} />;
+            const n = (byDay[d] || []).length, isToday = d === today, isSel = d === sel;
+            return (
+              <button key={d} onClick={() => openDay(d)} className={`relative mx-auto w-10 h-11 rounded-xl flex flex-col items-center justify-center text-sm ${isSel ? "bg-brand text-white font-bold" : isToday ? "ring-2 ring-brand font-bold text-brand" : "text-gray-700"}`}>
+                {parseYmd(d).d}
+                {n > 0 && <span className={`absolute bottom-1 flex gap-0.5`}>{Array.from({ length: Math.min(n, 3) }).map((_, k) => <i key={k} className={`w-1 h-1 rounded-full ${isSel ? "bg-white" : "bg-brand"}`} />)}</span>}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <h2 className="font-bold">{dayLabel(sel, today, c, lang)}</h2>
+        <Btn onClick={() => setSheet({ date: sel })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {c.addEvent}</Btn>
+      </div>
+      {events === null && <p className="text-center text-gray-400 py-4">…</p>}
+      {events && !dayEvents.length && <p className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
+      <div className="space-y-2">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>
+      {sheet && <EventSheet key={sheet.id || "new"} c={c} lang={lang} initial={sheet} onSave={saveSheet} onDelete={delSheet} onClose={() => setSheet(null)} />}
+    </div>
+  );
+}
+
+// Home dashboard: what is on today, what is happening now, and the next 7 days.
+function CalendarCard({ lang, cal, onOpen }) {
+  const c = CT[lang], now = useClock(), today = localToday(now), nowM = nowMin(now);
+  const { events } = cal;
+  const occ = useMemo(() => occurrences(events || [], today, addDays(today, 7)), [events, today]);
+  if (events === null) return null;
+  const todays = occ.filter((o) => o.date === today && statusOf(o, today, nowM) !== "past");
+  const upcoming = occ.filter((o) => o.date > today);
+  const label = (o) => { const st = statusOf(o, today, nowM); return st === "now" ? c.now : st === "soon" ? fmtTime(o.time) : o.time ? fmtTime(o.time) : c.allDay; };
+  return (
+    <section className="rounded-3xl bg-white p-4 shadow-sm space-y-2">
+      <button onClick={onOpen} className="w-full flex items-center justify-between text-left">
+        <h2 className="font-bold">📅 {c.today} · {longDate(today, lang)}</h2><span className="text-gray-300 text-xl">›</span>
+      </button>
+      {!todays.length && <p className="text-sm text-gray-400">{c.nothingToday}</p>}
+      {todays.map((o) => {
+        const st = statusOf(o, today, nowM);
+        return (
+          <button key={o.key} onClick={onOpen} className={`w-full flex items-center gap-3 rounded-2xl p-2.5 text-left ${st === "now" ? "bg-green-50 ring-2 ring-brand" : "bg-green-50/50"}`}>
+            <span className="text-2xl">{ECAT_ICON[o.category] ?? "📌"}</span>
+            <span className="flex-1 min-w-0 font-semibold truncate">{o.title}</span>
+            <span className={`text-xs font-bold rounded-full px-2.5 py-1 ${st === "now" ? "bg-brand text-white animate-pulse" : "bg-white text-gray-600"}`}>{label(o)}</span>
+          </button>
+        );
+      })}
+      <div className="pt-1">
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">{c.upcoming}</p>
+        {!upcoming.length && <p className="text-sm text-gray-400">{c.nothingSoon}</p>}
+        {upcoming.slice(0, 5).map((o) => (
+          <div key={o.key} className="flex items-center gap-2 py-1 text-sm">
+            <span>{ECAT_ICON[o.category] ?? "📌"}</span><span className="flex-1 truncate">{o.title}</span>
+            <span className="text-gray-400 text-xs shrink-0">{dayLabel(o.date, today, c, lang)}{o.time ? ` · ${fmtTime(o.time)}` : ""}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ---------- app ----------
 function Main({ user, brand, onLogout, lang, onLang }) {
   const [tab, setTab] = useState("home");
@@ -874,6 +1080,8 @@ function Main({ user, brand, onLogout, lang, onLang }) {
   const [inv, setInv] = useState([]);
   const [mic, setMic] = useState(false);
   const [moreView, setMoreView] = useState(null);
+  const hasCal = user.modules.includes("calendar");
+  const cal = useEvents(hasCal);
   const [catalog, setCatalog] = useState([]);
   const [err, setErr] = useState("");
   const t = T[lang];
@@ -929,9 +1137,9 @@ function Main({ user, brand, onLogout, lang, onLang }) {
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} lang={lang} inv={inv} list={list} showBudget={user.modules.includes("budget")} onOpenBudget={() => { setMoreView("budget"); setTab("more"); }} onRestock={restock} onUnrestock={unpick} />}
+        {tab === "home" && <Home t={t} lang={lang} inv={inv} list={list} showBudget={user.modules.includes("budget")} cal={hasCal ? cal : null} onOpenCalendar={() => { setMoreView("calendar"); setTab("more"); }} onOpenBudget={() => { setMoreView("budget"); setTab("more"); }} onRestock={restock} onUnrestock={unpick} />}
         {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />}
-        {tab === "more" && <More t={t} lang={lang} brand={brand} user={user} view={moreView} setView={setMoreView} onLogout={onLogout} onCopied={refresh} />}
+        {tab === "more" && <More t={t} lang={lang} brand={brand} user={user} view={moreView} setView={setMoreView} cal={cal} onLogout={onLogout} onCopied={refresh} />}
         {tab === "stock" && <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
