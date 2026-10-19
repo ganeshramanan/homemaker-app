@@ -17,16 +17,16 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: budget charts, reminders for bills and birthdays, and a family diary.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: பட்ஜெட் வரைபடங்கள், பில் மற்றும் பிறந்தநாள் நினைவூட்டல்கள், குடும்ப டைரி.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
-const CAT_EMOJI = { Grains: "🌾", Pulses: "🫘", Grocery: "🛒", Dairy: "🥛", Vegetables: "🥬", Spices: "🌶️", Household: "🧺", Other: "📦" };
+const CAT_EMOJI = { Grains: "🌾", Pulses: "🫘", Grocery: "🛒", Dairy: "🥛", Vegetables: "🥬", Spices: "🌶️", Household: "🧺", Fruits: "🍎", "Oil & Ghee": "🧈", "Personal Care": "🧴", Other: "📦" };
 let CAT = {}, LANG = "en";
 const emoji = (n, c) => CAT[n]?.emoji ?? EMOJI[n] ?? CAT_EMOJI[c] ?? "📦";
 const dn = (n) => (LANG === "ta" && CAT[n]?.ta) || n;
@@ -226,11 +226,39 @@ function Stock({ t, items, refresh, onSeed }) {
   const [adding, setAdding] = useState(false);
   const [f, setF] = useState({ name: "", unit: "kg", minQty: 1 });
   const patch = async (i, body) => { await api(`/api/provisions/inventory/${i.id}`, "PATCH", body); refresh(); };
-  const groups = useMemo(() => items.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [items]);
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState("all");
+  const [cat, setCat] = useState("");
+  const isLow = (i) => i.minQty > 0 && i.stock <= i.minQty;
+  const cats = useMemo(() => [...new Set(items.map((i) => i.category))].sort(), [items]);
+  const shown = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    return items.filter((i) => (!s || i.name.toLowerCase().includes(s) || (CAT[i.name]?.ta || "").includes(q.trim()) || (CAT[i.name]?.aliases || []).some((a) => a.includes(s)))
+      && (status === "all" || (status === "low" ? isLow(i) : !isLow(i))) && (!cat || i.category === cat));
+  }, [items, q, status, cat]);
+  const lowCount = items.filter(isLow).length;
+  const groups = useMemo(() => shown.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [shown]);
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
   const save = async () => { if (!f.name.trim()) return; await api("/api/provisions/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
   return (
     <div className="space-y-4">
       {!items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.stockEmpty}</p>}
+      {!!items.length && (
+        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-green-50/95 backdrop-blur">
+          <div className="relative">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+            {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
+          </div>
+          <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
+            {[["all", `${t.allTab} (${items.length})`], ["low", `🔴 ${t.lowTab} (${lowCount})`], ["ok", `${t.okTab} (${items.length - lowCount})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={chip(status === k)}>{l}</button>)}
+          </div>
+          <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
+            <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
+            {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{CAT_EMOJI[c] ?? "📦"} {c}</button>)}
+          </div>
+        </div>
+      )}
+      {!!items.length && !shown.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
       {Object.entries(groups).map(([cat, list]) => (
         <section key={cat}>
           <h2 className="font-bold mb-1.5">{CAT_EMOJI[cat] ?? "📦"} {cat}</h2>
@@ -355,38 +383,38 @@ function History({ t, brand, onCopied }) {
 }
 
 // ---------- admin ----------
-function Admin() {
+function Admin({ t }) {
   const [data, setData] = useState(null);
   const [err, setErr] = useState("");
   const load = useCallback(() => api("/api/admin/users").then(setData).catch((e) => setErr(e.message)), []);
   useEffect(() => { load(); }, [load]);
   const act = async (fn) => { try { await fn(); await load(); } catch (e) { setErr(e.message); } };
   const set = (u, status) => act(() => api(`/api/admin/users/${u.id}`, "PATCH", { status }));
-  const del = (u) => confirm(`Delete ${u.name} and all their data?`) && act(() => api(`/api/admin/users/${u.id}`, "DELETE"));
+  const del = (u) => confirm(t.confirmDel.replace("{n}", u.name)) && act(() => api(`/api/admin/users/${u.id}`, "DELETE"));
   if (err) return <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>;
   if (!data) return <p className="text-center text-gray-400 py-6">…</p>;
   const pending = data.users.filter((u) => u.status === "pending").length;
   const badge = { pending: "bg-amber-100 text-amber-800", active: "bg-green-100 text-green-800", disabled: "bg-gray-200 text-gray-600" };
   return (
     <div className="space-y-2">
-      <p className="text-sm text-gray-500">{data.users.length} users · {pending} waiting for approval</p>
+      <p className="text-sm text-gray-500">{data.users.length} {t.users} · {pending} {t.waiting}</p>
       {data.users.map((u) => (
         <div key={u.id} className={`rounded-2xl bg-white p-3 shadow-sm ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0"><p className="font-bold truncate">{u.name} {u.role === "admin" && "👑"}</p><p className="text-sm text-gray-500">{u.phone} · {new Date(u.createdAt).toLocaleDateString("en-IN")}</p></div>
-            <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${badge[u.status]}`}>{u.status}</span>
+            <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${badge[u.status]}`}>{t["st_" + u.status]}</span>
           </div>
           {u.role !== "admin" && (
             <div className="flex gap-2 mt-2.5">
-              {u.status !== "active" && <Btn onClick={() => set(u, "active")} className="flex-1 py-2 bg-brand text-white text-sm">{u.status === "pending" ? "Approve" : "Enable"}</Btn>}
-              {u.status === "active" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">Disable</Btn>}
-              {u.status === "pending" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">Reject</Btn>}
-              <Btn onClick={() => del(u)} className="px-4 py-2 bg-red-50 text-red-600 text-sm">Delete</Btn>
+              {u.status !== "active" && <Btn onClick={() => set(u, "active")} className="flex-1 py-2 bg-brand text-white text-sm">{u.status === "pending" ? t.approve : t.enable}</Btn>}
+              {u.status === "active" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">{t.disable}</Btn>}
+              {u.status === "pending" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">{t.reject}</Btn>}
+              <Btn onClick={() => del(u)} className="px-4 py-2 bg-red-50 text-red-600 text-sm">{t.del}</Btn>
             </div>
           )}
         </div>
       ))}
-      {data.demoCount > 0 && <p className="text-xs text-gray-400 text-center pt-2">{data.demoCount} demo accounts (auto-deleted after a day)</p>}
+      {data.demoCount > 0 && <p className="text-xs text-gray-400 text-center pt-2">{data.demoCount} {t.demoAccts}</p>}
     </div>
   );
 }
@@ -396,7 +424,7 @@ function More({ t, brand, user, onLogout, onCopied }) {
   if (view) return (
     <div className="space-y-3">
       <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
-      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : <Admin />}
+      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : <Admin t={t} />}
     </div>
   );
   const Row2 = ({ icon, label, onClick, danger }) => (
@@ -406,24 +434,42 @@ function More({ t, brand, user, onLogout, onCopied }) {
     <div className="space-y-2.5">
       <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
       <Row2 icon="🗓️" label={t.history} onClick={() => setView("history")} />
-      {user.role === "admin" && <Row2 icon="👑" label="Admin: users" onClick={() => setView("admin")} />}
+      {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
       <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
     </div>
   );
 }
 
 // ---------- landing page + sign in / sign up / demo ----------
-const FEATURES = [
-  ["📝", "Smart shopping list", "Pick from 100+ common items or type \u201c2 kg rice, 1 litre oil\u201d. Drag to arrange the list the way your shop is laid out."],
-  ["💬", "Send on WhatsApp", "One tap sends a clean, numbered list to your provision shop. No more writing it out every month."],
-  ["📦", "Home stock tracker", "Know what is left in the kitchen. Items running low show up on your dashboard with an Add to list button."],
-  ["🗓️", "Monthly history", "Every month's list is saved. Start next month's list from last month's in a few taps."],
-  ["🌐", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
-  ["🔒", "Private to your family", "Your lists and stock belong to your account only."],
-];
-const STEPS = [["1", "Make your list", "Tap + and choose items"], ["2", "Send to the shop", "Share on WhatsApp"], ["3", "Tick off and relax", "Stock updates itself"]];
+const FEATURES = {
+  en: [
+    ["📝", "Smart shopping list", "Pick from 100+ common items or type “2 kg rice, 1 litre oil”. Drag to arrange the list the way your shop is laid out."],
+    ["💬", "Send on WhatsApp", "One tap sends a clean, numbered list to your provision shop. No more writing it out every month."],
+    ["📦", "Home stock tracker", "Know what is left in the kitchen. Items running low show up on your dashboard with an Add to list button."],
+    ["🗓️", "Monthly history", "Every month's list is saved. Start next month's list from last month's in a few taps."],
+    ["🌐", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
+    ["🔒", "Private to your family", "Your lists and stock belong to your account only."],
+  ],
+  ta: [
+    ["📝", "எளிய பொருள் பட்டியல்", "100+ பொதுவான பொருட்களில் தேர்ந்தெடுக்கவும் அல்லது “2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்” என்று டைப் செய்யவும். கடையின் வரிசைப்படி இழுத்து அமைக்கலாம்."],
+    ["💬", "வாட்ஸ்அப்பில் அனுப்புங்கள்", "ஒரே தட்டலில் அழகான எண்ணிட்ட பட்டியல் மளிகைக் கடைக்குச் செல்லும். இனி ஒவ்வொரு மாதமும் எழுத வேண்டாம்."],
+    ["📦", "வீட்டு இருப்பு கண்காணிப்பு", "சமையலறையில் என்ன மீதம் உள்ளது என்று தெரியும். குறைந்த பொருட்கள் முகப்பில் ‘பட்டியலில் சேர்’ பொத்தானுடன் தோன்றும்."],
+    ["🗓️", "மாதாந்திர வரலாறு", "ஒவ்வொரு மாத பட்டியலும் சேமிக்கப்படும். சில தட்டலில் அடுத்த மாத பட்டியலை தொடங்கலாம்."],
+    ["🌐", "தமிழ் மற்றும் ஆங்கிலம்", "எப்போது வேண்டுமானாலும் மொழியை மாற்றலாம். பொருட்களின் பெயர்கள் தமிழிலும் தெரியும்."],
+    ["🔒", "உங்கள் குடும்பத்திற்கு மட்டும்", "உங்கள் பட்டியல்கள் மற்றும் இருப்பு உங்கள் கணக்கிற்கு மட்டுமே சொந்தம்."],
+  ],
+};
+const STEPS = {
+  en: [["1", "Make your list", "Tap + and choose items"], ["2", "Send to the shop", "Share on WhatsApp"], ["3", "Tick off and relax", "Stock updates itself"]],
+  ta: [["1", "பட்டியல் தயாரிக்கவும்", "+ தட்டி பொருட்களைத் தேர்ந்தெடுக்கவும்"], ["2", "கடைக்கு அனுப்பவும்", "வாட்ஸ்அப்பில் பகிரவும்"], ["3", "டிக் செய்து நிம்மதியாக இருங்கள்", "இருப்பு தானாக மாறும்"]],
+};
+const MOCK = [["🍚", "Rice", "அரிசி", "5 kg"], ["🛢️", "Cooking Oil", "சமையல் எண்ணெய்", "1 L"], ["🍬", "Sugar", "சர்க்கரை", "1 kg"], ["🫘", "Toor Dal", "துவரம் பருப்பு", "1 kg"], ["🥚", "Eggs", "முட்டை", "12 pcs"]];
 
-function AuthSheet({ initial, onUser, onClose }) {
+function LangToggle({ lang, onLang, className = "" }) {
+  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-white shadow-sm text-sm border border-green-200 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
+}
+
+function AuthSheet({ t, initial, onUser, onClose }) {
   const [mode, setMode] = useState(initial);
   const [f, setF] = useState({ name: "", phone: "", password: "" });
   const [err, setErr] = useState("");
@@ -441,21 +487,21 @@ function AuthSheet({ initial, onUser, onClose }) {
         <div className="flex justify-end"><button onClick={onClose} className="text-gray-400 text-2xl px-2" aria-label="close">✕</button></div>
         {done ? (
           <div className="text-center space-y-3 pb-2">
-            <div className="text-5xl">⏳</div><h2 className="font-bold text-xl">Thank you!</h2>
-            <p className="text-gray-600">Your account is waiting for approval. You can sign in once it is approved.</p>
-            <Btn onClick={() => { setDone(false); setMode("login"); }} className="w-full py-3 bg-brand text-white">Back to sign in</Btn>
+            <div className="text-5xl">⏳</div><h2 className="font-bold text-xl">{t.thanks}</h2>
+            <p className="text-gray-600">{t.waitApproval}</p>
+            <Btn onClick={() => { setDone(false); setMode("login"); }} className="w-full py-3 bg-brand text-white">{t.backSignin}</Btn>
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-3">
             <div className="flex rounded-2xl bg-green-100 p-1">
-              {[["login", "Sign in"], ["signup", "Sign up"]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
+              {[["login", t.signIn], ["signup", t.signUp]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
             </div>
-            {mode === "signup" && <input className={input} placeholder="Your name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
-            <input className={input} placeholder="Phone number" inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
-            <input className={input} placeholder="Password" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
-            {mode === "signup" && <p className="text-xs text-gray-500">New accounts are approved by the admin before you can sign in.</p>}
+            {mode === "signup" && <input className={input} placeholder={t.yourName} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
+            <input className={input} placeholder={t.phone} inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
+            <input className={input} placeholder={t.password} type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+            {mode === "signup" && <p className="text-xs text-gray-500">{t.approveNote}</p>}
             {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
-            <Btn type="submit" disabled={busy} className="w-full py-3.5 bg-brand text-white text-lg disabled:opacity-50">{mode === "login" ? "Sign in" : "Create account"}</Btn>
+            <Btn type="submit" disabled={busy} className="w-full py-3.5 bg-brand text-white text-lg disabled:opacity-50">{mode === "login" ? t.signIn : t.createBtn}</Btn>
           </form>
         )}
       </div>
@@ -463,7 +509,8 @@ function AuthSheet({ initial, onUser, onClose }) {
   );
 }
 
-function Landing({ brand, onUser }) {
+function Landing({ brand, lang, onLang, onUser }) {
+  const t = T[lang];
   const [sheet, setSheet] = useState(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -471,80 +518,80 @@ function Landing({ brand, onUser }) {
   return (
     <div className="min-h-screen bg-green-50 text-gray-800">
       <header className="sticky top-0 z-20 bg-green-50/90 backdrop-blur">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-          <span className="text-xl font-extrabold text-brand">🛒 {brand.name}</span>
-          <div className="flex gap-2">
-            <Btn onClick={() => setSheet("login")} className="px-4 py-2 text-brand border border-green-300 bg-white text-sm">Sign in</Btn>
-            <Btn onClick={() => setSheet("signup")} className="px-4 py-2 bg-brand text-white text-sm">Sign up</Btn>
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 px-4 py-3">
+          <span className="text-xl font-extrabold text-brand truncate">🛒 {brand.name}</span>
+          <div className="flex items-center gap-2">
+            <LangToggle lang={lang} onLang={onLang} />
+            <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-green-300 bg-white text-sm">{t.signIn}</Btn>
+            <Btn onClick={() => setSheet("signup")} className="px-3 py-1.5 bg-brand text-white text-sm">{t.signUp}</Btn>
           </div>
         </div>
       </header>
 
       <section className="max-w-5xl mx-auto px-4 pt-8 pb-12 grid md:grid-cols-2 gap-8 items-center">
         <div className="text-center md:text-left">
-          <span className="inline-block rounded-full bg-green-100 text-green-800 text-xs font-bold px-3 py-1 mb-4">For every home maker</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-green-950">Your monthly provisions, <span className="text-brand">sorted in minutes</span></h1>
-          <p className="mt-4 text-lg text-gray-600">Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.</p>
+          <span className="inline-block rounded-full bg-green-100 text-green-800 text-xs font-bold px-3 py-1 mb-4">{t.heroBadge}</span>
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-green-950">{t.heroA}<span className="text-brand">{t.heroB}</span></h1>
+          <p className="mt-4 text-lg text-gray-600">{t.heroText}</p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-            <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-lg shadow-lg">Create free account</Btn>
-            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-white border-2 border-brand text-brand text-lg disabled:opacity-50">{busy ? "Loading…" : "✨ Try demo"}</Btn>
+            <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-lg shadow-lg">{t.createAcct}</Btn>
+            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-white border-2 border-brand text-brand text-lg disabled:opacity-50">{busy ? t.loading : t.tryDemo}</Btn>
           </div>
           {err && <p className="mt-3 text-sm text-red-600">{err}</p>}
-          <p className="mt-3 text-sm text-gray-500">Already registered? <button onClick={() => setSheet("login")} className="font-bold text-brand underline">Sign in</button></p>
+          <p className="mt-3 text-sm text-gray-500">{t.already} <button onClick={() => setSheet("login")} className="font-bold text-brand underline">{t.signIn}</button></p>
         </div>
 
         <div className="mx-auto w-full max-w-xs" aria-hidden="true">
           <div className="rounded-[2rem] bg-white p-4 shadow-2xl border-4 border-green-900/10 rotate-1">
             <p className="font-bold text-brand mb-2">{brand.name}</p>
-            {[["🍚", "Rice", "5 kg"], ["🛢️", "Cooking Oil", "1 L"], ["🍬", "Sugar", "1 kg"], ["🫘", "Toor Dal", "1 kg"], ["🥚", "Eggs", "12 pcs"]].map(([e, n, q], i) => (
-              <div key={n} className="flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2 mb-1.5">
+            {MOCK.map(([e, en, ta, q], i) => (
+              <div key={en} className="flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2 mb-1.5">
                 <span className={`w-5 h-5 rounded-full border-2 ${i < 2 ? "bg-brand border-brand" : "border-green-300"}`} /><span className="text-xl">{e}</span>
-                <span className={`flex-1 text-sm font-semibold ${i < 2 ? "line-through text-gray-400" : ""}`}>{n}</span><span className="text-xs text-gray-500">{q}</span>
+                <span className={`flex-1 text-sm font-semibold ${i < 2 ? "line-through text-gray-400" : ""}`}>{lang === "ta" ? ta : en}</span><span className="text-xs text-gray-500">{q}</span>
               </div>
             ))}
-            <div className="mt-3 rounded-xl bg-[#25D366] text-white text-center font-bold py-2.5 text-sm">💬 Send on WhatsApp</div>
+            <div className="mt-3 rounded-xl bg-[#25D366] text-white text-center font-bold py-2.5 text-sm">💬 {t.send}</div>
           </div>
         </div>
       </section>
 
       <section className="bg-white py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">Everything for your kitchen, in one place</h2>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">{t.featTitle}</h2>
           <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {FEATURES.map(([i, t, d]) => (
-              <div key={t} className="rounded-3xl bg-green-50 p-5"><div className="text-3xl mb-2">{i}</div><h3 className="font-bold text-lg">{t}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
+            {FEATURES[lang].map(([i, h, d]) => (
+              <div key={h} className="rounded-3xl bg-green-50 p-5"><div className="text-3xl mb-2">{i}</div><h3 className="font-bold text-lg">{h}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
             ))}
           </div>
         </div>
       </section>
 
       <section className="max-w-5xl mx-auto px-4 py-12">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">How it works</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">{t.howTitle}</h2>
         <div className="mt-8 grid sm:grid-cols-3 gap-4">
-          {STEPS.map(([n, t, d]) => (
-            <div key={n} className="rounded-3xl bg-white p-5 text-center shadow-sm"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{t}</h3><p className="text-sm text-gray-500">{d}</p></div>
+          {STEPS[lang].map(([n, h, d]) => (
+            <div key={n} className="rounded-3xl bg-white p-5 text-center shadow-sm"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{h}</h3><p className="text-sm text-gray-500">{d}</p></div>
           ))}
         </div>
-        <p className="mt-8 text-center text-sm text-gray-500">Coming soon: budget charts, reminders for bills and birthdays, and a family diary.</p>
+        <p className="mt-8 text-center text-sm text-gray-500">{t.soon}</p>
       </section>
 
       <section className="bg-gradient-to-br from-green-600 to-green-800 text-white py-12 text-center px-4">
-        <h2 className="text-2xl md:text-3xl font-extrabold">Ready to make this month's list?</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold">{t.ctaTitle}</h2>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-green-800 text-lg">Create free account</Btn>
-          <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border-2 border-white text-white text-lg disabled:opacity-50">✨ Try demo</Btn>
+          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-green-800 text-lg">{t.createAcct}</Btn>
+          <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border-2 border-white text-white text-lg disabled:opacity-50">{t.tryDemo}</Btn>
         </div>
       </section>
       <footer className="text-center text-xs text-gray-400 py-6">© {new Date().getFullYear()} {brand.name}</footer>
 
-      {sheet && <AuthSheet initial={sheet} onUser={onUser} onClose={() => setSheet(null)} />}
+      {sheet && <AuthSheet t={t} initial={sheet} onUser={onUser} onClose={() => setSheet(null)} />}
     </div>
   );
 }
 
 // ---------- app ----------
-function Main({ user, brand, onLogout }) {
-  const [lang, setLang] = useState(localStorage.getItem("lang") || "en");
+function Main({ user, brand, onLogout, lang, onLang }) {
   const [tab, setTab] = useState("home");
   const [list, setList] = useState({ items: [] });
   const [dash, setDash] = useState({ low: [], list: { total: 0, bought: 0 } });
@@ -561,7 +608,6 @@ function Main({ user, brand, onLogout }) {
   }, []);
   useEffect(() => { api("/api/provisions/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh]);
   useEffect(() => { document.title = brand.name || document.title; }, [brand]);
-  const toggleLang = () => { const n = lang === "en" ? "ta" : "en"; setLang(n); localStorage.setItem("lang", n); };
 
   const addRows = async (rows) => { setList(await api("/api/provisions/list/items", "POST", { items: rows })); setMic(false); setTab("list"); refresh(); };
   const quick = async (c) => { setList(await api("/api/provisions/list/items", "POST", { items: [{ name: c.name, qty: Math.max(c.min || 0, step(c.unit)), unit: c.unit }] })); refresh(); };
@@ -579,7 +625,7 @@ function Main({ user, brand, onLogout }) {
     <div className="min-h-screen max-w-xl mx-auto pb-28 text-gray-800">
       <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-green-50/90 backdrop-blur" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
         <div><h1 className="text-xl font-extrabold text-brand leading-tight">{brand.name}</h1></div>
-        <Btn onClick={toggleLang} className="px-3 py-1.5 bg-white shadow-sm text-sm border border-green-200">{lang === "en" ? "தமிழ்" : "English"}</Btn>
+        <LangToggle lang={lang} onLang={onLang} />
       </header>
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
@@ -606,6 +652,9 @@ function Main({ user, brand, onLogout }) {
 export default function App() {
   const [brand, setBrand] = useState({ name: "", tagline: "" });
   const [user, setUser] = useState(undefined);
+  const [lang, setLang] = useState(() => localStorage.getItem("lang") || "en");
+  const onLang = (l) => { setLang(l); localStorage.setItem("lang", l); document.documentElement.lang = l; };
+  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
   useEffect(() => {
     api("/api/brand").then(setBrand).catch(() => {});
     api("/api/auth/me").then((r) => setUser(r.user)).catch(() => setUser(null));
@@ -616,6 +665,6 @@ export default function App() {
   useEffect(() => { if (brand.name) document.title = brand.name; }, [brand]);
   const logout = async () => { await api("/api/auth/logout", "POST").catch(() => {}); setUser(null); };
   if (user === undefined) return <div className="min-h-screen flex items-center justify-center text-gray-400">…</div>;
-  if (!user) return <Landing brand={brand} onUser={setUser} />;
-  return <Main key={user.id} user={user} brand={brand} onLogout={logout} />;
+  if (!user) return <Landing brand={brand} lang={lang} onLang={onLang} onUser={setUser} />;
+  return <Main key={user.id} user={user} brand={brand} onLogout={logout} lang={lang} onLang={onLang} />;
 }
