@@ -60,19 +60,19 @@ r.patch("/list/items/:id", wrap(async (req, res) => {
   const { qty, unit, name, price } = req.body;
   await prisma.listItem.updateMany({ where: mine(req.params.id, uid(req)), data: {
     ...(qty != null && num(qty, 0) && { qty: +qty }), ...(unit && { unit }), ...(name && { name }), ...(price !== undefined && { price: price === null ? null : +price }) } });
-  res.json(await activeList(uid(req)));
+  res.json({ ok: true });
 }));
 
 r.delete("/list/items/:id", wrap(async (req, res) => {
   await prisma.listItem.deleteMany({ where: mine(req.params.id, uid(req)) });
-  res.json(await activeList(uid(req)));
+  res.json({ ok: true });
 }));
 
 r.put("/list/order", wrap(async (req, res) => {
   const owned = new Set((await prisma.listItem.findMany({ where: { list: { userId: uid(req) } }, select: { id: true } })).map((x) => x.id));
   const ids = [].concat(req.body.ids ?? []).filter((id) => owned.has(id));
   await prisma.$transaction(ids.map((id, position) => prisma.listItem.update({ where: { id }, data: { position } })));
-  res.json(await activeList(uid(req)));
+  res.json({ ok: true });
 }));
 
 // Bought adds to stock; un-bought reverses it.
@@ -89,7 +89,21 @@ r.post("/list/items/:id/bought", wrap(async (req, res) => {
     await prisma.item.update({ where: { id: item.id }, data: { stock: Math.max(0, +(item.stock + delta).toFixed(3)) } });
     await prisma.listItem.update({ where: { id: li.id }, data: { bought, itemId: item.id } });
   }
-  res.json(await activeList(userId));
+  res.json({ ok: true });
+}));
+
+r.post("/list/remove", wrap(async (req, res) => {
+  await prisma.listItem.deleteMany({ where: { name: String(req.body.name || ""), bought: false, list: { userId: uid(req), status: "active" } } });
+  res.json({ ok: true });
+}));
+
+// One call for everything the screens need (replaces 3 separate calls).
+r.get("/state", wrap(async (req, res) => {
+  const [list, inventory] = await Promise.all([
+    activeList(uid(req)),
+    prisma.item.findMany({ where: { userId: uid(req) }, orderBy: [{ category: "asc" }, { name: "asc" }] }),
+  ]);
+  res.json({ list, inventory });
 }));
 
 // ----- next month: preview, then confirm -----
@@ -115,13 +129,13 @@ r.post("/list/new", wrap(async (req, res) => {
 
 // ----- history (one entry per finished month/list) -----
 r.get("/history", wrap(async (req, res) => {
-  const lists = await prisma.list.findMany({ where: { userId: uid(req), status: "done" }, orderBy: { closedAt: "desc" }, take: 60, include: { items: { select: { bought: true } } } });
-  res.json(lists.map((l) => ({ id: l.id, closedAt: l.closedAt, count: l.items.length, bought: l.items.filter((i) => i.bought).length })));
+  const lists = await prisma.list.findMany({ where: { userId: uid(req), status: "done" }, orderBy: { id: "desc" }, take: 60, include: { items: { select: { bought: true } } } });
+  res.json(lists.map((l) => ({ id: l.id, closedAt: l.closedAt ?? l.createdAt, count: l.items.length, bought: l.items.filter((i) => i.bought).length })));
 }));
 
 r.get("/history/:id", wrap(async (req, res) => {
   const l = await prisma.list.findFirst({ where: { id: +req.params.id, userId: uid(req), status: "done" }, include: INC });
-  l ? res.json(l) : res.status(404).json({ error: "Not found" });
+  l ? res.json({ ...l, closedAt: l.closedAt ?? l.createdAt }) : res.status(404).json({ error: "Not found" });
 }));
 
 r.post("/history/:id/copy", wrap(async (req, res) => {

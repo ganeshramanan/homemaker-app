@@ -30,12 +30,24 @@ async function startSession(req, res, userId) {
   res.cookie("sid", token, { httpOnly: true, sameSite: "lax", secure: req.secure, maxAge: SESSION_DAYS * 864e5, path: "/" });
 }
 
+// Short in-memory cache so most requests skip the session lookup in the database.
+const sessionCache = new Map();
+const SESSION_TTL = 30_000;
 export async function loadUser(req, _res, next) {
   try {
     const token = cookies(req).sid;
     if (token) {
-      const s = await prisma.session.findUnique({ where: { id: sha(token) }, include: { user: true } });
-      if (s && s.expiresAt > new Date() && s.user.status === "active") req.user = s.user;
+      const key = sha(token), hit = sessionCache.get(key);
+      if (hit && Date.now() - hit.at < SESSION_TTL && hit.expiresAt > new Date()) req.user = hit.user;
+      else {
+        sessionCache.delete(key);
+        const s = await prisma.session.findUnique({ where: { id: key }, include: { user: true } });
+        if (s && s.expiresAt > new Date() && s.user.status === "active") {
+          req.user = s.user;
+          if (sessionCache.size > 2000) sessionCache.clear();
+          sessionCache.set(key, { user: s.user, expiresAt: s.expiresAt, at: Date.now() });
+        }
+      }
     }
     next();
   } catch (e) { next(e); }
@@ -79,7 +91,7 @@ authRouter.post("/login", wrap(async (req, res) => {
 
 authRouter.post("/logout", wrap(async (req, res) => {
   const token = cookies(req).sid;
-  if (token) await prisma.session.deleteMany({ where: { id: sha(token) } });
+  if (token) { sessionCache.delete(sha(token)); await prisma.session.deleteMany({ where: { id: sha(token) } }); }
   res.clearCookie("sid", { path: "/" });
   res.json({ ok: true });
 }));
@@ -123,19 +135,22 @@ adminRouter.patch("/users/:id", wrap(async (req, res) => {
   }
   if (Array.isArray(req.body.modules)) data.modules = req.body.modules.filter((m) => ALL_MODULES.includes(m)).join(",");
   const u = await prisma.user.update({ where: { id }, data });
-  if (data.status === "disabled") await prisma.session.deleteMany({ where: { userId: id } });
+  if (data.status === "disabled") { sessionCache.clear(); await prisma.session.deleteMany({ where: { userId: id } }); }
   res.json({ ok: true, status: u.status });
 }));
 
 adminRouter.delete("/users/:id", wrap(async (req, res) => {
   const id = +req.params.id;
   if (id === req.user.id) return res.status(400).json({ error: "You can't delete your own account" });
+  sessionCache.clear();
   await prisma.user.delete({ where: { id } });
   res.json({ ok: true });
 }));
 
 // ---------- first admin from env vars; adopts data created before logins existed ----------
 export async function bootstrapAdmin() {
+  // old finished lists had no finish date; use their creation date
+  await prisma.$executeRaw`UPDATE "List" SET "closedAt" = "createdAt" WHERE "status" = 'done' AND "closedAt" IS NULL`;
   const phone = normPhone(process.env.ADMIN_PHONE), pw = process.env.ADMIN_PASSWORD;
   if (phone.length !== 10 || !pw) return console.warn("ADMIN_PHONE / ADMIN_PASSWORD not set: no admin account.");
   let admin = await prisma.user.findUnique({ where: { phone } });

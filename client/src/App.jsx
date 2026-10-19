@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -17,12 +17,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: budget charts, reminders for bills and birthdays, and a family diary.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: budget charts, reminders for bills and birthdays, and a family diary.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: பட்ஜெட் வரைபடங்கள், பில் மற்றும் பிறந்தநாள் நினைவூட்டல்கள், குடும்ப டைரி.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: பட்ஜெட் வரைபடங்கள், பில் மற்றும் பிறந்தநாள் நினைவூட்டல்கள், குடும்ப டைரி.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -140,7 +140,12 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Home({ t, dash, onRestock, onUnrestock }) {
+function Home({ t, inv, list, onRestock, onUnrestock }) {
+  const names = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
+  const dash = {
+    low: inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) })),
+    list: { total: list.items.length, bought: list.items.filter((i) => i.bought).length },
+  };
   const pct = dash.list.total ? Math.round((dash.list.bought / dash.list.total) * 100) : 0;
   return (
     <div className="space-y-4">
@@ -169,7 +174,7 @@ function Home({ t, dash, onRestock, onUnrestock }) {
   );
 }
 
-function ListTab({ t, brand, list, setList, refresh }) {
+function ListTab({ t, brand, list, setList, mutate, refresh }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }), useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 8 } }));
   const allTodo = list.items.filter((i) => !i.bought), allDone = list.items.filter((i) => i.bought);
   const [q, setQ] = useState("");
@@ -189,11 +194,11 @@ function ListTab({ t, brand, list, setList, refresh }) {
     if (!over || active.id === over.id) return;
     const ids = arrayMove(allTodo.map((i) => i.id), allTodo.findIndex((i) => i.id === active.id), allTodo.findIndex((i) => i.id === over.id));
     setList({ ...list, items: [...ids.map((id) => allTodo.find((i) => i.id === id)), ...allDone] });
-    await api("/api/provisions/list/order", "PUT", { ids }); refresh();
+    mutate(() => api("/api/provisions/list/order", "PUT", { ids }));
   };
-  const qty = async (i, q) => { setList({ ...list, items: list.items.map((x) => (x.id === i.id ? { ...x, qty: q } : x)) }); await api(`/api/provisions/list/items/${i.id}`, "PATCH", { qty: q }); };
-  const del = async (i) => setList(await api(`/api/provisions/list/items/${i.id}`, "DELETE"));
-  const toggle = async (i) => { setList(await api(`/api/provisions/list/items/${i.id}/bought`, "POST", {})); refresh(); };
+  const qty = (i, q) => { setList((p) => ({ ...p, items: p.items.map((x) => (x.id === i.id ? { ...x, qty: q } : x)) })); mutate(() => api(`/api/provisions/list/items/${i.id}`, "PATCH", { qty: q })); };
+  const del = (i) => { setList((p) => ({ ...p, items: p.items.filter((x) => x.id !== i.id) })); mutate(() => api(`/api/provisions/list/items/${i.id}`, "DELETE")); };
+  const toggle = (i) => { setList((p) => ({ ...p, items: p.items.map((x) => (x.id === i.id ? { ...x, bought: !i.bought } : x)) })); mutate(() => api(`/api/provisions/list/items/${i.id}/bought`, "POST", { bought: !i.bought })); };
   const share = () => {
     const lines = allTodo.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
     const msg = `🛒 *${brand.name}*\n${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}\n\n${lines}\n\n_Sent via ${brand.name}_`;
@@ -255,10 +260,13 @@ function ListTab({ t, brand, list, setList, refresh }) {
   );
 }
 
-function Stock({ t, items, refresh, onSeed }) {
+function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
   const [adding, setAdding] = useState(false);
   const [f, setF] = useState({ name: "", unit: "kg", minQty: 1 });
-  const patch = async (i, body) => { await api(`/api/provisions/inventory/${i.id}`, "PATCH", body); refresh(); };
+  const patch = (i, body) => {
+    setItems((p) => p.map((x) => (x.id !== i.id ? x : { ...x, ...(body.delta != null && { stock: Math.max(0, +(x.stock + body.delta).toFixed(3)) }), ...(body.minQty != null && { minQty: body.minQty }) })));
+    mutate(() => api(`/api/provisions/inventory/${i.id}`, "PATCH", body));
+  };
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("all");
   const [cat, setCat] = useState("");
@@ -407,7 +415,7 @@ function History({ t, brand, onCopied }) {
       {rows?.map((h) => (
         <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-sm text-left active:scale-[.99]">
           <span className="text-2xl">🗓️</span>
-          <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {t.items} · {h.bought} {t.boughtOf}</span></span>
+          <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {h.count === 1 ? t.item : t.items} · {h.bought} {t.boughtOf}</span></span>
           <span className="text-gray-300 text-xl">›</span>
         </button>
       ))}
@@ -627,7 +635,6 @@ function Landing({ brand, lang, onLang, onUser }) {
 function Main({ user, brand, onLogout, lang, onLang }) {
   const [tab, setTab] = useState("home");
   const [list, setList] = useState({ items: [] });
-  const [dash, setDash] = useState({ low: [], list: { total: 0, bought: 0 } });
   const [inv, setInv] = useState([]);
   const [mic, setMic] = useState(false);
   const [catalog, setCatalog] = useState([]);
@@ -635,25 +642,40 @@ function Main({ user, brand, onLogout, lang, onLang }) {
   const t = T[lang];
   LANG = lang;
 
+  const seq = useRef(0), pending = useRef(0), queue = useRef(Promise.resolve());
   const refresh = useCallback(async () => {
-    try { const [l, d, i] = await Promise.all([api("/api/provisions/list"), api("/api/provisions/dashboard"), api("/api/provisions/inventory")]); setList(l); setDash(d); setInv(i); setErr(""); }
-    catch (e) { setErr(e.message); }
+    const my = ++seq.current;
+    try {
+      const st = await api("/api/provisions/state");
+      if (my !== seq.current || pending.current > 0) return; // a newer tap is still in flight
+      setList(st.list); setInv(st.inventory); setErr("");
+    } catch (e) { if (my === seq.current) setErr(e.message); }
   }, []);
+  // Taps update the screen at once; the server calls run one after another in the background.
+  const mutate = useCallback((fn) => {
+    pending.current++;
+    queue.current = queue.current.then(fn).catch((e) => setErr(e.message)).finally(() => { if (--pending.current === 0) refresh(); });
+  }, [refresh]);
   useEffect(() => { api("/api/provisions/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh]);
   useEffect(() => { document.title = brand.name || document.title; }, [brand]);
 
   const addRows = async (rows) => { setList(await api("/api/provisions/list/items", "POST", { items: rows })); setMic(false); setTab("list"); refresh(); };
-  const quick = async (c) => { setList(await api("/api/provisions/list/items", "POST", { items: [{ name: c.name, qty: Math.max(c.min || 0, step(c.unit)), unit: c.unit }] })); refresh(); };
+  const quick = (c) => {
+    const row = { name: c.name, qty: Math.max(c.min || 0, step(c.unit)), unit: c.unit };
+    setList((p) => ({ ...p, items: [...p.items, { ...row, id: -Date.now(), bought: false, position: 9999 }] }));
+    mutate(() => api("/api/provisions/list/items", "POST", { items: [row] }));
+  };
   const seed = async () => { if (confirm(t.seed + "?")) { await api("/api/provisions/inventory/seed", "POST", {}); refresh(); } };
-  const unpick = async (name) => {
-    const li = list.items.find((i) => !i.bought && i.name === name);
-    if (!li) return;
-    setList({ ...list, items: list.items.filter((i) => i.id !== li.id) });
-    try { setList(await api(`/api/provisions/list/items/${li.id}`, "DELETE")); } catch { refresh(); }
-    refresh();
+  const unpick = (name) => {
+    setList((p) => ({ ...p, items: p.items.filter((i) => i.bought || i.name !== name) }));
+    mutate(() => api("/api/provisions/list/remove", "POST", { name }));
   };
   const closePicker = () => { setMic(false); setTab("list"); };
-  const restock = async (i) => { await api("/api/provisions/list/items", "POST", { items: [{ name: i.name, itemId: i.id, qty: Math.max(i.minQty * 2 - i.stock, step(i.unit)), unit: i.unit }] }); refresh(); };
+  const restock = (i) => {
+    const row = { name: i.name, itemId: i.id, qty: Math.max(+(i.minQty * 2 - i.stock).toFixed(2), step(i.unit)), unit: i.unit };
+    setList((p) => ({ ...p, items: [...p.items, { name: row.name, qty: row.qty, unit: row.unit, id: -Date.now(), bought: false, position: 9999 }] }));
+    mutate(() => api("/api/provisions/list/items", "POST", { items: [row] }));
+  };
 
   const Tab = ({ id, icon, label }) => (
     <button onClick={() => setTab(id)} className={`flex-1 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
@@ -670,10 +692,10 @@ function Main({ user, brand, onLogout, lang, onLang }) {
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} dash={dash} onRestock={restock} onUnrestock={unpick} />}
-        {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} refresh={refresh} />}
+        {tab === "home" && <Home t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />}
+        {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />}
         {tab === "more" && <More t={t} brand={brand} user={user} onLogout={onLogout} onCopied={refresh} />}
-        {tab === "stock" && <Stock t={t} items={inv} refresh={refresh} onSeed={seed} />}
+        {tab === "stock" && <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="max-w-xl mx-auto flex items-end">
