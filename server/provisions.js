@@ -37,7 +37,7 @@ export async function addRows(userId, list, rows) {
 export const seedInventory = async (userId) =>
   (await prisma.item.createMany({
     skipDuplicates: true,
-    data: CATALOG.map((c, i) => ({ userId, name: c.name, category: c.category, unit: c.unit, minQty: c.min, stock: +(c.min * (i % 6 === 0 ? 0.5 : 3)).toFixed(2) })),
+    data: CATALOG.filter((c) => c.core).map((c, i) => ({ userId, name: c.name, category: c.category, unit: c.unit, minQty: c.min, stock: +(c.min * (i % 6 === 0 ? 0.5 : 3)).toFixed(2) })),
   })).count;
 
 const r = Router();

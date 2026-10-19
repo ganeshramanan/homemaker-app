@@ -3,7 +3,7 @@ import { CATALOG } from "./catalog.js";
 
 const ALIAS = {};
 for (const c of CATALOG)
-  for (const a of [c.name.toLowerCase(), c.ta, ...c.aliases]) ALIAS[a] = { name: c.name, category: c.category, unit: c.unit };
+  for (const a of [c.name.toLowerCase(), c.ta, ...c.aliases]) if (a) ALIAS[a] ??= { name: c.name, category: c.category, unit: c.unit };
 
 const NUM = {
   one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, twelve: 12, twenty: 20,
@@ -29,8 +29,11 @@ export function parseList(text = "") {
   const fill = (row, p) => { row.qty = p.qty; row.unit = p.unit; };
   for (let i = 0; i < toks.length; i++) {
     const t = toks[i];
-    let hit = i + 1 < toks.length ? ALIAS[t + " " + toks[i + 1]] : null;
-    if (hit) i++; else hit = ALIAS[t];
+    let hit = null;
+    for (let w = Math.min(3, toks.length - i); w >= 1 && !hit; w--) {
+      hit = ALIAS[toks.slice(i, i + w).join(" ")] ?? null;
+      if (hit) i += w - 1;
+    }
     const n = /^\d+\/\d+$/.test(t) ? t.split("/").reduce((a, b) => a / b)
       : /^\d+(\.\d+)?$/.test(t) ? parseFloat(t) : NUM[t];
     if (hit) {

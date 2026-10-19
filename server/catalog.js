@@ -1,4 +1,5 @@
-// 100 common household items. [name, tamil, category, unit, suggested min, emoji, aliases (| separated, max 2 words each)]
+import { EXTRA } from "./catalog-extra.js";
+// Core daily essentials (the first 100). More items live in catalog-extra.js. [name, tamil, category, unit, suggested min, emoji, aliases (| separated, max 2 words each)]
 const RAW = [
   // Grains
   ["Rice","அரிசி","Grains","kg",2,"🍚","rice|arisi|அரிசி"],
@@ -112,6 +113,8 @@ const RAW = [
   ["Toothpaste","பற்பசை","Personal Care","pack",1,"🪥","toothpaste|paste"],
 ];
 
-export const CATALOG = RAW.map(([name, ta, category, unit, min, emoji, al]) => ({
-  name, ta, category, unit, min, emoji, aliases: al.split("|").map((a) => a.trim().toLowerCase()),
+const build = (rows, core) => rows.map(([name, ta, category, unit, min, emoji, al]) => ({
+  name, ta, category, unit, min, emoji, core,
+  aliases: al.split("|").map((a) => a.trim().toLowerCase()).filter(Boolean),
 }));
+export const CATALOG = [...build(RAW, true), ...build(EXTRA, false)];
