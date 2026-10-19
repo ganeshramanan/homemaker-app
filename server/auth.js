@@ -4,7 +4,7 @@ import { prisma } from "./db.js";
 import { seedInventory, addRows, activeList } from "./provisions.js";
 
 // Add new section ids here as modules are built (budget, reminders, diary, fitness).
-export const ALL_MODULES = ["provisions"];
+export const ALL_MODULES = ["provisions", "budget"];
 const SESSION_DAYS = 30;
 
 const hashPw = (pw) => { const salt = crypto.randomBytes(16); return `${salt.toString("hex")}:${crypto.scryptSync(pw, salt, 64).toString("hex")}`; };
@@ -54,6 +54,8 @@ export async function loadUser(req, _res, next) {
 }
 export const requireUser = (req, res, next) => (req.user ? next() : res.status(401).json({ error: "Please sign in" }));
 export const requireAdmin = (req, res, next) => (req.user?.role === "admin" ? next() : res.status(403).json({ error: "Admin only" }));
+export const requireModule = (m) => (req, res, next) =>
+  req.user && publicUser(req.user).modules.includes(m) ? next() : res.status(403).json({ error: "This section is not enabled for your account" });
 
 const tries = new Map();
 const limited = (key) => {
@@ -135,6 +137,7 @@ adminRouter.patch("/users/:id", wrap(async (req, res) => {
   }
   if (Array.isArray(req.body.modules)) data.modules = req.body.modules.filter((m) => ALL_MODULES.includes(m)).join(",");
   const u = await prisma.user.update({ where: { id }, data });
+  sessionCache.clear(); // status or section changes apply at once
   if (data.status === "disabled") { sessionCache.clear(); await prisma.session.deleteMany({ where: { userId: id } }); }
   res.json({ ok: true, status: u.status });
 }));

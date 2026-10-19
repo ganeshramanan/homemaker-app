@@ -16,11 +16,12 @@ model User {
   role         String    @default("user")    // user | admin
   status       String    @default("pending") // pending | active | disabled
   isDemo       Boolean   @default(false)
-  modules      String    @default("provisions") // comma list; admin can switch sections on/off per user
+  modules      String    @default("provisions,budget") // comma list; admin can switch sections on/off per user
   createdAt    DateTime  @default(now())
   sessions     Session[]
   items        Item[]
   lists        List[]
+  budgetEntries BudgetEntry[]
 }
 
 model Session {
@@ -72,4 +73,19 @@ model ListItem {
   position Int     @default(0)
 
   @@index([listId])
+}
+
+model BudgetEntry {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  month     String   // "2026-10"
+  type      String   // income | expense
+  category  String   @default("Other")
+  title     String
+  amount    Float
+  paid      Boolean  @default(false) // for expenses: already paid?
+  createdAt DateTime @default(now())
+
+  @@index([userId, month])
 }

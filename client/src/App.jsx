@@ -140,7 +140,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Home({ t, inv, list, onRestock, onUnrestock }) {
+function Home({ t, lang, inv, list, showBudget, onOpenBudget, onRestock, onUnrestock }) {
   const names = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
   const dash = {
     low: inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) })),
@@ -154,6 +154,7 @@ function Home({ t, inv, list, onRestock, onUnrestock }) {
         <p className="text-3xl font-extrabold">{dash.list.bought}/{dash.list.total} <span className="text-base font-medium">{t.boughtOf}</span></p>
         <div className="mt-3 h-2.5 rounded-full bg-white/30"><div className="h-full rounded-full bg-white transition-all" style={{ width: pct + "%" }} /></div>
       </div>
+      {showBudget && <BudgetCard lang={lang} onOpen={onOpenBudget} />}
       <section>
         <h2 className="font-bold text-lg mb-2">🔴 {t.low} <span className="text-gray-400 text-sm">({dash.low.length})</span></h2>
         {!dash.low.length && <p className="rounded-2xl bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
@@ -460,12 +461,11 @@ function Admin({ t }) {
   );
 }
 
-function More({ t, brand, user, onLogout, onCopied }) {
-  const [view, setView] = useState(null);
+function More({ t, lang, brand, user, view, setView, onLogout, onCopied }) {
   if (view) return (
     <div className="space-y-3">
       <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
-      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : <Admin t={t} />}
+      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : view === "budget" ? <Budget t={t} lang={lang} /> : <Admin t={t} />}
     </div>
   );
   const Row2 = ({ icon, label, onClick, danger }) => (
@@ -474,6 +474,7 @@ function More({ t, brand, user, onLogout, onCopied }) {
   return (
     <div className="space-y-2.5">
       <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
+      {user.modules.includes("budget") && <Row2 icon="💰" label={BT[lang].title} onClick={() => setView("budget")} />}
       <Row2 icon="🗓️" label={t.history} onClick={() => setView("history")} />
       {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
       <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
@@ -631,12 +632,248 @@ function Landing({ brand, lang, onLang, onUser }) {
   );
 }
 
+// ---------- budget ----------
+const INCOME_CATS = ["Salary", "Business", "Rent received", "Interest", "Gift", "Other"];
+const EXPENSE_CATS = ["Rent", "Groceries", "Electricity", "Water", "Gas", "Mobile & Internet", "EMI / Loan", "School fees", "Medical", "Fuel", "Transport", "Insurance", "Savings", "Entertainment", "Festival", "Clothing", "Other"];
+const BCAT_TA = { Salary: "சம்பளம்", Business: "தொழில்", "Rent received": "வாடகை வருமானம்", Interest: "வட்டி", Gift: "பரிசு", Other: "மற்றவை", Rent: "வாடகை", Groceries: "மளிகை", Electricity: "மின்சாரம்", Water: "தண்ணீர்", Gas: "கேஸ்", "Mobile & Internet": "மொபைல் & இணையம்", "EMI / Loan": "EMI / கடன்", "School fees": "பள்ளிக் கட்டணம்", Medical: "மருத்துவம்", Fuel: "பெட்ரோல்", Transport: "பயணம்", Insurance: "காப்பீடு", Savings: "சேமிப்பு", Entertainment: "பொழுதுபோக்கு", Festival: "பண்டிகை", Clothing: "உடைகள்" };
+const BCAT_ICON = { Salary: "💼", Business: "🏪", "Rent received": "🏠", Interest: "🏦", Gift: "🎁", Other: "📌", Rent: "🏠", Groceries: "🛒", Electricity: "💡", Water: "🚰", Gas: "🔥", "Mobile & Internet": "📱", "EMI / Loan": "💳", "School fees": "🎓", Medical: "💊", Fuel: "⛽", Transport: "🚌", Insurance: "🛡️", Savings: "🐷", Entertainment: "🎬", Festival: "🪔", Clothing: "👗" };
+const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
+const BT = {
+  en: { title: "Budget", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
+  ta: { title: "பட்ஜெட்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
+};
+const bcat = (c, lang) => (lang === "ta" && BCAT_TA[c]) || c;
+const inr = (n) => "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+const thisMonth = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; };
+const shiftMonth = (m, n) => { const d = new Date(+m.slice(0, 4), +m.slice(5) - 1 + n, 1); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; };
+const monthName = (m, lang) => new Date(+m.slice(0, 4), +m.slice(5) - 1, 1).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { month: "long", year: "numeric" });
+
+function Pie({ slices, total, center }) {
+  const R = 70, r = 42, c = 80;
+  const pt = (rad, a) => [c + rad * Math.cos(a), c + rad * Math.sin(a)];
+  let a0 = -Math.PI / 2;
+  return (
+    <svg viewBox="0 0 160 160" className="w-44 h-44 shrink-0" role="img" aria-label="expenses by category">
+      {slices.length === 1 ? (
+        <circle cx={c} cy={c} r={(R + r) / 2} fill="none" stroke={slices[0].color} strokeWidth={R - r} />
+      ) : slices.map((sl) => {
+        const a1 = a0 + (sl.value / total) * 2 * Math.PI, large = a1 - a0 > Math.PI ? 1 : 0;
+        const [x0, y0] = pt(R, a0), [x1, y1] = pt(R, a1), [x2, y2] = pt(r, a1), [x3, y3] = pt(r, a0);
+        const d = `M${x0} ${y0}A${R} ${R} 0 ${large} 1 ${x1} ${y1}L${x2} ${y2}A${r} ${r} 0 ${large} 0 ${x3} ${y3}Z`;
+        a0 = a1;
+        return <path key={sl.name} d={d} fill={sl.color} />;
+      })}
+      <text x={c} y={c - 2} textAnchor="middle" fontSize="11" fill="#6b7280">{center[0]}</text>
+      <text x={c} y={c + 14} textAnchor="middle" fontSize="13" fontWeight="700" fill="#14532d">{center[1]}</text>
+    </svg>
+  );
+}
+
+function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
+  const editing = !!initial.id;
+  const [type, setType] = useState(initial.type);
+  const [cat, setCat] = useState(initial.category || "");
+  const [title, setTitle] = useState(initial.title && initial.title !== initial.category ? initial.title : "");
+  const [amount, setAmount] = useState(initial.amount != null ? String(initial.amount) : "");
+  const [paid, setPaid] = useState(!!initial.paid);
+  const [err, setErr] = useState("");
+  const cats = type === "income" ? INCOME_CATS : EXPENSE_CATS;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
+  const save = () => {
+    const n = Number(amount);
+    if (!amount.trim() || !Number.isFinite(n) || n <= 0) return setErr(b.needAmount);
+    const category = cat || "Other";
+    onSave({ ...(editing && { id: initial.id }), type, category, title: title.trim() || category, amount: n, paid: type === "expense" && paid });
+  };
+  const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
+  return (
+    <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
+      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
+        {editing ? <h3 className="font-bold text-lg">{b.editEntry}</h3> : (
+          <div className="flex rounded-2xl bg-green-100 p-1">
+            {[["income", b.income], ["expense", b.expenses]].map(([k, l]) => (
+              <button key={k} onClick={() => { setType(k); setCat(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${type === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
+            ))}
+          </div>
+        )}
+        <input autoFocus inputMode="decimal" className={input} placeholder={b.amount} value={amount} onChange={(e) => { setAmount(e.target.value); setErr(""); }} />
+        <div>
+          <p className="text-sm text-gray-500 mb-1.5">{b.category}</p>
+          <div className="flex flex-wrap gap-2">
+            {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{BCAT_ICON[c]} {bcat(c, lang)}</button>)}
+          </div>
+        </div>
+        <input className={input} placeholder={b.whatFor} value={title} maxLength={60} onChange={(e) => setTitle(e.target.value)} />
+        {type === "expense" && (
+          <button onClick={() => setPaid(!paid)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3 text-left">
+            <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${paid ? "bg-brand" : "border-2 border-green-300"}`}>{paid && "✓"}</span>
+            <span className="font-semibold">{b.markPaid}</span>
+          </button>
+        )}
+        {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
+        <div className="flex gap-2">
+          {editing && <Btn onClick={() => onDelete(initial.id)} className="px-4 py-3 bg-red-50 text-red-600">{b.del}</Btn>}
+          <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{b.cancel}</Btn>
+          <Btn onClick={save} className="flex-[2] py-3 bg-brand text-white">{b.save}</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Budget({ t, lang }) {
+  const b = BT[lang];
+  const [month, setMonth] = useState(thisMonth());
+  const [rows, setRows] = useState(null);
+  const [err, setErr] = useState("");
+  const [note, setNote] = useState("");
+  const [sheet, setSheet] = useState(null);
+  const gen = useRef(0);
+  const load = useCallback(async (m) => {
+    const my = ++gen.current;
+    try { const r = await api(`/api/budget/month?m=${m}`); if (my === gen.current) { setRows(r); setErr(""); } }
+    catch (e) { if (my === gen.current) { setErr(e.message); setRows([]); } }
+  }, []);
+  useEffect(() => { setRows(null); setNote(""); load(month); }, [month, load]);
+  const run = async (fn) => { try { await fn(); } catch (e) { setErr(e.message); load(month); } };
+
+  const save = (e) => {
+    setSheet(null);
+    if (e.id) {
+      setRows((p) => p.map((x) => (x.id === e.id ? { ...x, ...e } : x)));
+      run(() => api(`/api/budget/entries/${e.id}`, "PATCH", { title: e.title, category: e.category, amount: e.amount, paid: e.paid }));
+    } else {
+      const tmp = -Date.now();
+      setRows((p) => [...p, { ...e, id: tmp, month }]);
+      run(async () => { const real = await api("/api/budget/entries", "POST", { ...e, month }); setRows((p) => p.map((x) => (x.id === tmp ? real : x))); });
+    }
+  };
+  const remove = (id) => { setSheet(null); setRows((p) => p.filter((x) => x.id !== id)); if (id > 0) run(() => api(`/api/budget/entries/${id}`, "DELETE")); };
+  const togglePaid = (e) => { if (e.id < 0) return; setRows((p) => p.map((x) => (x.id === e.id ? { ...x, paid: !e.paid } : x))); run(() => api(`/api/budget/entries/${e.id}`, "PATCH", { paid: !e.paid })); };
+  const copy = async () => {
+    try { const r = await api("/api/budget/copy", "POST", { from: shiftMonth(month, -1), to: month }); setNote(r.added ? `${b.added}: ${r.added}` : b.nothingToCopy); load(month); }
+    catch (e) { setErr(e.message); }
+  };
+
+  const data = useMemo(() => {
+    const list = rows || [];
+    const inc = list.filter((e) => e.type === "income"), exp = list.filter((e) => e.type === "expense");
+    const sum = (a) => a.reduce((n, e) => n + e.amount, 0);
+    const income = sum(inc), expense = sum(exp), paid = sum(exp.filter((e) => e.paid));
+    const byCat = {};
+    exp.forEach((e) => { byCat[e.category] = (byCat[e.category] || 0) + e.amount; });
+    const slices = Object.entries(byCat).sort((a, c) => c[1] - a[1]).map(([name, value], i) => ({ name, value, color: PIE_COLORS[Math.min(i, PIE_COLORS.length - 1)] }));
+    return { inc, exp, income, expense, paid, balance: income - expense, slices };
+  }, [rows]);
+
+  const Entry = ({ e }) => (
+    <div className={`flex items-center gap-2 rounded-2xl bg-white p-2.5 shadow-sm ${e.id < 0 ? "opacity-60" : ""}`}>
+      {e.type === "expense" ? (
+        <button onClick={() => togglePaid(e)} aria-label="paid" className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm ${e.paid ? "bg-brand text-white" : "border-2 border-green-300 text-transparent"}`}>✓</button>
+      ) : <span className="w-7 shrink-0" />}
+      <button onClick={() => e.id > 0 && setSheet(e)} className="flex-1 min-w-0 flex items-center gap-2 text-left">
+        <span className="text-2xl">{BCAT_ICON[e.category] ?? "📌"}</span>
+        <span className="min-w-0">
+          <span className="block font-semibold truncate">{e.title === e.category ? bcat(e.category, lang) : e.title}</span>
+          <span className="block text-xs text-gray-400 truncate">{bcat(e.category, lang)}{e.type === "expense" && !e.paid ? ` · ${b.pending}` : ""}</span>
+        </span>
+      </button>
+      <span className={`font-bold ${e.type === "income" ? "text-green-700" : "text-gray-800"}`}>{e.type === "income" ? "+" : ""}{inr(e.amount)}</span>
+    </div>
+  );
+
+  const savedPct = data.income > 0 ? Math.round((data.balance / data.income) * 100) : null;
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between rounded-2xl bg-white p-2 shadow-sm">
+        <Btn onClick={() => setMonth(shiftMonth(month, -1))} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
+        <div className="text-center"><p className="font-bold">{monthName(month, lang)}</p>{month === thisMonth() && <p className="text-xs text-green-700">{b.thisMonth}</p>}</div>
+        <Btn onClick={() => setMonth(shiftMonth(month, 1))} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
+      </div>
+      {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
+      {rows === null ? <p className="text-center text-gray-400 py-6">…</p> : (
+        <>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl bg-green-100 p-3"><p className="text-xs text-green-800">{b.income}</p><p className="font-extrabold text-green-900 text-sm sm:text-base">{inr(data.income)}</p></div>
+            <div className="rounded-2xl bg-amber-100 p-3"><p className="text-xs text-amber-800">{b.expenses}</p><p className="font-extrabold text-amber-900 text-sm sm:text-base">{inr(data.expense)}</p></div>
+            <div className={`rounded-2xl p-3 ${data.balance >= 0 ? "bg-white" : "bg-red-100"}`}><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-extrabold text-sm sm:text-base ${data.balance >= 0 ? "text-green-800" : "text-red-700"}`}>{inr(data.balance)}</p></div>
+          </div>
+          {data.income > 0 && (
+            <p className={`text-center text-sm ${data.balance < 0 ? "text-red-600 font-semibold" : "text-gray-500"}`}>
+              {data.balance < 0 ? `⚠️ ${b.overspent}` : `${savedPct}% ${b.saved}`}
+            </p>
+          )}
+          {data.expense > 0 && <p className="text-center text-xs text-gray-500">{b.paid}: {inr(data.paid)} · {b.pending}: {inr(data.expense - data.paid)}</p>}
+
+          <section className="rounded-3xl bg-white p-4 shadow-sm">
+            <h2 className="font-bold mb-2">{b.where}</h2>
+            {!data.slices.length ? <p className="text-gray-400 text-sm py-4 text-center">{b.noExpenses}</p> : (
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <Pie slices={data.slices} total={data.expense} center={[b.expenses, inr(data.expense)]} />
+                <ul className="flex-1 w-full space-y-1.5">
+                  {data.slices.map((sl) => {
+                    const pct = (sl.value / data.expense) * 100;
+                    return (
+                      <li key={sl.name} className="flex items-center gap-2 text-sm">
+                        <span className="w-3 h-3 rounded-full shrink-0" style={{ background: sl.color }} />
+                        <span className="flex-1 truncate">{BCAT_ICON[sl.name]} {bcat(sl.name, lang)}</span>
+                        <span className="text-gray-500">{inr(sl.value)}</span>
+                        <span className="w-10 text-right font-bold">{pct < 1 ? "<1" : Math.round(pct)}%</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </section>
+
+          <section className="space-y-2">
+            <div className="flex items-center justify-between"><h2 className="font-bold">💰 {b.income}</h2>
+              <Btn onClick={() => setSheet({ type: "income" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addIncome}</Btn></div>
+            {!data.inc.length && <p className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
+            {data.inc.map((e) => <Entry key={e.id} e={e} />)}
+          </section>
+
+          <section className="space-y-2">
+            <div className="flex items-center justify-between"><h2 className="font-bold">🧾 {b.expenses}</h2>
+              <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addExpense}</Btn></div>
+            {!data.exp.length && <p className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
+            {data.exp.map((e) => <Entry key={e.id} e={e} />)}
+          </section>
+
+          {note && <p className="rounded-xl bg-green-100 p-2.5 text-center text-sm text-green-800">{note}</p>}
+          <Btn onClick={copy} className="w-full py-3 border-2 border-dashed border-green-300 text-brand">🔁 {b.copyPrev} ({monthName(shiftMonth(month, -1), lang)})</Btn>
+        </>
+      )}
+      {sheet && <BudgetSheet key={sheet.id || sheet.type} b={b} lang={lang} initial={sheet} onSave={save} onDelete={remove} onClose={() => setSheet(null)} />}
+    </div>
+  );
+}
+
+function BudgetCard({ lang, onOpen }) {
+  const b = BT[lang], m = thisMonth();
+  const [s, setS] = useState(null);
+  useEffect(() => { api(`/api/budget/summary?m=${m}`).then(setS).catch(() => setS(false)); }, [m]);
+  if (s === false) return null;
+  return (
+    <button onClick={onOpen} className="w-full text-left rounded-3xl bg-white p-4 shadow-sm active:scale-[.99]">
+      <div className="flex items-center justify-between mb-2"><h2 className="font-bold">💰 {b.title} · {monthName(m, lang)}</h2><span className="text-gray-300 text-xl">›</span></div>
+      <div className="grid grid-cols-3 gap-2 text-center">
+        <div><p className="text-xs text-gray-500">{b.income}</p><p className="font-bold text-green-700">{s ? inr(s.income) : "…"}</p></div>
+        <div><p className="text-xs text-gray-500">{b.expenses}</p><p className="font-bold text-amber-700">{s ? inr(s.expense) : "…"}</p></div>
+        <div><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-bold ${s && s.balance < 0 ? "text-red-600" : "text-green-800"}`}>{s ? inr(s.balance) : "…"}</p></div>
+      </div>
+    </button>
+  );
+}
+
 // ---------- app ----------
 function Main({ user, brand, onLogout, lang, onLang }) {
   const [tab, setTab] = useState("home");
   const [list, setList] = useState({ items: [] });
   const [inv, setInv] = useState([]);
   const [mic, setMic] = useState(false);
+  const [moreView, setMoreView] = useState(null);
   const [catalog, setCatalog] = useState([]);
   const [err, setErr] = useState("");
   const t = T[lang];
@@ -692,9 +929,9 @@ function Main({ user, brand, onLogout, lang, onLang }) {
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />}
+        {tab === "home" && <Home t={t} lang={lang} inv={inv} list={list} showBudget={user.modules.includes("budget")} onOpenBudget={() => { setMoreView("budget"); setTab("more"); }} onRestock={restock} onUnrestock={unpick} />}
         {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />}
-        {tab === "more" && <More t={t} brand={brand} user={user} onLogout={onLogout} onCopied={refresh} />}
+        {tab === "more" && <More t={t} lang={lang} brand={brand} user={user} view={moreView} setView={setMoreView} onLogout={onLogout} onCopied={refresh} />}
         {tab === "stock" && <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
