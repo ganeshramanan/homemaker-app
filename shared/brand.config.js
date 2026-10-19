@@ -3,7 +3,7 @@
 // Or set the BRAND_NAME env var on Render to override the name without touching code.
 export default {
   name: "Maligai Mate",
-  tagline: "Speak your list. Send it. Stay stocked.",
+  tagline: "Make your list. Send it. Stay stocked.",
   themeColor: "#e8590c",
   backgroundColor: "#fff8f0",
 };

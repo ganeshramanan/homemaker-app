@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -11,15 +11,15 @@ const api = async (url, method = "GET", body) => {
 
 const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
-    thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap the mic and speak.",
-    tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Or type here, e.g. 2 kg rice, 1 litre oil", read: "Read list", addAll: "Add to list",
+    thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
+    tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
     cancel: "Cancel", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
-    check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", hello: "Namaste 🙏", left: "left" },
+    check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
-    thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. மைக்கை தட்டி பேசுங்கள்.",
-    tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "அல்லது இங்கே டைப் செய்யுங்கள்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
+    thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
+    tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
     cancel: "ரத்து", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
-    check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", hello: "வணக்கம் 🙏", left: "உள்ளது" },
+    check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
 const CAT_EMOJI = { Grains: "🌾", Pulses: "🫘", Grocery: "🛒", Dairy: "🥛", Vegetables: "🥬", Spices: "🌶️", Household: "🧺", Other: "📦" };
@@ -54,27 +54,10 @@ function Row({ item, t, onQty, onDelete, onToggle }) {
 }
 
 // ---------- voice sheet ----------
-function MicSheet({ t, lang, onClose, onAdd }) {
+function MicSheet({ t, onClose, onAdd }) {
   const [text, setText] = useState("");
   const [rows, setRows] = useState(null);
-  const [live, setLive] = useState(false);
-  const rec = useRef(null);
-  const SR = typeof window !== "undefined" && (window.SpeechRecognition || window.webkitSpeechRecognition);
-
-  const start = () => {
-    if (!SR) return alert(t.noSpeech);
-    const r = new SR();
-    r.lang = lang === "ta" ? "ta-IN" : "en-IN"; r.interimResults = true; r.continuous = true;
-    let base = text ? text + " " : "";
-    r.onresult = (e) => { let s = ""; for (const x of e.results) s += x[0].transcript + " "; setText(base + s.trim()); };
-    r.onend = () => setLive(false);
-    r.onerror = () => setLive(false);
-    rec.current = r; r.start(); setLive(true);
-  };
-  const stop = () => rec.current?.stop();
-  useEffect(() => () => rec.current?.abort(), []);
-
-  const read = async () => { rec.current?.stop(); setRows(await api("/api/parse", "POST", { text })); };
+  const read = async () => { setRows(await api("/api/parse", "POST", { text })); };
   const upd = (i, patch) => setRows(rows.map((r, j) => (j === i ? { ...r, ...patch, unknown: false } : r)));
 
   return (
@@ -82,11 +65,8 @@ function MicSheet({ t, lang, onClose, onAdd }) {
       <div className="w-full max-w-xl mx-auto bg-orange-50 rounded-t-3xl p-4 pb-8 max-h-[90vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
         {!rows ? (
           <>
-            <div className="flex flex-col items-center py-3">
-              <Btn onClick={live ? stop : start} className={`w-24 h-24 rounded-full text-4xl text-white shadow-lg bg-brand ${live ? "animate-pulse ring-8 ring-orange-200" : ""}`}>🎤</Btn>
-              <p className="mt-3 font-semibold text-orange-900">{live ? t.listening : t.tap}</p>
-            </div>
-            <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={t.typeHere}
+            <h3 className="font-bold text-lg mb-2">{t.addItem}</h3>
+            <textarea autoFocus value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={t.typeHere}
               className="w-full rounded-2xl border border-orange-200 p-3 text-lg bg-white outline-none focus:ring-2 ring-brand" />
             <div className="flex gap-2 mt-3">
               <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{t.cancel}</Btn>
@@ -281,7 +261,7 @@ export default function App() {
   return (
     <div className="min-h-screen max-w-xl mx-auto pb-28 text-gray-800">
       <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-orange-50/90 backdrop-blur" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
-        <div><h1 className="text-xl font-extrabold text-brand leading-tight">{brand.name}</h1><p className="text-xs text-gray-500">{t.hello}</p></div>
+        <div><h1 className="text-xl font-extrabold text-brand leading-tight">{brand.name}</h1></div>
         <Btn onClick={toggleLang} className="px-3 py-1.5 bg-white shadow-sm text-sm border border-orange-200">{lang === "en" ? "தமிழ்" : "English"}</Btn>
       </header>
       <main className="px-4 pt-2">
@@ -294,12 +274,12 @@ export default function App() {
         <div className="max-w-xl mx-auto flex items-end">
           <Tab id="home" icon="🏠" label={t.home} />
           <Tab id="list" icon="📋" label={t.list} />
-          <div className="flex-1 flex justify-center"><Btn onClick={() => setMic(true)} className="-mt-8 w-16 h-16 rounded-full bg-brand text-white text-3xl shadow-xl ring-4 ring-orange-50" aria-label="mic">🎤</Btn></div>
+          <div className="flex-1 flex justify-center"><Btn onClick={() => setMic(true)} className="-mt-8 w-16 h-16 rounded-full bg-brand text-white text-4xl font-light shadow-xl ring-4 ring-orange-50" aria-label="add">＋</Btn></div>
           <Tab id="stock" icon="📦" label={t.stock} />
           <div className="flex-1" />
         </div>
       </nav>
-      {mic && <MicSheet t={t} lang={lang} onClose={() => setMic(false)} onAdd={addRows} />}
+      {mic && <MicSheet t={t} onClose={() => setMic(false)} onAdd={addRows} />}
     </div>
   );
 }
