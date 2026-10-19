@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Item {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  category  String     @default("Other")
+  unit      String     @default("pcs")
+  stock     Float      @default(0)
+  minQty    Float      @default(0)
+  listItems ListItem[]
+}
+
+model List {
+  id        Int        @id @default(autoincrement())
+  status    String     @default("active")
+  createdAt DateTime   @default(now())
+  items     ListItem[]
+}
+
+model ListItem {
+  id       Int     @id @default(autoincrement())
+  listId   Int
+  list     List    @relation(fields: [listId], references: [id], onDelete: Cascade)
+  itemId   Int?
+  item     Item?   @relation(fields: [itemId], references: [id], onDelete: SetNull)
+  name     String
+  qty      Float   @default(1)
+  unit     String  @default("pcs")
+  bought   Boolean @default(false)
+  position Int     @default(0)
+
+  @@index([listId])
+}
