@@ -412,9 +412,19 @@ function More({ t, brand, user, onLogout, onCopied }) {
   );
 }
 
-// ---------- sign in / sign up / demo ----------
-function AuthScreen({ brand, onUser }) {
-  const [mode, setMode] = useState("login");
+// ---------- landing page + sign in / sign up / demo ----------
+const FEATURES = [
+  ["📝", "Smart shopping list", "Pick from 100+ common items or type \u201c2 kg rice, 1 litre oil\u201d. Drag to arrange the list the way your shop is laid out."],
+  ["💬", "Send on WhatsApp", "One tap sends a clean, numbered list to your provision shop. No more writing it out every month."],
+  ["📦", "Home stock tracker", "Know what is left in the kitchen. Items running low show up on your dashboard with an Add to list button."],
+  ["🗓️", "Monthly history", "Every month's list is saved. Start next month's list from last month's in a few taps."],
+  ["🌐", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
+  ["🔒", "Private to your family", "Your lists and stock belong to your account only."],
+];
+const STEPS = [["1", "Make your list", "Tap + and choose items"], ["2", "Send to the shop", "Share on WhatsApp"], ["3", "Tick off and relax", "Stock updates itself"]];
+
+function AuthSheet({ initial, onUser, onClose }) {
+  const [mode, setMode] = useState(initial);
   const [f, setF] = useState({ name: "", phone: "", password: "" });
   const [err, setErr] = useState("");
   const [done, setDone] = useState(false);
@@ -426,28 +436,108 @@ function AuthScreen({ brand, onUser }) {
   }); };
   const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
   return (
-    <div className="min-h-screen max-w-md mx-auto px-6 py-10 flex flex-col justify-center">
-      <div className="text-center mb-8"><div className="text-5xl mb-2">🛒</div><h1 className="text-3xl font-extrabold text-brand">{brand.name}</h1><p className="text-gray-500 mt-1">{brand.tagline}</p></div>
-      {done ? (
-        <div className="rounded-3xl bg-white p-6 text-center shadow-sm space-y-3">
-          <div className="text-4xl">⏳</div><h2 className="font-bold text-xl">Thank you!</h2>
-          <p className="text-gray-600">Your account is waiting for approval. You can sign in once it is approved.</p>
-          <Btn onClick={() => { setDone(false); setMode("login"); }} className="w-full py-3 bg-brand text-white">Back to sign in</Btn>
-        </div>
-      ) : (
-        <form onSubmit={submit} className="space-y-3">
-          <div className="flex rounded-2xl bg-green-100 p-1">
-            {[["login", "Sign in"], ["signup", "Sign up"]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50" onClick={onClose}>
+      <div className="w-full max-w-md bg-green-50 rounded-t-3xl sm:rounded-3xl p-5 pb-8 max-h-[92vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex justify-end"><button onClick={onClose} className="text-gray-400 text-2xl px-2" aria-label="close">✕</button></div>
+        {done ? (
+          <div className="text-center space-y-3 pb-2">
+            <div className="text-5xl">⏳</div><h2 className="font-bold text-xl">Thank you!</h2>
+            <p className="text-gray-600">Your account is waiting for approval. You can sign in once it is approved.</p>
+            <Btn onClick={() => { setDone(false); setMode("login"); }} className="w-full py-3 bg-brand text-white">Back to sign in</Btn>
           </div>
-          {mode === "signup" && <input className={input} placeholder="Your name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
-          <input className={input} placeholder="Phone number" inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
-          <input className={input} placeholder="Password" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
-          {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
-          <Btn type="submit" disabled={busy} className="w-full py-3.5 bg-brand text-white text-lg disabled:opacity-50">{mode === "login" ? "Sign in" : "Create account"}</Btn>
-          <div className="flex items-center gap-3 text-gray-400 text-sm"><span className="flex-1 h-px bg-green-200" />or<span className="flex-1 h-px bg-green-200" /></div>
-          <Btn type="button" disabled={busy} onClick={() => run(async () => onUser((await api("/api/auth/demo", "POST")).user))} className="w-full py-3 bg-white border-2 border-brand text-brand">✨ Try demo</Btn>
-        </form>
-      )}
+        ) : (
+          <form onSubmit={submit} className="space-y-3">
+            <div className="flex rounded-2xl bg-green-100 p-1">
+              {[["login", "Sign in"], ["signup", "Sign up"]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
+            </div>
+            {mode === "signup" && <input className={input} placeholder="Your name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
+            <input className={input} placeholder="Phone number" inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
+            <input className={input} placeholder="Password" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+            {mode === "signup" && <p className="text-xs text-gray-500">New accounts are approved by the admin before you can sign in.</p>}
+            {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
+            <Btn type="submit" disabled={busy} className="w-full py-3.5 bg-brand text-white text-lg disabled:opacity-50">{mode === "login" ? "Sign in" : "Create account"}</Btn>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Landing({ brand, onUser }) {
+  const [sheet, setSheet] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const demo = async () => { setErr(""); setBusy(true); try { onUser((await api("/api/auth/demo", "POST")).user); } catch (e) { setErr(e.message); setBusy(false); } };
+  return (
+    <div className="min-h-screen bg-green-50 text-gray-800">
+      <header className="sticky top-0 z-20 bg-green-50/90 backdrop-blur">
+        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+          <span className="text-xl font-extrabold text-brand">🛒 {brand.name}</span>
+          <div className="flex gap-2">
+            <Btn onClick={() => setSheet("login")} className="px-4 py-2 text-brand border border-green-300 bg-white text-sm">Sign in</Btn>
+            <Btn onClick={() => setSheet("signup")} className="px-4 py-2 bg-brand text-white text-sm">Sign up</Btn>
+          </div>
+        </div>
+      </header>
+
+      <section className="max-w-5xl mx-auto px-4 pt-8 pb-12 grid md:grid-cols-2 gap-8 items-center">
+        <div className="text-center md:text-left">
+          <span className="inline-block rounded-full bg-green-100 text-green-800 text-xs font-bold px-3 py-1 mb-4">For every home maker</span>
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-green-950">Your monthly provisions, <span className="text-brand">sorted in minutes</span></h1>
+          <p className="mt-4 text-lg text-gray-600">Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.</p>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+            <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-lg shadow-lg">Create free account</Btn>
+            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-white border-2 border-brand text-brand text-lg disabled:opacity-50">{busy ? "Loading…" : "✨ Try demo"}</Btn>
+          </div>
+          {err && <p className="mt-3 text-sm text-red-600">{err}</p>}
+          <p className="mt-3 text-sm text-gray-500">Already registered? <button onClick={() => setSheet("login")} className="font-bold text-brand underline">Sign in</button></p>
+        </div>
+
+        <div className="mx-auto w-full max-w-xs" aria-hidden="true">
+          <div className="rounded-[2rem] bg-white p-4 shadow-2xl border-4 border-green-900/10 rotate-1">
+            <p className="font-bold text-brand mb-2">{brand.name}</p>
+            {[["🍚", "Rice", "5 kg"], ["🛢️", "Cooking Oil", "1 L"], ["🍬", "Sugar", "1 kg"], ["🫘", "Toor Dal", "1 kg"], ["🥚", "Eggs", "12 pcs"]].map(([e, n, q], i) => (
+              <div key={n} className="flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2 mb-1.5">
+                <span className={`w-5 h-5 rounded-full border-2 ${i < 2 ? "bg-brand border-brand" : "border-green-300"}`} /><span className="text-xl">{e}</span>
+                <span className={`flex-1 text-sm font-semibold ${i < 2 ? "line-through text-gray-400" : ""}`}>{n}</span><span className="text-xs text-gray-500">{q}</span>
+              </div>
+            ))}
+            <div className="mt-3 rounded-xl bg-[#25D366] text-white text-center font-bold py-2.5 text-sm">💬 Send on WhatsApp</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-12">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">Everything for your kitchen, in one place</h2>
+          <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {FEATURES.map(([i, t, d]) => (
+              <div key={t} className="rounded-3xl bg-green-50 p-5"><div className="text-3xl mb-2">{i}</div><h3 className="font-bold text-lg">{t}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">How it works</h2>
+        <div className="mt-8 grid sm:grid-cols-3 gap-4">
+          {STEPS.map(([n, t, d]) => (
+            <div key={n} className="rounded-3xl bg-white p-5 text-center shadow-sm"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{t}</h3><p className="text-sm text-gray-500">{d}</p></div>
+          ))}
+        </div>
+        <p className="mt-8 text-center text-sm text-gray-500">Coming soon: budget charts, reminders for bills and birthdays, and a family diary.</p>
+      </section>
+
+      <section className="bg-gradient-to-br from-green-600 to-green-800 text-white py-12 text-center px-4">
+        <h2 className="text-2xl md:text-3xl font-extrabold">Ready to make this month's list?</h2>
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-green-800 text-lg">Create free account</Btn>
+          <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border-2 border-white text-white text-lg disabled:opacity-50">✨ Try demo</Btn>
+        </div>
+      </section>
+      <footer className="text-center text-xs text-gray-400 py-6">© {new Date().getFullYear()} {brand.name}</footer>
+
+      {sheet && <AuthSheet initial={sheet} onUser={onUser} onClose={() => setSheet(null)} />}
     </div>
   );
 }
@@ -526,6 +616,6 @@ export default function App() {
   useEffect(() => { if (brand.name) document.title = brand.name; }, [brand]);
   const logout = async () => { await api("/api/auth/logout", "POST").catch(() => {}); setUser(null); };
   if (user === undefined) return <div className="min-h-screen flex items-center justify-center text-gray-400">…</div>;
-  if (!user) return <AuthScreen brand={brand} onUser={setUser} />;
+  if (!user) return <Landing brand={brand} onUser={setUser} />;
   return <Main key={user.id} user={user} brand={brand} onLogout={logout} />;
 }
