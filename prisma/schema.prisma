@@ -16,7 +16,8 @@ model User {
   role         String    @default("user")    // user | admin
   status       String    @default("pending") // pending | active | disabled
   isDemo       Boolean   @default(false)
-  modules      String    @default("provisions,budget,calendar") // comma list; admin can switch sections on/off per user
+  modules      String    @default("provisions,budget,calendar") // sections the ADMIN allows for this user
+  hiddenModules String   @default("")  // sections the USER chose to hide
   createdAt    DateTime  @default(now())
   sessions     Session[]
   items        Item[]

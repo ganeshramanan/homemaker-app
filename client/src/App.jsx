@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -18,12 +18,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: family diary and fitness tracker.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: family diary and fitness tracker.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: குடும்ப டைரி மற்றும் உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: குடும்ப டைரி மற்றும் உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -141,9 +141,9 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Tile({ icon, title, lines, tone = "bg-white", onClick, children }) {
+function Tile({ icon, title, lines, tone = "bg-white", className = "", onClick, children }) {
   return (
-    <button onClick={onClick} className={`${tone} rounded-3xl p-4 text-left shadow-sm active:scale-[.97] transition flex flex-col min-h-[7.5rem]`}>
+    <button onClick={onClick} className={`${tone} rounded-3xl p-4 text-left shadow-sm active:scale-[.97] transition flex flex-col min-h-[7.5rem] ${className}`}>
       <span className="text-3xl leading-none">{icon}</span>
       <span className="mt-2 font-bold text-green-950">{title}</span>
       {lines.map((l, i) => <span key={i} className={`text-sm leading-snug ${i === 0 ? "text-gray-700 font-semibold" : "text-gray-500"}`}>{l}</span>)}
@@ -153,7 +153,7 @@ function Tile({ icon, title, lines, tone = "bg-white", onClick, children }) {
 }
 const fill = (str, n) => str.replace("{n}", n);
 
-function Home({ t, lang, user, inv, list, cal, onGo, onRestock, onUnrestock }) {
+function Home({ t, lang, user, inv, list, cal, onGo }) {
   const has = (m) => user.modules.includes(m);
   const c = CT[lang], b = BT[lang];
   const now = useClock(), today = localToday(now), nowM = nowMin(now);
@@ -174,47 +174,55 @@ function Home({ t, lang, user, inv, list, cal, onGo, onRestock, onUnrestock }) {
   const budgetLines = bs === null ? ["…"] : bs === false || (!bs.income && !bs.expense) ? [t.nothingYet] : bs.balance >= 0 ? [fill(t.leftN, inr(bs.balance)), `${b.expenses}: ${inr(bs.expense)}`] : [fill(t.overN, inr(-bs.balance)), `${b.income}: ${inr(bs.income)}`];
   const calLines = !cal?.events ? ["…"] : todays.length ? [fill(t.nToday, todays.length), todays[0].title] : next ? [t.nothingPlanned, `${next.title} · ${dayLabel(next.date, today, c, lang)}`] : [t.nothingPlanned];
 
+  const tiles = [];
+  if (has("provisions")) tiles.push(
+    <Tile key="g" icon="🛒" title={t.groceries} lines={groceryLines} tone="bg-green-100" onClick={() => onGo("groceries", toBuy === 0 && low.length ? "low" : "list")}>
+      {total > 0 && <span className="mt-auto pt-2 block h-2"><span className="block h-1.5 rounded-full bg-white/70"><span className="block h-full rounded-full bg-brand transition-all" style={{ width: pct + "%" }} /></span></span>}
+    </Tile>);
+  if (has("budget")) tiles.push(<Tile key="b" icon="💰" title={b.title} lines={budgetLines} tone={bs && bs.balance < 0 ? "bg-red-100" : "bg-amber-100"} onClick={() => onGo("budget")} />);
+  if (has("calendar")) tiles.push(
+    <Tile key="c" icon="📅" title={c.title} lines={calLines} tone="bg-sky-100" onClick={() => onGo("calendar")}>
+      {nowCount > 0 && <span className="mt-1 inline-block self-start rounded-full bg-brand text-white text-xs font-bold px-2.5 py-0.5 animate-pulse">{c.now}</span>}
+    </Tile>);
+
   return (
     <div className="space-y-5">
       <section>
         <h2 className="font-bold text-lg mb-2">{t.sections}</h2>
-        <div className="grid grid-cols-2 gap-3">
-          {has("provisions") && (
-            <Tile icon="🛒" title={t.groceries} lines={groceryLines} tone="bg-green-100" onClick={() => onGo("groceries", "list")}>
-              {total > 0 && <span className="mt-auto pt-2 block h-2"><span className="block h-1.5 rounded-full bg-white/70"><span className="block h-full rounded-full bg-brand transition-all" style={{ width: pct + "%" }} /></span></span>}
-            </Tile>
-          )}
-          {has("budget") && <Tile icon="💰" title={b.title} lines={budgetLines} tone={bs && bs.balance < 0 ? "bg-red-100" : "bg-amber-100"} onClick={() => onGo("budget")} />}
-          {has("calendar") && (
-            <Tile icon="📅" title={c.title} lines={calLines} tone="bg-sky-100" onClick={() => onGo("calendar")}>
-              {nowCount > 0 && <span className="mt-1 inline-block self-start rounded-full bg-brand text-white text-xs font-bold px-2.5 py-0.5 animate-pulse">{c.now}</span>}
-            </Tile>
-          )}
-          <Tile icon="🗓️" title={t.history} lines={[t.tapOpen]} onClick={() => onGo("more", null, "history")} />
-        </div>
+        {!tiles.length ? (
+          <div className="rounded-3xl bg-white p-5 text-center shadow-sm space-y-3">
+            <p className="text-gray-500">{t.noneShown}</p>
+            <Btn onClick={() => onGo("more", null, "sections")} className="px-5 py-2.5 bg-brand text-white">{t.chooseSections}</Btn>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {tiles.map((el, i) => (i === tiles.length - 1 && tiles.length % 2 === 1 ? cloneElement(el, { className: "col-span-2" }) : el))}
+          </div>
+        )}
       </section>
 
       {cal && <CalendarCard lang={lang} cal={cal} onOpen={() => onGo("calendar")} />}
 
-      {has("provisions") && (
-        <section>
-          <h2 className="font-bold text-lg mb-2">🔴 {t.low} <span className="text-gray-400 text-sm">({low.length})</span></h2>
-          {!low.length && <p className="rounded-2xl bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
-          <div className="space-y-2">
-            {low.slice(0, 5).map((i) => (
-              <div key={i.id} className="flex items-center gap-3 bg-white rounded-2xl p-3 shadow-sm">
-                <span className="text-3xl">{emoji(i.name, i.category)}</span>
-                <div className="flex-1">
-                  <p className="font-semibold">{dn(i.name)}</p>
-                  <p className={`text-sm ${i.stock === 0 ? "text-red-600" : "text-amber-600"}`}>{fmt(i.stock)} {i.unit} {t.left} · {t.min} {fmt(i.minQty)}</p>
-                </div>
-                <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
-              </div>
-            ))}
+    </div>
+  );
+}
+
+function RunningLow({ t, inv, list, onRestock, onUnrestock }) {
+  const names = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
+  const low = inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) }));
+  return (
+    <div className="space-y-2">
+      {!low.length && <p className="rounded-2xl bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
+      {low.map((i) => (
+        <div key={i.id} className="flex items-center gap-3 bg-white rounded-2xl p-3 shadow-sm">
+          <span className="text-3xl">{emoji(i.name, i.category)}</span>
+          <div className="flex-1">
+            <p className="font-semibold">{dn(i.name)}</p>
+            <p className={`text-sm ${i.stock === 0 ? "text-red-600" : "text-amber-600"}`}>{fmt(i.stock)} {i.unit} {t.left} · {t.min} {fmt(i.minQty)}</p>
           </div>
-          {low.length > 5 && <Btn onClick={() => onGo("groceries", "stock")} className="mt-2 w-full py-2.5 bg-white text-brand border border-green-200 text-sm">{t.seeAll} ({low.length})</Btn>}
-        </section>
-      )}
+          <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
+        </div>
+      ))}
     </div>
   );
 }
@@ -469,20 +477,16 @@ function History({ t, brand, onCopied }) {
 }
 
 // ---------- admin ----------
-function Admin({ t }) {
-  const [data, setData] = useState(null);
-  const [err, setErr] = useState("");
-  const load = useCallback(() => api("/api/admin/users").then(setData).catch((e) => setErr(e.message)), []);
-  useEffect(() => { load(); }, [load]);
-  const act = async (fn) => { try { await fn(); await load(); } catch (e) { setErr(e.message); } };
-  const set = (u, status) => act(() => api(`/api/admin/users/${u.id}`, "PATCH", { status }));
-  const del = (u) => confirm(t.confirmDel.replace("{n}", u.name)) && act(() => api(`/api/admin/users/${u.id}`, "DELETE"));
-  if (err) return <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>;
-  if (!data) return <p className="text-center text-gray-400 py-6">…</p>;
+const MODULE_ICON = { provisions: "🛒", budget: "💰", calendar: "📅" };
+const moduleLabel = (m, lang) => (m === "provisions" ? T[lang].groceries : m === "budget" ? BT[lang].title : m === "calendar" ? CT[lang].title : m);
+const modList = (str) => (str || "").split(",").filter(Boolean);
+
+function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
   const pending = data.users.filter((u) => u.status === "pending").length;
   const badge = { pending: "bg-amber-100 text-amber-800", active: "bg-green-100 text-green-800", disabled: "bg-gray-200 text-gray-600" };
   return (
     <div className="space-y-2">
+      {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       <p className="text-sm text-gray-500">{data.users.length} {t.users} · {pending} {t.waiting}</p>
       {data.users.map((u) => (
         <div key={u.id} className={`rounded-2xl bg-white p-3 shadow-sm ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
@@ -491,12 +495,23 @@ function Admin({ t }) {
             <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${badge[u.status]}`}>{t["st_" + u.status]}</span>
           </div>
           {u.role !== "admin" && (
-            <div className="flex gap-2 mt-2.5">
-              {u.status !== "active" && <Btn onClick={() => set(u, "active")} className="flex-1 py-2 bg-brand text-white text-sm">{u.status === "pending" ? t.approve : t.enable}</Btn>}
-              {u.status === "active" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">{t.disable}</Btn>}
-              {u.status === "pending" && <Btn onClick={() => set(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">{t.reject}</Btn>}
-              <Btn onClick={() => del(u)} className="px-4 py-2 bg-red-50 text-red-600 text-sm">{t.del}</Btn>
-            </div>
+            <>
+              <div className="mt-2.5">
+                <p className="text-xs text-gray-400 mb-1">{t.sectionsFor}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {data.modules.map((m) => {
+                    const on = modList(u.modules).includes(m);
+                    return <button key={m} onClick={() => onToggleMod(u, m)} aria-pressed={on} className={`rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-gray-100 text-gray-400 line-through"}`}>{MODULE_ICON[m]} {moduleLabel(m, lang)}</button>;
+                  })}
+                </div>
+              </div>
+              <div className="flex gap-2 mt-2.5">
+                {u.status !== "active" && <Btn onClick={() => onSet(u, "active")} className="flex-1 py-2 bg-brand text-white text-sm">{u.status === "pending" ? t.approve : t.enable}</Btn>}
+                {u.status === "active" && <Btn onClick={() => onSet(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">{t.disable}</Btn>}
+                {u.status === "pending" && <Btn onClick={() => onSet(u, "disabled")} className="flex-1 py-2 bg-gray-100 text-gray-700 text-sm">{t.reject}</Btn>}
+                <Btn onClick={() => onDel(u)} className="px-4 py-2 bg-red-50 text-red-600 text-sm">{t.del}</Btn>
+              </div>
+            </>
           )}
         </div>
       ))}
@@ -505,11 +520,65 @@ function Admin({ t }) {
   );
 }
 
-function More({ t, brand, user, view, setView, onLogout, onCopied }) {
+function Admin({ t, lang }) {
+  const [data, setData] = useState(null);
+  const [err, setErr] = useState("");
+  const q = useRef(Promise.resolve()); // admin taps are sent one after another, so the last tap wins
+  const load = useCallback(() => api("/api/admin/users").then((d) => { setData(d); setErr(""); }).catch((e) => setErr(e.message)), []);
+  useEffect(() => { load(); }, [load]);
+  const send = (fn) => { q.current = q.current.then(fn).catch((e) => { setErr(e.message); return load(); }); };
+  const onSet = (u, status) => send(async () => { await api(`/api/admin/users/${u.id}`, "PATCH", { status }); await load(); });
+  const onDel = (u) => confirm(t.confirmDel.replace("{n}", u.name)) && send(async () => { await api(`/api/admin/users/${u.id}`, "DELETE"); await load(); });
+  const onToggleMod = (u, m) => {
+    const cur = modList(u.modules), next = cur.includes(m) ? cur.filter((x) => x !== m) : [...cur, m];
+    setData((d) => ({ ...d, users: d.users.map((x) => (x.id === u.id ? { ...x, modules: next.join(",") } : x)) }));
+    send(() => api(`/api/admin/users/${u.id}`, "PATCH", { modules: next }));
+  };
+  if (!data) return err ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p> : <p className="text-center text-gray-400 py-6">…</p>;
+  return <AdminView t={t} lang={lang} data={data} err={err} onSet={onSet} onDel={onDel} onToggleMod={onToggleMod} />;
+}
+
+// Each user chooses which of the sections their admin allowed they want to see.
+function Sections({ t, lang, user, onUser }) {
+  const [err, setErr] = useState("");
+  const q = useRef(Promise.resolve());
+  const toggle = (m) => {
+    const hidden = user.hidden.includes(m) ? user.hidden.filter((x) => x !== m) : [...user.hidden, m];
+    onUser({ ...user, hidden, modules: user.allowed.filter((x) => !hidden.includes(x)) });
+    q.current = q.current.then(() => api("/api/auth/modules", "PATCH", { hidden })).catch(async (e) => {
+      setErr(e.message);
+      try { onUser((await api("/api/auth/me")).user); } catch { /* keep what is on screen */ }
+    });
+  };
+  return (
+    <div className="space-y-3">
+      <h2 className="font-bold text-lg">{t.mySections}</h2>
+      <p className="text-sm text-gray-500">{t.sectionsHint}</p>
+      {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
+      {!user.allowed.length && <p className="rounded-2xl bg-white p-5 text-center text-gray-500">{t.noneAllowed}</p>}
+      <div className="space-y-2">
+        {user.allowed.map((m) => {
+          const on = user.modules.includes(m);
+          return (
+            <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm text-left active:scale-[.99]">
+              <span className="text-2xl">{MODULE_ICON[m]}</span>
+              <span className="flex-1 font-semibold">{moduleLabel(m, lang)}</span>
+              <span className={`relative inline-block w-12 h-7 rounded-full transition-colors ${on ? "bg-brand" : "bg-gray-300"}`}>
+                <span className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow transition-all ${on ? "left-[1.4rem]" : "left-0.5"}`} />
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function More({ t, lang, user, onUser, view, setView, onLogout }) {
   if (view) return (
     <div className="space-y-3">
       <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
-      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : <Admin t={t} />}
+      {view === "sections" ? <Sections t={t} lang={lang} user={user} onUser={onUser} /> : <Admin t={t} lang={lang} />}
     </div>
   );
   const Row2 = ({ icon, label, onClick, danger }) => (
@@ -518,7 +587,7 @@ function More({ t, brand, user, view, setView, onLogout, onCopied }) {
   return (
     <div className="space-y-2.5">
       <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
-      <Row2 icon="🗓️" label={t.history} onClick={() => setView("history")} />
+      <Row2 icon="🧩" label={t.mySections} onClick={() => setView("sections")} />
       {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
       <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
     </div>
@@ -1102,7 +1171,7 @@ function CalendarCard({ lang, cal, onOpen }) {
 }
 
 // ---------- app ----------
-function Main({ user, brand, onLogout, lang, onLang }) {
+function Main({ user, brand, onLogout, onUser, lang, onLang }) {
   const [tab, setTab] = useState("home");
   const [sub, setSub] = useState("list"); // inside Groceries: list | stock
   const [list, setList] = useState({ items: [] });
@@ -1110,6 +1179,7 @@ function Main({ user, brand, onLogout, lang, onLang }) {
   const [mic, setMic] = useState(false);
   const [moreView, setMoreView] = useState(null);
   const hasCal = user.modules.includes("calendar");
+  const hasProv = user.modules.includes("provisions");
   const cal = useEvents(hasCal);
   const [catalog, setCatalog] = useState([]);
   const [err, setErr] = useState("");
@@ -1130,7 +1200,7 @@ function Main({ user, brand, onLogout, lang, onLang }) {
     pending.current++;
     queue.current = queue.current.then(fn).catch((e) => setErr(e.message)).finally(() => { if (--pending.current === 0) refresh(); });
   }, [refresh]);
-  useEffect(() => { api("/api/provisions/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh]);
+  useEffect(() => { if (!hasProv) return; api("/api/provisions/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh, hasProv]);
   useEffect(() => { document.title = brand.name || document.title; }, [brand]);
 
   const addRows = async (rows) => { setList(await api("/api/provisions/list/items", "POST", { items: rows })); setMic(false); setTab("groceries"); setSub("list"); refresh(); };
@@ -1151,6 +1221,7 @@ function Main({ user, brand, onLogout, lang, onLang }) {
     mutate(() => api("/api/provisions/list/items", "POST", { items: [row] }));
   };
 
+  const lowCount = inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).length;
   const go = (id, subTab, view) => { setTab(id); if (subTab) setSub(subTab); if (id === "more") setMoreView(view || null); window.scrollTo(0, 0); };
   const has = (m) => user.modules.includes(m);
   const tabs = [["home", "🏠", t.home]];
@@ -1158,6 +1229,8 @@ function Main({ user, brand, onLogout, lang, onLang }) {
   if (has("budget")) tabs.push(["budget", "💰", BT[lang].title]);
   if (has("calendar")) tabs.push(["calendar", "📅", CT[lang].title]);
   tabs.push(["more", "☰", t.more]);
+  const tabIds = tabs.map(([id]) => id).join(",");
+  useEffect(() => { if (!tabIds.split(",").includes(tab)) setTab("home"); }, [tabIds, tab]); // a section that was switched off must not stay open
 
   const Tab = ({ id, icon, label }) => (
     <button onClick={() => go(id, null, null)} className={`flex-1 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
@@ -1174,29 +1247,33 @@ function Main({ user, brand, onLogout, lang, onLang }) {
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} lang={lang} user={user} inv={inv} list={list} cal={hasCal ? cal : null} onGo={go} onRestock={restock} onUnrestock={unpick} />}
+        {tab === "home" && <Home t={t} lang={lang} user={user} inv={inv} list={list} cal={hasCal ? cal : null} onGo={go} />}
         {tab === "groceries" && (
           <>
-            <div className="flex rounded-2xl bg-green-100 p-1 mb-3">
-              {[["list", t.list], ["stock", t.stock]].map(([k, l]) => (
-                <button key={k} onClick={() => setSub(k)} className={`flex-1 rounded-xl py-2 font-semibold ${sub === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
+            <div className="grid grid-cols-4 gap-1 rounded-2xl bg-green-100 p-1 mb-3">
+              {[["list", t.list], ["stock", t.stock], ["low", `🔴 ${t.lowTab} (${lowCount})`], ["history", t.history]].map(([k, l]) => (
+                <button key={k} onClick={() => setSub(k)} className={`rounded-xl py-2 px-1 text-sm font-semibold truncate ${sub === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
               ))}
             </div>
             {sub === "list"
               ? <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />
-              : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
+              : sub === "low"
+                ? <RunningLow t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />
+                : sub === "history"
+                  ? <History t={t} brand={brand} onCopied={refresh} />
+                  : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
           </>
         )}
         {tab === "budget" && <Budget t={t} lang={lang} />}
         {tab === "calendar" && <Calendar lang={lang} cal={cal} />}
-        {tab === "more" && <More t={t} brand={brand} user={user} view={moreView} setView={setMoreView} onLogout={onLogout} onCopied={refresh} />}
+        {tab === "more" && <More t={t} lang={lang} user={user} onUser={onUser} view={moreView} setView={setMoreView} onLogout={onLogout} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="max-w-xl mx-auto flex items-end">
           {tabs.map(([id, icon, label]) => <Tab key={id} id={id} icon={icon} label={label} />)}
         </div>
       </nav>
-      {tab === "groceries" && (
+      {tab === "groceries" && sub !== "history" && (
         <div className="fixed inset-x-0 bottom-20 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
           <div className="max-w-xl mx-auto px-4 flex justify-end">
             <Btn onClick={() => setMic(true)} className="pointer-events-auto w-14 h-14 rounded-full bg-brand text-white text-3xl font-light shadow-xl" aria-label="add">＋</Btn>
@@ -1225,5 +1302,5 @@ export default function App() {
   const logout = async () => { await api("/api/auth/logout", "POST").catch(() => {}); setUser(null); };
   if (user === undefined) return <div className="min-h-screen flex items-center justify-center text-gray-400">…</div>;
   if (!user) return <Landing brand={brand} lang={lang} onLang={onLang} onUser={setUser} />;
-  return <Main key={user.id} user={user} brand={brand} onLogout={logout} lang={lang} onLang={onLang} />;
+  return <Main key={user.id} user={user} brand={brand} onLogout={logout} onUser={setUser} lang={lang} onLang={onLang} />;
 }

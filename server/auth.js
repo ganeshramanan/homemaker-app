@@ -18,10 +18,16 @@ export const normPhone = (p = "") => String(p).replace(/\D/g, "").slice(-10);
 const sha = (t) => crypto.createHash("sha256").update(t).digest("hex");
 const cookies = (req) => Object.fromEntries((req.headers.cookie || "").split(";").map((c) => c.trim().split(/=(.*)/s)).filter((x) => x[0]).map(([k, v]) => [k, decodeURIComponent(v ?? "")]));
 
-export const publicUser = (u) => ({
-  id: u.id, name: u.name, phone: u.phone, role: u.role, status: u.status, isDemo: u.isDemo,
-  modules: u.role === "admin" ? ALL_MODULES : u.modules.split(",").filter((m) => ALL_MODULES.includes(m)),
-});
+// allowed = what the admin switched on for this user. hidden = what the user chose not to see. modules = allowed minus hidden.
+export const allowedModules = (u) => (u.role === "admin" ? ALL_MODULES : u.modules.split(",").filter((m) => ALL_MODULES.includes(m)));
+export const publicUser = (u) => {
+  const allowed = allowedModules(u);
+  const hidden = (u.hiddenModules || "").split(",").filter((m) => allowed.includes(m));
+  return {
+    id: u.id, name: u.name, phone: u.phone, role: u.role, status: u.status, isDemo: u.isDemo,
+    allowed, hidden, modules: allowed.filter((m) => !hidden.includes(m)),
+  };
+};
 
 async function startSession(req, res, userId) {
   const token = crypto.randomBytes(32).toString("hex");
@@ -55,7 +61,7 @@ export async function loadUser(req, _res, next) {
 export const requireUser = (req, res, next) => (req.user ? next() : res.status(401).json({ error: "Please sign in" }));
 export const requireAdmin = (req, res, next) => (req.user?.role === "admin" ? next() : res.status(403).json({ error: "Admin only" }));
 export const requireModule = (m) => (req, res, next) =>
-  req.user && publicUser(req.user).modules.includes(m) ? next() : res.status(403).json({ error: "This section is not enabled for your account" });
+  req.user && allowedModules(req.user).includes(m) ? next() : res.status(403).json({ error: "This section is not enabled for your account" });
 
 const tries = new Map();
 const limited = (key) => {
@@ -99,6 +105,16 @@ authRouter.post("/logout", wrap(async (req, res) => {
 }));
 
 authRouter.get("/me", (req, res) => (req.user ? res.json({ user: publicUser(req.user) }) : res.status(401).json({ error: "Not signed in" })));
+
+// A user chooses which of their allowed sections to see. This is a display choice only; the admin's switch is what blocks access.
+authRouter.patch("/modules", wrap(async (req, res) => {
+  if (!req.user) return res.status(401).json({ error: "Please sign in" });
+  const allowed = allowedModules(req.user);
+  const hidden = [...new Set([].concat(req.body.hidden ?? []).filter((m) => allowed.includes(m)))];
+  const u = await prisma.user.update({ where: { id: req.user.id }, data: { hiddenModules: hidden.join(",") } });
+  sessionCache.clear();
+  res.json({ user: publicUser(u) });
+}));
 
 // Try-it-now household with sample data. Cleaned up after a day.
 authRouter.post("/demo", wrap(async (req, res) => {
