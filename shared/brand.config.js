@@ -4,6 +4,6 @@
 export default {
   name: "Maligai Mate",
   tagline: "Make your list. Send it. Stay stocked.",
-  themeColor: "#e8590c",
-  backgroundColor: "#fff8f0",
+  themeColor: "#15803d",
+  backgroundColor: "#f6faf6",
 };

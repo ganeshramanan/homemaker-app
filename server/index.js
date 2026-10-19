@@ -5,7 +5,8 @@ import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { PrismaClient } from "@prisma/client";
 import baseBrand from "../shared/brand.config.js";
-import { parseList, DICTIONARY } from "./parser.js";
+import { parseList } from "./parser.js";
+import { CATALOG } from "./catalog.js";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -52,7 +53,7 @@ const convert = (qty, from, to) => (from === to ? qty : qty * (FACTOR[`${from}>$
 const activeList = async () =>
   (await prisma.list.findFirst({ where: { status: "active" }, include: { items: { orderBy: { position: "asc" } } } })) ??
   prisma.list.create({ data: {}, include: { items: true } });
-const dict = Object.fromEntries(DICTIONARY.map(([n, c, u, m]) => [n, { category: c, unit: u, minQty: m }]));
+const dict = Object.fromEntries(CATALOG.map((c) => [c.name, { category: c.category, unit: c.unit, minQty: c.min }]));
 
 // ---------- voice text -> rows ----------
 app.post("/api/parse", (req, res) => res.json(parseList(req.body.text)));
@@ -136,6 +137,13 @@ app.post("/api/inventory", wrap(async (req, res) => {
 }));
 
 app.delete("/api/inventory/:id", wrap(async (req, res) => { await prisma.item.delete({ where: { id: +req.params.id } }); res.json({ ok: true }); }));
+
+// 100-item catalog (for the picker) and a demo loader that puts it into inventory.
+app.get("/api/catalog", (_, res) => res.json(CATALOG));
+app.post("/api/inventory/seed", wrap(async (_, res) => {
+  const data = CATALOG.map((c, i) => ({ name: c.name, category: c.category, unit: c.unit, minQty: c.min, stock: +(c.min * (i % 6 === 0 ? 0.5 : 3)).toFixed(2) }));
+  res.json({ added: (await prisma.item.createMany({ data, skipDuplicates: true })).count });
+}));
 
 // ---------- dashboard ----------
 app.get("/api/dashboard", wrap(async (_, res) => {

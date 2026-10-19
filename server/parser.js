@@ -1,34 +1,9 @@
-// Rule-based voice-text -> list rows. English, Tanglish and Tamil script.
-// [name, category, defaultUnit, minQty, aliases]
-export const DICTIONARY = [
-  ["Rice", "Grains", "kg", 1, "rice|arisi|அரிசி"],
-  ["Wheat Flour", "Grains", "kg", 1, "wheat|atta|godhumai|கோதுமை"],
-  ["Toor Dal", "Pulses", "kg", 0.5, "toor dal|tur dal|thuvaram paruppu|dal paruppu|பருப்பு"],
-  ["Urad Dal", "Pulses", "kg", 0.5, "urad dal|ulundu|ulutham|உளுந்து"],
-  ["Sugar", "Grocery", "kg", 0.5, "sugar|sakkarai|சர்க்கரை"],
-  ["Salt", "Grocery", "kg", 0.5, "salt|uppu|உப்பு"],
-  ["Cooking Oil", "Grocery", "L", 0.5, "oil|ennai|ennei|எண்ணெய்"],
-  ["Tea Powder", "Grocery", "pack", 1, "tea|tea powder|tea thool|டீ"],
-  ["Coffee Powder", "Grocery", "pack", 1, "coffee|coffee powder|காபி"],
-  ["Milk", "Dairy", "L", 1, "milk|paal|பால்"],
-  ["Curd", "Dairy", "pack", 1, "curd|thayir|தயிர்"],
-  ["Eggs", "Dairy", "pcs", 6, "egg|eggs|muttai|முட்டை"],
-  ["Tomato", "Vegetables", "kg", 0.5, "tomato|thakkali|தக்காளி"],
-  ["Onion", "Vegetables", "kg", 1, "onion|vengayam|வெங்காயம்"],
-  ["Potato", "Vegetables", "kg", 0.5, "potato|urulai|urulaikizhangu|உருளை"],
-  ["Garlic", "Vegetables", "g", 100, "garlic|poondu|பூண்டு"],
-  ["Coconut", "Vegetables", "pcs", 1, "coconut|thengai|தேங்காய்"],
-  ["Chilli Powder", "Spices", "g", 100, "chilli powder|chilli|milagai|milagaithool|மிளகாய்"],
-  ["Turmeric Powder", "Spices", "g", 50, "turmeric|manjal|மஞ்சள்"],
-  ["Tamarind", "Spices", "g", 250, "tamarind|puli|புளி"],
-  ["Bread", "Grocery", "pack", 1, "bread"],
-  ["Soap", "Household", "pcs", 2, "soap"],
-  ["Detergent", "Household", "pack", 1, "detergent|washing powder"],
-];
+// Rule-based typed-text -> list rows. English, Tanglish and Tamil script. Item names come from catalog.js
+import { CATALOG } from "./catalog.js";
 
 const ALIAS = {};
-for (const [name, category, unit, , al] of DICTIONARY)
-  for (const a of al.split("|")) ALIAS[a.trim()] = { name, category, unit };
+for (const c of CATALOG)
+  for (const a of [c.name.toLowerCase(), c.ta, ...c.aliases]) ALIAS[a] = { name: c.name, category: c.category, unit: c.unit };
 
 const NUM = {
   one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, twelve: 12, twenty: 20,
@@ -44,7 +19,7 @@ const UNIT = {
   pcs: "pcs", piece: "pcs", pieces: "pcs", nos: "pcs", dozen: "dozen",
 };
 const STOP = new Set(("and also add need want please i we to buy get of the a an ok okay kindly more " +
-  "வேண்டும் மற்றும் வாங்க venum vendum matrum mattrum ku").split(" "));
+  "வேண்டும் மற்றும் வாங்க venum vendum matrum mattrum ku flour").split(" "));
 
 export function parseList(text = "") {
   const toks = text.toLowerCase().replace(/[.,;]+(\s|$)/g, " ").split(/[\s,;]+/).filter(Boolean);
