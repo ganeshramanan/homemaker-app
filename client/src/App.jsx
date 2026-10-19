@@ -18,12 +18,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: budget charts, reminders for bills and birthdays, and a family diary.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: family diary and fitness tracker.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: பட்ஜெட் வரைபடங்கள், பில் மற்றும் பிறந்தநாள் நினைவூட்டல்கள், குடும்ப டைரி.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: குடும்ப டைரி மற்றும் உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -141,38 +141,80 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Home({ t, lang, inv, list, showBudget, onOpenBudget, cal, onOpenCalendar, onRestock, onUnrestock }) {
-  const names = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
-  const dash = {
-    low: inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) })),
-    list: { total: list.items.length, bought: list.items.filter((i) => i.bought).length },
-  };
-  const pct = dash.list.total ? Math.round((dash.list.bought / dash.list.total) * 100) : 0;
+function Tile({ icon, title, lines, tone = "bg-white", onClick, children }) {
   return (
-    <div className="space-y-4">
-      <div className="rounded-3xl bg-gradient-to-br from-green-500 to-brand text-white p-5 shadow-md">
-        <p className="text-sm opacity-90">{t.thisList}</p>
-        <p className="text-3xl font-extrabold">{dash.list.bought}/{dash.list.total} <span className="text-base font-medium">{t.boughtOf}</span></p>
-        <div className="mt-3 h-2.5 rounded-full bg-white/30"><div className="h-full rounded-full bg-white transition-all" style={{ width: pct + "%" }} /></div>
-      </div>
-      {cal && <CalendarCard lang={lang} cal={cal} onOpen={onOpenCalendar} />}
-      {showBudget && <BudgetCard lang={lang} onOpen={onOpenBudget} />}
+    <button onClick={onClick} className={`${tone} rounded-3xl p-4 text-left shadow-sm active:scale-[.97] transition flex flex-col min-h-[7.5rem]`}>
+      <span className="text-3xl leading-none">{icon}</span>
+      <span className="mt-2 font-bold text-green-950">{title}</span>
+      {lines.map((l, i) => <span key={i} className={`text-sm leading-snug ${i === 0 ? "text-gray-700 font-semibold" : "text-gray-500"}`}>{l}</span>)}
+      {children}
+    </button>
+  );
+}
+const fill = (str, n) => str.replace("{n}", n);
+
+function Home({ t, lang, user, inv, list, cal, onGo, onRestock, onUnrestock }) {
+  const has = (m) => user.modules.includes(m);
+  const c = CT[lang], b = BT[lang];
+  const now = useClock(), today = localToday(now), nowM = nowMin(now);
+  const names = new Set(list.items.filter((i) => !i.bought).map((i) => i.name));
+  const low = inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a2, b2) => a2.stock / a2.minQty - b2.stock / b2.minQty).map((i) => ({ ...i, onList: names.has(i.name) }));
+  const total = list.items.length, bought = list.items.filter((i) => i.bought).length, toBuy = total - bought;
+  const pct = total ? Math.round((bought / total) * 100) : 0;
+
+  const [bs, setBs] = useState(null);
+  useEffect(() => { if (has("budget")) api(`/api/budget/summary?m=${thisMonth()}`).then(setBs).catch(() => setBs(false)); }, []); // eslint-disable-line
+
+  const occ = useMemo(() => (cal?.events ? occurrences(cal.events, today, addDays(today, 7)) : []), [cal?.events, today]);
+  const todays = occ.filter((o) => o.date === today && statusOf(o, today, nowM) !== "past");
+  const nowCount = todays.filter((o) => statusOf(o, today, nowM) === "now").length;
+  const next = occ.find((o) => o.date > today);
+
+  const groceryLines = !total ? [t.listEmpty] : toBuy === 0 ? [t.allDone] : [fill(t.nToBuy, toBuy), ...(low.length ? [fill(t.nLow, low.length)] : [])];
+  const budgetLines = bs === null ? ["…"] : bs === false || (!bs.income && !bs.expense) ? [t.nothingYet] : bs.balance >= 0 ? [fill(t.leftN, inr(bs.balance)), `${b.expenses}: ${inr(bs.expense)}`] : [fill(t.overN, inr(-bs.balance)), `${b.income}: ${inr(bs.income)}`];
+  const calLines = !cal?.events ? ["…"] : todays.length ? [fill(t.nToday, todays.length), todays[0].title] : next ? [t.nothingPlanned, `${next.title} · ${dayLabel(next.date, today, c, lang)}`] : [t.nothingPlanned];
+
+  return (
+    <div className="space-y-5">
       <section>
-        <h2 className="font-bold text-lg mb-2">🔴 {t.low} <span className="text-gray-400 text-sm">({dash.low.length})</span></h2>
-        {!dash.low.length && <p className="rounded-2xl bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
-        <div className="space-y-2">
-          {dash.low.map((i) => (
-            <div key={i.id} className="flex items-center gap-3 bg-white rounded-2xl p-3 shadow-sm">
-              <span className="text-3xl">{emoji(i.name, i.category)}</span>
-              <div className="flex-1">
-                <p className="font-semibold">{dn(i.name)}</p>
-                <p className={`text-sm ${i.stock === 0 ? "text-red-600" : "text-amber-600"}`}>{fmt(i.stock)} {i.unit} {t.left} · {t.min} {fmt(i.minQty)}</p>
-              </div>
-              <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
-            </div>
-          ))}
+        <h2 className="font-bold text-lg mb-2">{t.sections}</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {has("provisions") && (
+            <Tile icon="🛒" title={t.groceries} lines={groceryLines} tone="bg-green-100" onClick={() => onGo("groceries", "list")}>
+              {total > 0 && <span className="mt-auto pt-2 block h-2"><span className="block h-1.5 rounded-full bg-white/70"><span className="block h-full rounded-full bg-brand transition-all" style={{ width: pct + "%" }} /></span></span>}
+            </Tile>
+          )}
+          {has("budget") && <Tile icon="💰" title={b.title} lines={budgetLines} tone={bs && bs.balance < 0 ? "bg-red-100" : "bg-amber-100"} onClick={() => onGo("budget")} />}
+          {has("calendar") && (
+            <Tile icon="📅" title={c.title} lines={calLines} tone="bg-sky-100" onClick={() => onGo("calendar")}>
+              {nowCount > 0 && <span className="mt-1 inline-block self-start rounded-full bg-brand text-white text-xs font-bold px-2.5 py-0.5 animate-pulse">{c.now}</span>}
+            </Tile>
+          )}
+          <Tile icon="🗓️" title={t.history} lines={[t.tapOpen]} onClick={() => onGo("more", null, "history")} />
         </div>
       </section>
+
+      {cal && <CalendarCard lang={lang} cal={cal} onOpen={() => onGo("calendar")} />}
+
+      {has("provisions") && (
+        <section>
+          <h2 className="font-bold text-lg mb-2">🔴 {t.low} <span className="text-gray-400 text-sm">({low.length})</span></h2>
+          {!low.length && <p className="rounded-2xl bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
+          <div className="space-y-2">
+            {low.slice(0, 5).map((i) => (
+              <div key={i.id} className="flex items-center gap-3 bg-white rounded-2xl p-3 shadow-sm">
+                <span className="text-3xl">{emoji(i.name, i.category)}</span>
+                <div className="flex-1">
+                  <p className="font-semibold">{dn(i.name)}</p>
+                  <p className={`text-sm ${i.stock === 0 ? "text-red-600" : "text-amber-600"}`}>{fmt(i.stock)} {i.unit} {t.left} · {t.min} {fmt(i.minQty)}</p>
+                </div>
+                <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
+              </div>
+            ))}
+          </div>
+          {low.length > 5 && <Btn onClick={() => onGo("groceries", "stock")} className="mt-2 w-full py-2.5 bg-white text-brand border border-green-200 text-sm">{t.seeAll} ({low.length})</Btn>}
+        </section>
+      )}
     </div>
   );
 }
@@ -463,11 +505,11 @@ function Admin({ t }) {
   );
 }
 
-function More({ t, lang, brand, user, view, setView, cal, onLogout, onCopied }) {
+function More({ t, brand, user, view, setView, onLogout, onCopied }) {
   if (view) return (
     <div className="space-y-3">
       <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
-      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : view === "budget" ? <Budget t={t} lang={lang} /> : view === "calendar" ? <Calendar lang={lang} cal={cal} /> : <Admin t={t} />}
+      {view === "history" ? <History t={t} brand={brand} onCopied={onCopied} /> : <Admin t={t} />}
     </div>
   );
   const Row2 = ({ icon, label, onClick, danger }) => (
@@ -476,8 +518,6 @@ function More({ t, lang, brand, user, view, setView, cal, onLogout, onCopied }) 
   return (
     <div className="space-y-2.5">
       <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
-      {user.modules.includes("calendar") && <Row2 icon="📅" label={CT[lang].title} onClick={() => setView("calendar")} />}
-      {user.modules.includes("budget") && <Row2 icon="💰" label={BT[lang].title} onClick={() => setView("budget")} />}
       <Row2 icon="🗓️" label={t.history} onClick={() => setView("history")} />
       {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
       <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
@@ -492,6 +532,8 @@ const FEATURES = {
     ["💬", "Send on WhatsApp", "One tap sends a clean, numbered list to your provision shop. No more writing it out every month."],
     ["📦", "Home stock tracker", "Know what is left in the kitchen. Items running low show up on your dashboard with an Add to list button."],
     ["🗓️", "Monthly history", "Every month's list is saved. Start next month's list from last month's in a few taps."],
+    ["💰", "Monthly budget", "Add all your income and expenses, see where the money goes in a pie chart, and copy last month in one tap."],
+    ["📅", "Calendar on your home screen", "Save birthdays, bill dues and appointments. What is on today shows on Home, and lights up when the time arrives."],
     ["🌐", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
     ["🔒", "Private to your family", "Your lists and stock belong to your account only."],
   ],
@@ -500,6 +542,8 @@ const FEATURES = {
     ["💬", "வாட்ஸ்அப்பில் அனுப்புங்கள்", "ஒரே தட்டலில் அழகான எண்ணிட்ட பட்டியல் மளிகைக் கடைக்குச் செல்லும். இனி ஒவ்வொரு மாதமும் எழுத வேண்டாம்."],
     ["📦", "வீட்டு இருப்பு கண்காணிப்பு", "சமையலறையில் என்ன மீதம் உள்ளது என்று தெரியும். குறைந்த பொருட்கள் முகப்பில் ‘பட்டியலில் சேர்’ பொத்தானுடன் தோன்றும்."],
     ["🗓️", "மாதாந்திர வரலாறு", "ஒவ்வொரு மாத பட்டியலும் சேமிக்கப்படும். சில தட்டலில் அடுத்த மாத பட்டியலை தொடங்கலாம்."],
+    ["💰", "மாதாந்திர பட்ஜெட்", "எல்லா வருமானம் மற்றும் செலவுகளையும் சேர்க்கவும். பணம் எங்கே போகிறது என்பதை வட்ட வரைபடத்தில் பார்க்கவும். கடந்த மாதத்தை ஒரே தட்டலில் நகலெடுக்கவும்."],
+    ["📅", "முகப்புத் திரையில் நாட்காட்டி", "பிறந்தநாள், பில் தேதி, சந்திப்புகளை சேமிக்கவும். இன்றைய நிகழ்வுகள் முகப்பில் தெரியும்; நேரம் வந்ததும் ‘இப்போது’ என்று ஒளிரும்."],
     ["🌐", "தமிழ் மற்றும் ஆங்கிலம்", "எப்போது வேண்டுமானாலும் மொழியை மாற்றலாம். பொருட்களின் பெயர்கள் தமிழிலும் தெரியும்."],
     ["🔒", "உங்கள் குடும்பத்திற்கு மட்டும்", "உங்கள் பட்டியல்கள் மற்றும் இருப்பு உங்கள் கணக்கிற்கு மட்டுமே சொந்தம்."],
   ],
@@ -853,22 +897,6 @@ function Budget({ t, lang }) {
   );
 }
 
-function BudgetCard({ lang, onOpen }) {
-  const b = BT[lang], m = thisMonth();
-  const [s, setS] = useState(null);
-  useEffect(() => { api(`/api/budget/summary?m=${m}`).then(setS).catch(() => setS(false)); }, [m]);
-  if (s === false) return null;
-  return (
-    <button onClick={onOpen} className="w-full text-left rounded-3xl bg-white p-4 shadow-sm active:scale-[.99]">
-      <div className="flex items-center justify-between mb-2"><h2 className="font-bold">💰 {b.title} · {monthName(m, lang)}</h2><span className="text-gray-300 text-xl">›</span></div>
-      <div className="grid grid-cols-3 gap-2 text-center">
-        <div><p className="text-xs text-gray-500">{b.income}</p><p className="font-bold text-green-700">{s ? inr(s.income) : "…"}</p></div>
-        <div><p className="text-xs text-gray-500">{b.expenses}</p><p className="font-bold text-amber-700">{s ? inr(s.expense) : "…"}</p></div>
-        <div><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-bold ${s && s.balance < 0 ? "text-red-600" : "text-green-800"}`}>{s ? inr(s.balance) : "…"}</p></div>
-      </div>
-    </button>
-  );
-}
 
 // ---------- calendar ----------
 const EVENT_CATS = ["Birthday", "Anniversary", "Bill due", "EMI due", "Credit card", "Doctor", "Meeting", "School", "Festival", "Reminder", "Other"];
@@ -1076,6 +1104,7 @@ function CalendarCard({ lang, cal, onOpen }) {
 // ---------- app ----------
 function Main({ user, brand, onLogout, lang, onLang }) {
   const [tab, setTab] = useState("home");
+  const [sub, setSub] = useState("list"); // inside Groceries: list | stock
   const [list, setList] = useState({ items: [] });
   const [inv, setInv] = useState([]);
   const [mic, setMic] = useState(false);
@@ -1104,7 +1133,7 @@ function Main({ user, brand, onLogout, lang, onLang }) {
   useEffect(() => { api("/api/provisions/catalog").then((c) => { CAT = Object.fromEntries(c.map((x) => [x.name, x])); setCatalog(c); }).catch(() => {}); refresh(); }, [refresh]);
   useEffect(() => { document.title = brand.name || document.title; }, [brand]);
 
-  const addRows = async (rows) => { setList(await api("/api/provisions/list/items", "POST", { items: rows })); setMic(false); setTab("list"); refresh(); };
+  const addRows = async (rows) => { setList(await api("/api/provisions/list/items", "POST", { items: rows })); setMic(false); setTab("groceries"); setSub("list"); refresh(); };
   const quick = (c) => {
     const row = { name: c.name, qty: Math.max(c.min || 0, step(c.unit)), unit: c.unit };
     setList((p) => ({ ...p, items: [...p.items, { ...row, id: -Date.now(), bought: false, position: 9999 }] }));
@@ -1115,21 +1144,29 @@ function Main({ user, brand, onLogout, lang, onLang }) {
     setList((p) => ({ ...p, items: p.items.filter((i) => i.bought || i.name !== name) }));
     mutate(() => api("/api/provisions/list/remove", "POST", { name }));
   };
-  const closePicker = () => { setMic(false); setTab("list"); };
+  const closePicker = () => { setMic(false); setTab("groceries"); setSub("list"); };
   const restock = (i) => {
     const row = { name: i.name, itemId: i.id, qty: Math.max(+(i.minQty * 2 - i.stock).toFixed(2), step(i.unit)), unit: i.unit };
     setList((p) => ({ ...p, items: [...p.items, { name: row.name, qty: row.qty, unit: row.unit, id: -Date.now(), bought: false, position: 9999 }] }));
     mutate(() => api("/api/provisions/list/items", "POST", { items: [row] }));
   };
 
+  const go = (id, subTab, view) => { setTab(id); if (subTab) setSub(subTab); if (id === "more") setMoreView(view || null); window.scrollTo(0, 0); };
+  const has = (m) => user.modules.includes(m);
+  const tabs = [["home", "🏠", t.home]];
+  if (has("provisions")) tabs.push(["groceries", "🛒", t.groceries]);
+  if (has("budget")) tabs.push(["budget", "💰", BT[lang].title]);
+  if (has("calendar")) tabs.push(["calendar", "📅", CT[lang].title]);
+  tabs.push(["more", "☰", t.more]);
+
   const Tab = ({ id, icon, label }) => (
-    <button onClick={() => setTab(id)} className={`flex-1 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
+    <button onClick={() => go(id, null, null)} className={`flex-1 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
       <span className="text-2xl leading-none">{icon}</span><span className="text-xs mt-0.5">{label}</span>
     </button>
   );
 
   return (
-    <div className="min-h-screen max-w-xl mx-auto pb-28 text-gray-800">
+    <div className={`min-h-screen max-w-xl mx-auto ${tab === "groceries" ? "pb-44" : "pb-28"} text-gray-800`}>
       <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-green-50/90 backdrop-blur" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
         <div><h1 className="text-xl font-extrabold text-brand leading-tight">{brand.name}</h1></div>
         <LangToggle lang={lang} onLang={onLang} />
@@ -1137,20 +1174,35 @@ function Main({ user, brand, onLogout, lang, onLang }) {
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} lang={lang} inv={inv} list={list} showBudget={user.modules.includes("budget")} cal={hasCal ? cal : null} onOpenCalendar={() => { setMoreView("calendar"); setTab("more"); }} onOpenBudget={() => { setMoreView("budget"); setTab("more"); }} onRestock={restock} onUnrestock={unpick} />}
-        {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />}
-        {tab === "more" && <More t={t} lang={lang} brand={brand} user={user} view={moreView} setView={setMoreView} cal={cal} onLogout={onLogout} onCopied={refresh} />}
-        {tab === "stock" && <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
+        {tab === "home" && <Home t={t} lang={lang} user={user} inv={inv} list={list} cal={hasCal ? cal : null} onGo={go} onRestock={restock} onUnrestock={unpick} />}
+        {tab === "groceries" && (
+          <>
+            <div className="flex rounded-2xl bg-green-100 p-1 mb-3">
+              {[["list", t.list], ["stock", t.stock]].map(([k, l]) => (
+                <button key={k} onClick={() => setSub(k)} className={`flex-1 rounded-xl py-2 font-semibold ${sub === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
+              ))}
+            </div>
+            {sub === "list"
+              ? <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />
+              : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
+          </>
+        )}
+        {tab === "budget" && <Budget t={t} lang={lang} />}
+        {tab === "calendar" && <Calendar lang={lang} cal={cal} />}
+        {tab === "more" && <More t={t} brand={brand} user={user} view={moreView} setView={setMoreView} onLogout={onLogout} onCopied={refresh} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="max-w-xl mx-auto flex items-end">
-          <Tab id="home" icon="🏠" label={t.home} />
-          <Tab id="list" icon="📋" label={t.list} />
-          <div className="flex-1 flex justify-center"><Btn onClick={() => setMic(true)} className="-mt-8 w-16 h-16 rounded-full bg-brand text-white text-4xl font-light shadow-xl ring-4 ring-green-50" aria-label="add">＋</Btn></div>
-          <Tab id="stock" icon="📦" label={t.stock} />
-          <Tab id="more" icon="☰" label={t.more} />
+          {tabs.map(([id, icon, label]) => <Tab key={id} id={id} icon={icon} label={label} />)}
         </div>
       </nav>
+      {tab === "groceries" && (
+        <div className="fixed inset-x-0 bottom-20 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
+          <div className="max-w-xl mx-auto px-4 flex justify-end">
+            <Btn onClick={() => setMic(true)} className="pointer-events-auto w-14 h-14 rounded-full bg-brand text-white text-3xl font-light shadow-xl" aria-label="add">＋</Btn>
+          </div>
+        </div>
+      )}
       {mic && <AddSheet t={t} lang={lang} catalog={catalog} inv={inv} listNames={new Set(list.items.filter((i) => !i.bought).map((i) => i.name))} onQuick={quick} onRemove={unpick} onParsed={addRows} onDone={closePicker} />}
     </div>
   );
