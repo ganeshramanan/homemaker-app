@@ -140,7 +140,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Home({ t, dash, onRestock }) {
+function Home({ t, dash, onRestock, onUnrestock }) {
   const pct = dash.list.total ? Math.round((dash.list.bought / dash.list.total) * 100) : 0;
   return (
     <div className="space-y-4">
@@ -160,7 +160,7 @@ function Home({ t, dash, onRestock }) {
                 <p className="font-semibold">{dn(i.name)}</p>
                 <p className={`text-sm ${i.stock === 0 ? "text-red-600" : "text-amber-600"}`}>{fmt(i.stock)} {i.unit} {t.left} · {t.min} {fmt(i.minQty)}</p>
               </div>
-              <Btn onClick={() => onRestock(i)} disabled={i.onList} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
+              <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
             </div>
           ))}
         </div>
@@ -670,7 +670,7 @@ function Main({ user, brand, onLogout, lang, onLang }) {
       <main className="px-4 pt-2">
         {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
         {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} dash={dash} onRestock={restock} />}
+        {tab === "home" && <Home t={t} dash={dash} onRestock={restock} onUnrestock={unpick} />}
         {tab === "list" && <ListTab t={t} brand={brand} list={list} setList={setList} refresh={refresh} />}
         {tab === "more" && <More t={t} brand={brand} user={user} onLogout={onLogout} onCopied={refresh} />}
         {tab === "stock" && <Stock t={t} items={inv} refresh={refresh} onSeed={seed} />}
