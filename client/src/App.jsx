@@ -17,12 +17,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: budget charts, reminders for bills and birthdays, and a family diary.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your monthly provisions, ", heroB: "sorted in minutes", heroText: "Make your list on the phone, send it to the shop on WhatsApp, and always know what is left at home. No more writing the list by hand.", already: "Already registered?", featTitle: "Everything for your kitchen, in one place", howTitle: "How it works", soon: "Coming soon: budget charts, reminders for bills and birthdays, and a family diary.", ctaTitle: "Ready to make this month's list?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: பட்ஜெட் வரைபடங்கள், பில் மற்றும் பிறந்தநாள் நினைவூட்டல்கள், குடும்ப டைரி.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் மாத மளிகை, ", heroB: "நிமிடங்களில் தயார்", heroText: "போனில் பட்டியல் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்றும் எப்போதும் தெரியும். இனி கையால் எழுத வேண்டாம்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் சமையலறைக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: பட்ஜெட் வரைபடங்கள், பில் மற்றும் பிறந்தநாள் நினைவூட்டல்கள், குடும்ப டைரி.", ctaTitle: "இந்த மாத பட்டியலைத் தயாரிக்கத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -46,12 +46,12 @@ const Stepper = ({ value, unit, onChange }) => (
   </div>
 );
 
-function Row({ item, t, onQty, onDelete, onToggle }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+function Row({ item, t, canDrag, onQty, onDelete, onToggle }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag });
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 10 : 0 }}
       className={`flex items-center gap-2 bg-white rounded-2xl p-2 shadow-sm ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
-      <span {...attributes} {...listeners} className="px-1 text-2xl text-green-300 touch-none select-none cursor-grab" aria-label="drag">⋮⋮</span>
+      {canDrag ? <span {...attributes} {...listeners} className="px-1 text-2xl text-green-300 touch-none select-none cursor-grab" aria-label="drag">⋮⋮</span> : <span className="w-2" />}
       <Btn onClick={() => onToggle(item)} className="w-9 h-9 border-2 border-green-300 text-transparent hover:text-green-300" aria-label="bought">✓</Btn>
       <span className="text-2xl">{emoji(item.name)}</span>
       <span className="flex-1 font-semibold leading-tight">{dn(item.name)}</span>
@@ -170,18 +170,31 @@ function Home({ t, dash, onRestock }) {
 
 function ListTab({ t, brand, list, setList, refresh }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }), useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 8 } }));
-  const todo = list.items.filter((i) => !i.bought), done = list.items.filter((i) => i.bought);
+  const allTodo = list.items.filter((i) => !i.bought), allDone = list.items.filter((i) => i.bought);
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState("all");
+  const [cat, setCat] = useState("");
+  const catOf = (i) => CAT[i.name]?.category || "Other";
+  const cats = [...new Set(list.items.map(catOf))].sort();
+  const match = (i) => {
+    const s = q.trim().toLowerCase();
+    return (!s || i.name.toLowerCase().includes(s) || (CAT[i.name]?.ta || "").includes(q.trim()) || (CAT[i.name]?.aliases || []).some((a) => a.includes(s))) && (!cat || catOf(i) === cat);
+  };
+  const filtered = !!q.trim() || !!cat;
+  const todo = status === "bought" ? [] : allTodo.filter(match);
+  const done = status === "todo" ? [] : allDone.filter(match);
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
   const onDragEnd = async ({ active, over }) => {
     if (!over || active.id === over.id) return;
-    const ids = arrayMove(todo.map((i) => i.id), todo.findIndex((i) => i.id === active.id), todo.findIndex((i) => i.id === over.id));
-    setList({ ...list, items: [...ids.map((id) => todo.find((i) => i.id === id)), ...done] });
+    const ids = arrayMove(allTodo.map((i) => i.id), allTodo.findIndex((i) => i.id === active.id), allTodo.findIndex((i) => i.id === over.id));
+    setList({ ...list, items: [...ids.map((id) => allTodo.find((i) => i.id === id)), ...allDone] });
     await api("/api/provisions/list/order", "PUT", { ids }); refresh();
   };
   const qty = async (i, q) => { setList({ ...list, items: list.items.map((x) => (x.id === i.id ? { ...x, qty: q } : x)) }); await api(`/api/provisions/list/items/${i.id}`, "PATCH", { qty: q }); };
   const del = async (i) => setList(await api(`/api/provisions/list/items/${i.id}`, "DELETE"));
   const toggle = async (i) => { setList(await api(`/api/provisions/list/items/${i.id}/bought`, "POST", {})); refresh(); };
   const share = () => {
-    const lines = todo.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
+    const lines = allTodo.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
     const msg = `🛒 *${brand.name}*\n${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}\n\n${lines}\n\n_Sent via ${brand.name}_`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
   };
@@ -191,17 +204,36 @@ function ListTab({ t, brand, list, setList, refresh }) {
     <div className="space-y-3">
       {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
       {!list.items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.empty}</p>}
+      {!!list.items.length && (
+        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-green-50/95 backdrop-blur">
+          <div className="relative">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+            {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
+          </div>
+          <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
+            {[["all", `${t.allTab} (${list.items.length})`], ["todo", `${t.toBuyTab} (${allTodo.length})`], ["bought", `✓ ${t.bought} (${allDone.length})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={chip(status === k)}>{l}</button>)}
+          </div>
+          {cats.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
+              <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
+              {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{CAT_EMOJI[c] ?? "📦"} {c}</button>)}
+            </div>
+          )}
+        </div>
+      )}
+      {!!list.items.length && !todo.length && !done.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
+      {filtered && !!todo.length && <p className="text-xs text-gray-400">{t.dragHint}</p>}
       {!!todo.length && (
         <>
           <h2 className="font-bold">{t.toBuy} <span className="text-gray-400 text-sm">({todo.length})</span></h2>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
             <SortableContext items={todo.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-              <div className="space-y-2">{todo.map((i) => <Row key={i.id} item={i} t={t} onQty={qty} onDelete={del} onToggle={toggle} />)}</div>
+              <div className="space-y-2">{todo.map((i) => <Row key={i.id} item={i} t={t} canDrag={!filtered} onQty={qty} onDelete={del} onToggle={toggle} />)}</div>
             </SortableContext>
           </DndContext>
-          <Btn onClick={share} className="w-full py-4 bg-[#25D366] text-white text-lg shadow-md">💬 {t.send}</Btn>
-        </>
+          </>
       )}
+      {!!allTodo.length && <Btn onClick={share} className="w-full py-4 bg-[#25D366] text-white text-lg shadow-md">💬 {t.send}</Btn>}
       {!!done.length && (
         <>
           <h2 className="font-bold pt-2 text-gray-500">{t.bought} ({done.length})</h2>
