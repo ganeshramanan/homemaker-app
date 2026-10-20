@@ -671,24 +671,6 @@ function Sections({ t, lang, user, onUser }) {
   );
 }
 
-function ThemePicker({ t }) {
-  const [mode, setMode] = useState(getMode());
-  const pick = (m) => { saveMode(m); setMode(m); };
-  const opts = [["light", Sun, t.themeLight], ["dark", Moon, t.themeDark], ["system", Smartphone, t.themeAuto]];
-  return (
-    <div className="rounded-lg bg-surface p-4 border border-line">
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">{t.appearance}</p>
-      <div className="grid grid-cols-3 gap-1 rounded-lg bg-gray-100 p-1">
-        {opts.map(([k, Icon, label]) => (
-          <button key={k} onClick={() => pick(k)} aria-pressed={mode === k} className={`flex items-center justify-center gap-1.5 rounded-md py-2 text-sm font-medium ${mode === k ? "bg-surface shadow-sm text-gray-900" : "text-gray-500"}`}>
-            <Icon size={16} />{label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function More({ t, lang, user, onUser, view, setView, onLogout, extra = [], onOpen }) {
   if (view) return (
     <div className="space-y-3">
@@ -707,7 +689,6 @@ function More({ t, lang, user, onUser, view, setView, onLogout, extra = [], onOp
       <div className="rounded-lg bg-surface p-4 border border-line"><p className="font-bold text-lg text-gray-900">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
       {extra.length > 0 && <p className="pt-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{t.sections}</p>}
       {extra.map(([id, Icon, label]) => <Row2 key={id} Icon={Icon} label={label} onClick={() => onOpen(id)} />)}
-      <ThemePicker t={t} />
       <Row2 Icon={LayoutGrid} label={t.mySections} onClick={() => setView("sections")} />
       {user.role === "admin" && <Row2 Icon={ShieldCheck} label={t.adminUsers} onClick={() => setView("admin")} />}
       <Row2 Icon={LogOut} label={t.signOut} onClick={onLogout} danger />
