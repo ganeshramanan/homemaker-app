@@ -1,4 +1,5 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, Plus, ShieldCheck } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -170,40 +171,59 @@ function Home({ t, lang, user, inv, list, cal, onGo }) {
   const nowCount = todays.filter((o) => statusOf(o, today, nowM) === "now").length;
   const next = occ.find((o) => o.date > today);
 
-  const groceryLines = !total ? [t.listEmpty] : toBuy === 0 ? [t.allDone] : [fill(t.nToBuy, toBuy), ...(low.length ? [fill(t.nLow, low.length)] : [])];
-  const budgetLines = bs === null ? ["…"] : bs === false || (!bs.income && !bs.expense) ? [t.nothingYet] : bs.balance >= 0 ? [fill(t.leftN, inr(bs.balance)), `${b.expenses}: ${inr(bs.expense)}`] : [fill(t.overN, inr(-bs.balance)), `${b.income}: ${inr(bs.income)}`];
-  const calLines = !cal?.events ? ["…"] : todays.length ? [fill(t.nToday, todays.length), todays[0].title] : next ? [t.nothingPlanned, `${next.title} · ${dayLabel(next.date, today, c, lang)}`] : [t.nothingPlanned];
-
+  // Each tile: small uppercase label, one big figure, one line of detail (the MotoBill dashboard pattern).
+  const budgetOver = bs && bs.balance < 0;
   const tiles = [];
-  if (has("provisions")) tiles.push(
-    <Tile key="g" icon="🛒" title={t.groceries} lines={groceryLines} tone="bg-green-100" onClick={() => onGo("groceries", toBuy === 0 && low.length ? "low" : "list")}>
-      {total > 0 && <span className="mt-auto pt-2 block h-2"><span className="block h-1.5 rounded-full bg-white/70"><span className="block h-full rounded-full bg-brand transition-all" style={{ width: pct + "%" }} /></span></span>}
-    </Tile>);
-  if (has("budget")) tiles.push(<Tile key="b" icon="💰" title={b.title} lines={budgetLines} tone={bs && bs.balance < 0 ? "bg-red-100" : "bg-amber-100"} onClick={() => onGo("budget")} />);
-  if (has("calendar")) tiles.push(
-    <Tile key="c" icon="📅" title={c.title} lines={calLines} tone="bg-sky-100" onClick={() => onGo("calendar")}>
-      {nowCount > 0 && <span className="mt-1 inline-block self-start rounded-full bg-brand text-white text-xs font-bold px-2.5 py-0.5 animate-pulse">{c.now}</span>}
-    </Tile>);
-  if (has("diary")) tiles.push(<Tile key="d" icon="📔" title={DT[lang].title} lines={[DT[lang].tile]} tone="bg-rose-100" onClick={() => onGo("diary")} />);
+  if (has("provisions")) tiles.push({
+    key: "g", Icon: ShoppingCart, tint: "bg-emerald-50 text-emerald-700", label: t.groceries,
+    big: !total ? "—" : toBuy === 0 ? "0" : String(toBuy),
+    sub: !total ? t.listEmpty : toBuy === 0 ? t.allDone : `${t.toBuy}${low.length ? ` · ${fill(t.nLow, low.length)}` : ""}`,
+    bar: total ? pct : null, go: () => onGo("groceries", toBuy === 0 && low.length ? "low" : "list"),
+  });
+  if (has("budget")) tiles.push({
+    key: "b", Icon: Wallet, tint: budgetOver ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700", label: b.balance,
+    big: bs === null ? "…" : bs === false || (!bs.income && !bs.expense) ? "—" : inr(bs.balance),
+    sub: bs && (bs.income || bs.expense) ? (budgetOver ? t.overN.replace("{n}", inr(-bs.balance)) : `${b.expenses}: ${inr(bs.expense)}`) : t.nothingYet,
+    danger: budgetOver, go: () => onGo("budget"),
+  });
+  if (has("calendar")) tiles.push({
+    key: "c", Icon: CalendarDays, tint: "bg-sky-50 text-sky-700", label: c.title,
+    big: !cal?.events ? "…" : String(todays.length),
+    sub: !cal?.events ? "" : todays.length ? todays[0].title : next ? `${next.title} · ${dayLabel(next.date, today, c, lang)}` : t.nothingPlanned,
+    badge: nowCount > 0 ? c.now : null, go: () => onGo("calendar"),
+  });
+  if (has("diary")) tiles.push({ key: "d", Icon: BookOpen, tint: "bg-violet-50 text-violet-700", label: DT[lang].title, big: "", sub: DT[lang].tile, go: () => onGo("diary") });
 
   return (
-    <div className="space-y-5">
-      <section>
-        <h2 className="font-bold text-lg mb-2">{t.sections}</h2>
-        {!tiles.length ? (
-          <div className="rounded-3xl bg-white p-5 text-center shadow-sm space-y-3">
-            <p className="text-gray-500">{t.noneShown}</p>
-            <Btn onClick={() => onGo("more", null, "sections")} className="px-5 py-2.5 bg-brand text-white">{t.chooseSections}</Btn>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {tiles.map((el, i) => (i === tiles.length - 1 && tiles.length % 2 === 1 ? cloneElement(el, { className: "col-span-2" }) : el))}
-          </div>
-        )}
-      </section>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">{t.home}</h1>
+        <p className="text-sm text-gray-500">{longDate(today, lang)}</p>
+      </div>
+
+      {!tiles.length ? (
+        <div className="rounded-xl border border-line bg-white p-5 text-center space-y-3">
+          <p className="text-gray-500">{t.noneShown}</p>
+          <Btn onClick={() => onGo("more", null, "sections")} className="px-5 py-2.5 bg-brand text-white rounded-lg">{t.chooseSections}</Btn>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {tiles.map(({ key, Icon, tint, label, big, sub, bar, badge, danger, go }) => (
+            <button key={key} onClick={go} className="text-left rounded-xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:border-gray-300 active:bg-gray-50 transition flex flex-col min-h-[7.5rem]">
+              <span className="flex items-start justify-between gap-2">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 leading-tight">{label}</span>
+                <span className={`shrink-0 w-9 h-9 rounded-lg flex items-center justify-center ${tint}`}><Icon size={18} strokeWidth={2} /></span>
+              </span>
+              {big !== "" && <span className={`mt-2 text-2xl font-bold tracking-tight ${danger ? "text-red-600" : "text-gray-900"}`}>{big}</span>}
+              <span className="mt-1 text-xs text-gray-500 line-clamp-2">{sub}</span>
+              {badge && <span className="mt-1.5 self-start rounded-md bg-brand text-white text-[11px] font-semibold px-2 py-0.5">{badge}</span>}
+              {bar != null && <span className="mt-auto pt-3 block"><span className="block h-1.5 rounded-full bg-gray-100"><span className="block h-full rounded-full bg-brand transition-all" style={{ width: bar + "%" }} /></span></span>}
+            </button>
+          ))}
+        </div>
+      )}
 
       {cal && <CalendarCard lang={lang} cal={cal} onOpen={() => onGo("calendar")} />}
-
     </div>
   );
 }
@@ -1188,28 +1208,29 @@ function CalendarCard({ lang, cal, onOpen }) {
   const upcoming = occ.filter((o) => o.date > today);
   const label = (o) => { const st = statusOf(o, today, nowM); return st === "now" ? c.now : st === "soon" ? fmtTime(o.time) : o.time ? fmtTime(o.time) : c.allDay; };
   return (
-    <section className="rounded-3xl bg-white p-4 shadow-sm space-y-2">
+    <section className="rounded-xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] space-y-3">
       <button onClick={onOpen} className="w-full flex items-center justify-between text-left">
-        <h2 className="font-bold">📅 {c.today} · {longDate(today, lang)}</h2><span className="text-gray-300 text-xl">›</span>
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">{c.today} · {longDate(today, lang)}</span>
+        <ChevronRight size={18} className="text-gray-400" />
       </button>
       {!todays.length && <p className="text-sm text-gray-400">{c.nothingToday}</p>}
       {todays.map((o) => {
         const st = statusOf(o, today, nowM);
         return (
-          <button key={o.key} onClick={onOpen} className={`w-full flex items-center gap-3 rounded-2xl p-2.5 text-left ${st === "now" ? "bg-green-50 ring-2 ring-brand" : "bg-green-50/50"}`}>
-            <span className="text-2xl">{ECAT_ICON[o.category] ?? "📌"}</span>
-            <span className="flex-1 min-w-0 font-semibold truncate">{o.title}</span>
-            <span className={`text-xs font-bold rounded-full px-2.5 py-1 ${st === "now" ? "bg-brand text-white animate-pulse" : "bg-white text-gray-600"}`}>{label(o)}</span>
+          <button key={o.key} onClick={onOpen} className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-left border ${st === "now" ? "border-brand bg-emerald-50" : "border-line bg-gray-50"}`}>
+            <span className="shrink-0 w-8 h-8 rounded-md bg-white border border-line text-gray-600 flex items-center justify-center"><Bell size={16} /></span>
+            <span className="flex-1 min-w-0 text-sm font-semibold text-gray-900 truncate">{o.title}</span>
+            <span className={`text-xs font-semibold rounded-md px-2 py-0.5 ${st === "now" ? "bg-brand text-white" : "bg-white border border-line text-gray-600"}`}>{label(o)}</span>
           </button>
         );
       })}
-      <div className="pt-1">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">{c.upcoming}</p>
+      <div className="border-t border-line pt-3">
+        <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">{c.upcoming}</p>
         {!upcoming.length && <p className="text-sm text-gray-400">{c.nothingSoon}</p>}
         {upcoming.slice(0, 5).map((o) => (
-          <div key={o.key} className="flex items-center gap-2 py-1 text-sm">
-            <span>{ECAT_ICON[o.category] ?? "📌"}</span><span className="flex-1 truncate">{o.title}</span>
-            <span className="text-gray-400 text-xs shrink-0">{dayLabel(o.date, today, c, lang)}{o.time ? ` · ${fmtTime(o.time)}` : ""}</span>
+          <div key={o.key} className="flex items-center gap-2 py-1.5 text-sm">
+            <span className="flex-1 truncate text-gray-800">{o.title}</span>
+            <span className="text-gray-500 text-xs shrink-0">{dayLabel(o.date, today, c, lang)}{o.time ? ` · ${fmtTime(o.time)}` : ""}</span>
           </div>
         ))}
       </div>
@@ -1434,61 +1455,82 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
   const lowCount = inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).length;
   const go = (id, subTab, view) => { setTab(id); if (subTab) setSub(subTab); if (id === "more") setMoreView(view || null); window.scrollTo(0, 0); };
   const has = (m) => user.modules.includes(m);
-  const tabs = [["home", "🏠", t.home]];
-  if (has("provisions")) tabs.push(["groceries", "🛒", t.groceries]);
-  if (has("budget")) tabs.push(["budget", "💰", BT[lang].title]);
-  if (has("calendar")) tabs.push(["calendar", "📅", CT[lang].title]);
-  if (has("diary")) tabs.push(["diary", "📔", DT[lang].title]);
-  tabs.push(["more", "☰", t.more]);
+  const tabs = [["home", HomeIcon, t.home]];
+  if (has("provisions")) tabs.push(["groceries", ShoppingCart, t.groceries]);
+  if (has("budget")) tabs.push(["budget", Wallet, BT[lang].title]);
+  if (has("calendar")) tabs.push(["calendar", CalendarDays, CT[lang].title]);
+  if (has("diary")) tabs.push(["diary", BookOpen, DT[lang].title]);
+  tabs.push(["more", MenuIcon, t.more]);
   const tabIds = tabs.map(([id]) => id).join(",");
   useEffect(() => { if (!tabIds.split(",").includes(tab)) setTab("home"); }, [tabIds, tab]); // a section that was switched off must not stay open
 
-  const Tab = ({ id, icon, label }) => (
-    <button onClick={() => go(id, null, null)} className={`flex-1 min-w-0 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
-      <span className="text-xl leading-none">{icon}</span><span className="text-[11px] mt-0.5 max-w-full truncate px-0.5">{label}</span>
+  // Bottom bar on phones.
+  const Tab = ({ id, Icon, label }) => (
+    <button onClick={() => go(id, null, null)} className={`flex-1 min-w-0 flex flex-col items-center gap-0.5 py-2 ${tab === id ? "text-brand" : "text-gray-400"}`}>
+      <Icon size={22} strokeWidth={tab === id ? 2.4 : 1.8} />
+      <span className={`text-[11px] max-w-full truncate px-0.5 ${tab === id ? "font-semibold" : ""}`}>{label}</span>
+    </button>
+  );
+  // Sidebar on wide screens (the MotoBill layout).
+  const SideItem = ({ id, Icon, label }) => (
+    <button onClick={() => go(id, null, null)} className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-left ${tab === id ? "bg-brand/10 text-brand font-semibold" : "text-gray-600 hover:bg-gray-50"}`}>
+      <Icon size={19} strokeWidth={tab === id ? 2.3 : 1.8} />{label}
     </button>
   );
 
   return (
-    <div className={`min-h-screen max-w-xl mx-auto ${tab === "groceries" ? "pb-44" : "pb-28"} text-gray-800`}>
-      <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-page/90 backdrop-blur" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
-        <div><h1 className="text-xl font-extrabold text-brand leading-tight">{brand.name}</h1></div>
-        <LangToggle lang={lang} onLang={onLang} />
-      </header>
-      <main className="px-4 pt-2">
-        {user.isDemo && <p className="mb-3 rounded-xl bg-amber-50 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
-        {err && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-        {tab === "home" && <Home t={t} lang={lang} user={user} inv={inv} list={list} cal={hasCal ? cal : null} onGo={go} />}
-        {tab === "groceries" && (
-          <>
-            <div className="grid grid-cols-4 gap-1 rounded-2xl bg-green-100 p-1 mb-3">
-              {[["list", t.list], ["stock", t.stock], ["low", `🔴 ${t.lowTab} (${lowCount})`], ["history", t.history]].map(([k, l]) => (
-                <button key={k} onClick={() => setSub(k)} className={`rounded-xl py-2 px-1 text-sm font-semibold truncate ${sub === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
-              ))}
-            </div>
-            {sub === "list"
-              ? <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />
-              : sub === "low"
-                ? <RunningLow t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />
-                : sub === "history"
-                  ? <History t={t} brand={brand} onCopied={refresh} />
-                  : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
-          </>
-        )}
-        {tab === "budget" && <Budget t={t} lang={lang} />}
-        {tab === "calendar" && <Calendar lang={lang} cal={cal} />}
-        {tab === "diary" && <Diary lang={lang} />}
-        {tab === "more" && <More t={t} lang={lang} user={user} onUser={onUser} view={moreView} setView={setMoreView} onLogout={onLogout} />}
-      </main>
-      <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
+    <div className="min-h-screen bg-page text-gray-800">
+      <aside className="hidden lg:flex fixed inset-y-0 left-0 w-60 flex-col border-r border-line bg-white px-3 py-4 z-30">
+        <div className="flex items-center gap-2.5 px-2 pb-4">
+          <span className="w-9 h-9 rounded-lg bg-brand text-white flex items-center justify-center"><HomeIcon size={19} /></span>
+          <span className="leading-tight"><span className="block font-bold text-gray-900" translate="no">{brand.name}</span><span className="block text-[11px] text-gray-500 truncate">{brand.tagline}</span></span>
+        </div>
+        <div className="mx-1 mb-3 rounded-lg bg-gray-50 px-3 py-2"><p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p><p className="text-[11px] text-gray-500">{user.isDemo ? "Demo" : user.role === "admin" ? "Admin" : user.phone}</p></div>
+        <nav className="space-y-1 flex-1">{tabs.map(([id, Icon, label]) => <SideItem key={id} id={id} Icon={Icon} label={label} />)}</nav>
+        <button onClick={onLogout} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50"><LogOut size={19} strokeWidth={1.8} />{t.signOut}</button>
+      </aside>
+
+      <div className="lg:pl-60">
+        <header className="sticky top-0 z-20 flex items-center justify-between px-4 lg:px-8 py-3 bg-white/90 backdrop-blur border-b border-line" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
+          <h1 className="lg:invisible font-bold text-gray-900" translate="no">{brand.name}</h1>
+          <LangToggle lang={lang} onLang={onLang} />
+        </header>
+        <main className={`max-w-5xl mx-auto px-4 lg:px-8 pt-5 ${tab === "groceries" ? "pb-44" : "pb-28"} lg:pb-10`}>
+          {user.isDemo && <p className="mb-3 rounded-lg bg-amber-50 border border-amber-200 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
+          {err && <p className="mb-3 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">{err}</p>}
+          {tab === "home" && <Home t={t} lang={lang} user={user} inv={inv} list={list} cal={hasCal ? cal : null} onGo={go} />}
+          {tab === "groceries" && (
+            <>
+              <div className="grid grid-cols-4 gap-1 rounded-lg bg-gray-100 p-1 mb-4">
+                {[["list", t.list], ["stock", t.stock], ["low", `${t.lowTab}${lowCount ? ` (${lowCount})` : ""}`], ["history", t.history]].map(([k, l]) => (
+                  <button key={k} onClick={() => setSub(k)} className={`rounded-md py-2 px-1 text-sm font-medium truncate ${sub === k ? "bg-white shadow-sm text-gray-900" : "text-gray-500"}`}>{l}</button>
+                ))}
+              </div>
+              {sub === "list"
+                ? <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />
+                : sub === "low"
+                  ? <RunningLow t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />
+                  : sub === "history"
+                    ? <History t={t} brand={brand} onCopied={refresh} />
+                    : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
+            </>
+          )}
+          {tab === "budget" && <Budget t={t} lang={lang} />}
+          {tab === "calendar" && <Calendar lang={lang} cal={cal} />}
+          {tab === "diary" && <Diary lang={lang} />}
+          {tab === "more" && <More t={t} lang={lang} user={user} onUser={onUser} view={moreView} setView={setMoreView} onLogout={onLogout} />}
+        </main>
+      </div>
+
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-line" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="max-w-xl mx-auto flex items-end">
-          {tabs.map(([id, icon, label]) => <Tab key={id} id={id} icon={icon} label={label} />)}
+          {tabs.map(([id, Icon, label]) => <Tab key={id} id={id} Icon={Icon} label={label} />)}
         </div>
       </nav>
       {tab === "groceries" && sub !== "history" && (
-        <div className="fixed inset-x-0 bottom-20 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
-          <div className="max-w-xl mx-auto px-4 flex justify-end">
-            <Btn onClick={() => setMic(true)} className="pointer-events-auto w-14 h-14 rounded-full bg-brand text-white text-3xl font-light shadow-xl" aria-label="add">＋</Btn>
+        <div className="fixed inset-x-0 bottom-20 lg:bottom-6 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
+          <div className="max-w-5xl mx-auto px-4 lg:px-8 flex justify-end lg:pl-60">
+            <Btn onClick={() => setMic(true)} className="pointer-events-auto h-12 px-4 rounded-full bg-brand text-white shadow-lg flex items-center gap-1.5 font-semibold text-sm" aria-label="add"><Plus size={20} />{t.addItem}</Btn>
           </div>
         </div>
       )}
