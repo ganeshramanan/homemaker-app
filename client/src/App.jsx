@@ -39,6 +39,19 @@ const catIcon = (c) => CAT_ICON[c] || Package;
 function IconBox({ Icon, size = 18, className = "bg-gray-100 text-gray-600" }) {
   return <span className={`shrink-0 w-9 h-9 rounded-lg flex items-center justify-center ${className}`}><Icon size={size} strokeWidth={2} /></span>;
 }
+function SkeletonRows({ n = 4 }) {
+  return (
+    <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden" aria-busy="true" aria-label="loading">
+      {Array.from({ length: n }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3 px-3.5 py-3">
+          <span className="skeleton w-9 h-9 rounded-lg shrink-0" />
+          <span className="flex-1 space-y-2"><span className="skeleton block h-3 w-1/3" /><span className="skeleton block h-3.5 w-2/3" /></span>
+          <span className="skeleton w-14 h-4" />
+        </div>
+      ))}
+    </div>
+  );
+}
 const itemCat = (name, category) => category || CAT[name]?.category || "Other";
 const dn = (n) => (LANG === "ta" && CAT[n]?.ta) || n;
 const UNITS = ["kg", "g", "L", "ml", "pcs", "pack", "dozen"];
@@ -486,7 +499,7 @@ function NextSheet({ t, onClose, onDone }) {
       <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl max-h-[88vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
         <div className="p-4 pb-2"><h3 className="font-bold text-lg">{t.nextTitle}</h3><p className="text-sm text-gray-500">{t.nextNote}</p></div>
         <div className="flex-1 overflow-auto px-4 space-y-1.5">
-          {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
+          {rows === null && <SkeletonRows n={4} />}
           {(rows || []).map((r) => {
             const on = !off.has(r.name);
             return (
@@ -542,11 +555,11 @@ function History({ t, brand, onCopied }) {
   }
   return (
     <div className="space-y-2">
-      {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
+      {rows === null && <SkeletonRows n={4} />}
       {rows?.length === 0 && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.historyEmpty}</p>}
       {rows?.map((h) => (
         <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-3.5 border border-line text-left active:scale-[.99]">
-          <span className="text-2xl">🗓️</span>
+          <IconBox Icon={CalendarDays} />
           <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {h.count === 1 ? t.item : t.items} · {h.bought} {t.boughtOf}</span></span>
           <span className="text-gray-300 text-xl">›</span>
         </button>
@@ -615,7 +628,7 @@ function Admin({ t, lang }) {
     setData((d) => ({ ...d, users: d.users.map((x) => (x.id === u.id ? { ...x, modules: next.join(",") } : x)) }));
     send(() => api(`/api/admin/users/${u.id}`, "PATCH", { modules: next }));
   };
-  if (!data) return err ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p> : <p className="text-center text-gray-400 py-6">…</p>;
+  if (!data) return err ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p> : <SkeletonRows n={3} />;
   return <AdminView t={t} lang={lang} data={data} err={err} onSet={onSet} onDel={onDel} onToggleMod={onToggleMod} />;
 }
 
@@ -1028,21 +1041,28 @@ function Budget({ t, lang, signal }) {
     return { inc, exp, income, expense, paid, balance: income - expense, slices };
   }, [rows]);
 
-  const Entry = ({ e }) => (
-    <div className={`flex items-center gap-2 rounded-lg bg-surface p-2.5 border border-line ${e.id < 0 ? "opacity-60" : ""}`}>
-      {e.type === "expense" ? (
-        <button onClick={() => togglePaid(e)} aria-label="paid" className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm ${e.paid ? "bg-brand text-white" : "border-2 border-gray-300 text-transparent"}`}>✓</button>
-      ) : <span className="w-7 shrink-0" />}
-      <button onClick={() => e.id > 0 && setSheet(e)} className="flex-1 min-w-0 flex items-center gap-2 text-left">
-        <IconBox Icon={bIcon(e.category)} />
-        <span className="min-w-0">
-          <span className="block font-semibold truncate">{e.title === e.category ? bcat(e.category, lang) : e.title}</span>
-          <span className="block text-xs text-gray-400 truncate">{bcat(e.category, lang)}{e.type === "expense" && !e.paid ? ` · ${b.pending}` : ""}</span>
+  const Entry = ({ e }) => {
+    const isInc = e.type === "income";
+    return (
+      <div className={`flex items-center gap-3 px-3.5 py-3 ${e.id < 0 ? "opacity-60" : ""}`}>
+        <button onClick={() => e.id > 0 && setSheet(e)} className="flex-1 min-w-0 flex items-center gap-3 text-left">
+          <IconBox Icon={isInc ? ArrowDownLeft : bIcon(e.category)} className={isInc ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-600"} />
+          <span className="min-w-0">
+            <span className="block text-[11px] text-gray-500 truncate">{bcat(e.category, lang)}</span>
+            <span className="block font-semibold text-gray-900 truncate">{e.title === e.category ? bcat(e.category, lang) : e.title}</span>
+          </span>
+        </button>
+        <span className="shrink-0 text-right">
+          <span className={`block font-bold ${isInc ? "text-green-700" : "text-gray-900"}`}>{isInc ? "+" : ""}{inr(e.amount)}</span>
+          {isInc ? <span className="block text-[11px] text-gray-400">{b.income}</span> : (
+            <button onClick={() => togglePaid(e)} aria-label="paid" className={`mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium ${e.paid ? "text-green-700" : "text-amber-600"}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${e.paid ? "bg-green-600" : "bg-amber-500"}`} />{e.paid ? b.paid : b.pending}
+            </button>
+          )}
         </span>
-      </button>
-      <span className={`font-bold ${e.type === "income" ? "text-green-700" : "text-gray-800"}`}>{e.type === "income" ? "+" : ""}{inr(e.amount)}</span>
-    </div>
-  );
+      </div>
+    );
+  };
 
   const savedPct = data.income > 0 ? Math.round((data.balance / data.income) * 100) : null;
   return (
@@ -1053,7 +1073,7 @@ function Budget({ t, lang, signal }) {
         <Btn onClick={() => setMonth(shiftMonth(month, 1))} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
       </div>
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-      {rows === null ? <p className="text-center text-gray-400 py-6">…</p> : (
+      {rows === null ? <div className="space-y-4"><div className="grid grid-cols-3 gap-2"><span className="skeleton h-16" /><span className="skeleton h-16" /><span className="skeleton h-16" /></div><span className="skeleton block h-40" /><SkeletonRows n={3} /></div> : (
         <>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-lg bg-gray-100 p-3"><p className="text-xs text-gray-700">{b.income}</p><p className="font-extrabold text-gray-900 text-sm sm:text-base">{inr(data.income)}</p></div>
@@ -1092,15 +1112,15 @@ function Budget({ t, lang, signal }) {
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="font-bold">💰 {b.income}</h2>
               <Btn onClick={() => setSheet({ type: "income" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addIncome}</Btn></div>
-            {!data.inc.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
-            {data.inc.map((e) => <Entry key={e.id} e={e} />)}
+            {!data.inc.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
+            {!!data.inc.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.inc.map((e) => <Entry key={e.id} e={e} />)}</div>}
           </section>
 
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="font-bold">🧾 {b.expenses}</h2>
               <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addExpense}</Btn></div>
-            {!data.exp.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
-            {data.exp.map((e) => <Entry key={e.id} e={e} />)}
+            {!data.exp.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
+            {!!data.exp.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.exp.map((e) => <Entry key={e.id} e={e} />)}</div>}
           </section>
 
           {note && <p className="rounded-xl bg-gray-100 p-2.5 text-center text-sm text-gray-700">{note}</p>}
@@ -1272,7 +1292,7 @@ function Calendar({ lang, cal, signal }) {
         <h2 className="font-bold">{dayLabel(sel, today, c, lang)}</h2>
         <Btn onClick={() => setSheet({ date: sel })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {c.addEvent}</Btn>
       </div>
-      {events === null && <p className="text-center text-gray-400 py-4">…</p>}
+      {events === null && <SkeletonRows n={2} />}
       {events && !dayEvents.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
       <div className="space-y-2">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>
       {sheet && <EventSheet key={sheet.id || "new"} c={c} lang={lang} initial={sheet} onSave={saveSheet} onDelete={delSheet} onClose={() => setSheet(null)} />}
@@ -1386,7 +1406,7 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
     try { await api(`/api/diary/entries/${date}`, "DELETE"); onChanged?.(); onBack?.(); } catch { setState("failed"); }
   };
 
-  if (text === null) return <p className="text-center text-gray-400 py-8">…</p>;
+  if (text === null) return <div className="space-y-3"><span className="skeleton block h-10 w-2/3" /><span className="skeleton block h-12" /><span className="skeleton block h-64" /></div>;
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   return (
     <div className="space-y-3">
@@ -1472,16 +1492,29 @@ function Diary({ lang, signal }) {
           <Btn onClick={() => go(1)} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
         </div>
       )}
-      {list === null && <p className="text-center text-gray-400 py-4">…</p>}
+      {list === null && <SkeletonRows n={4} />}
       {list && !list.length && <p className="rounded-lg bg-surface p-5 text-center text-gray-400">{hits ? d.searchEmpty : d.noEntries}</p>}
-      <div className="space-y-2">
-        {(list || []).map((e) => (
-          <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-lg bg-surface p-3.5 text-left border border-line active:scale-[.99]">
-            <p className="flex items-center gap-2 text-sm font-bold text-brand"><span>{shortDay(e.date, lang)}{hits ? ` · ${parseYmd(e.date).y}` : ""}</span><span className="font-normal text-gray-500">{moodLabel(e.mood, lang)}</span></p>
-            <p className="mt-0.5 text-gray-700 text-sm whitespace-pre-wrap">{preview(e.text) || "…"}</p>
-          </button>
-        ))}
-      </div>
+      {!!(list || []).length && (
+        <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">
+          {(list || []).map((e) => {
+            const { d: dd } = parseYmd(e.date), wd = shortDay(e.date, lang).split(" ")[0];
+            return (
+              <button key={e.id} onClick={() => setOpen(e.date)} className="w-full flex items-start gap-3 px-3.5 py-3 text-left active:bg-gray-50">
+                <span className="shrink-0 w-11 rounded-lg bg-gray-100 py-1.5 text-center leading-none">
+                  <span className="block text-[10px] font-semibold uppercase text-gray-500">{wd.replace(",", "")}</span>
+                  <span className="block mt-0.5 text-lg font-bold text-gray-900">{dd}</span>
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-2 text-[11px] text-gray-500">
+                    {hits ? parseYmd(e.date).y : monthTitle(ym.y, ym.m, lang)}{e.mood ? <span className="rounded-full bg-gray-100 px-2 py-0.5 text-gray-600">{moodLabel(e.mood, lang)}</span> : null}
+                  </span>
+                  <span className="mt-0.5 block text-sm text-gray-800 line-clamp-2 whitespace-pre-wrap">{preview(e.text) || "…"}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
