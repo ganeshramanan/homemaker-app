@@ -20,12 +20,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", goodMorning: "Good morning", goodAfternoon: "Good afternoon", goodEvening: "Good evening", heroBalance: "Balance this month", heroToBuy: "Items to buy", quickAdd: "Quick add", qaItem: "Grocery item", qaExpense: "Expense", qaIncome: "Income", qaEvent: "Event", qaDiary: "Diary note", appearance: "Appearance", themeLight: "Light", themeDark: "Dark", themeAuto: "Phone", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", goodMorning: "Good morning", goodAfternoon: "Good afternoon", goodEvening: "Good evening", heroBalance: "Balance this month", heroToBuy: "Items to buy", quickAdd: "Quick add", qaItem: "Grocery item", qaExpense: "Expense", qaIncome: "Income", qaEvent: "Event", qaDiary: "Diary note", appearance: "Appearance", themeLight: "Light", themeDark: "Dark", themeAuto: "Phone", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", goodMorning: "காலை வணக்கம்", goodAfternoon: "மதிய வணக்கம்", goodEvening: "மாலை வணக்கம்", heroBalance: "இந்த மாத மீதம்", heroToBuy: "வாங்க வேண்டியவை", quickAdd: "விரைவு சேர்", qaItem: "மளிகைப் பொருள்", qaExpense: "செலவு", qaIncome: "வருமானம்", qaEvent: "நிகழ்வு", qaDiary: "டைரி குறிப்பு", appearance: "தோற்றம்", themeLight: "வெளிர்", themeDark: "இருண்ட", themeAuto: "போன்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", goodMorning: "காலை வணக்கம்", goodAfternoon: "மதிய வணக்கம்", goodEvening: "மாலை வணக்கம்", heroBalance: "இந்த மாத மீதம்", heroToBuy: "வாங்க வேண்டியவை", quickAdd: "விரைவு சேர்", qaItem: "மளிகைப் பொருள்", qaExpense: "செலவு", qaIncome: "வருமானம்", qaEvent: "நிகழ்வு", qaDiary: "டைரி குறிப்பு", appearance: "தோற்றம்", themeLight: "வெளிர்", themeDark: "இருண்ட", themeAuto: "போன்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -715,34 +715,35 @@ function More({ t, lang, user, onUser, view, setView, onLogout, extra = [], onOp
 // ---------- landing page + sign in / sign up / demo ----------
 const FEATURES = {
   en: [
-    ["🛒", "Groceries", "Make the monthly list from 275+ everyday items, send it to your shop on WhatsApp, and keep track of what is left at home."],
-    ["💰", "Budget", "Add all your income and expenses, see where the money goes in a pie chart, and copy last month in one tap."],
-    ["📅", "Calendar", "Save birthdays, bill dues and appointments. What is on today shows on your home screen and lights up when the time arrives."],
-    ["🧩", "Only what you need", "Choose which sections you want to see. Your admin can switch sections on or off for each person."],
-    ["🌐", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
-    ["📔", "Daily diary", "Write about your day and read it back any time, by date, by month or with search. Private to your account."],
+    ["ShoppingCart", "Groceries", "Make the monthly list from 275+ everyday items, send it to your shop on WhatsApp, and keep track of what is left at home."],
+    ["Wallet", "Budget", "Add all your income and expenses, see where the money goes in a pie chart, and copy last month in one tap."],
+    ["CalendarDays", "Calendar", "Save birthdays, bill dues and appointments. What is on today shows on your home screen and lights up when the time arrives."],
+    ["LayoutGrid", "Only what you need", "Choose which sections you want to see. Your admin can switch sections on or off for each person."],
+    ["Smartphone", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
+    ["BookOpen", "Daily diary", "Write about your day and read it back any time, by date, by month or with search. Private to your account."],
   ],
   ta: [
-    ["🛒", "மளிகை", "275+ அன்றாடப் பொருட்களிலிருந்து மாத பட்டியலைத் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்பதையும் கண்காணியுங்கள்."],
-    ["💰", "பட்ஜெட்", "எல்லா வருமானம் மற்றும் செலவுகளையும் சேர்க்கவும். பணம் எங்கே போகிறது என்பதை வட்ட வரைபடத்தில் பார்க்கவும். கடந்த மாதத்தை ஒரே தட்டலில் நகலெடுக்கவும்."],
-    ["📅", "நாட்காட்டி", "பிறந்தநாள், பில் தேதி, சந்திப்புகளை சேமிக்கவும். இன்றைய நிகழ்வுகள் முகப்பில் தெரியும்; நேரம் வந்ததும் ‘இப்போது’ என்று ஒளிரும்."],
-    ["🧩", "உங்களுக்குத் தேவையானது மட்டும்", "எந்த பிரிவுகளைப் பார்க்க வேண்டும் என்பதை நீங்களே தேர்ந்தெடுக்கலாம். ஒவ்வொருவருக்கும் பிரிவுகளை நிர்வாகி இயக்கவோ முடக்கவோ முடியும்."],
-    ["🌐", "தமிழ் மற்றும் ஆங்கிலம்", "எப்போது வேண்டுமானாலும் மொழியை மாற்றலாம். பொருட்களின் பெயர்கள் தமிழிலும் தெரியும்."],
-    ["📔", "தினசரி டைரி", "உங்கள் நாளைப் பற்றி எழுதுங்கள்; தேதி, மாதம் அல்லது தேடல் மூலம் எப்போது வேண்டுமானாலும் படியுங்கள். உங்கள் கணக்கிற்கு மட்டும்."],
+    ["ShoppingCart", "மளிகை", "275+ அன்றாடப் பொருட்களிலிருந்து மாத பட்டியலைத் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்பதையும் கண்காணியுங்கள்."],
+    ["Wallet", "பட்ஜெட்", "எல்லா வருமானம் மற்றும் செலவுகளையும் சேர்க்கவும். பணம் எங்கே போகிறது என்பதை வட்ட வரைபடத்தில் பார்க்கவும். கடந்த மாதத்தை ஒரே தட்டலில் நகலெடுக்கவும்."],
+    ["CalendarDays", "நாட்காட்டி", "பிறந்தநாள், பில் தேதி, சந்திப்புகளை சேமிக்கவும். இன்றைய நிகழ்வுகள் முகப்பில் தெரியும்; நேரம் வந்ததும் ‘இப்போது’ என்று ஒளிரும்."],
+    ["LayoutGrid", "உங்களுக்குத் தேவையானது மட்டும்", "எந்த பிரிவுகளைப் பார்க்க வேண்டும் என்பதை நீங்களே தேர்ந்தெடுக்கலாம். ஒவ்வொருவருக்கும் பிரிவுகளை நிர்வாகி இயக்கவோ முடக்கவோ முடியும்."],
+    ["Smartphone", "தமிழ் மற்றும் ஆங்கிலம்", "எப்போது வேண்டுமானாலும் மொழியை மாற்றலாம். பொருட்களின் பெயர்கள் தமிழிலும் தெரியும்."],
+    ["BookOpen", "தினசரி டைரி", "உங்கள் நாளைப் பற்றி எழுதுங்கள்; தேதி, மாதம் அல்லது தேடல் மூலம் எப்போது வேண்டுமானாலும் படியுங்கள். உங்கள் கணக்கிற்கு மட்டும்."],
   ],
 };
+const FEATURE_ICON = { ShoppingCart, Wallet, CalendarDays, LayoutGrid, Smartphone, BookOpen };
 const STEPS = {
   en: [["1", "Create your account", "Sign up, or try the demo first"], ["2", "Pick your sections", "Groceries, Budget, Calendar, Diary"], ["3", "Run your home", "Everything on one dashboard"]],
   ta: [["1", "கணக்கை உருவாக்குங்கள்", "பதிவு செய்யுங்கள் அல்லது முதலில் டெமோ பாருங்கள்"], ["2", "பிரிவுகளைத் தேர்ந்தெடுங்கள்", "மளிகை, பட்ஜெட், நாட்காட்டி, டைரி"], ["3", "இல்லத்தை நிர்வகியுங்கள்", "எல்லாம் ஒரே முகப்பில்"]],
 };
 // The phone mock-up on the landing page: a dashboard tile for each section.
 const MOCK_TILES = {
-  en: [["🛒", "Groceries", "3 to buy", "bg-gray-100"], ["💰", "Budget", "₹21,000 left", "bg-amber-100"], ["📅", "Calendar", "2 today", "bg-sky-100"]],
-  ta: [["🛒", "மளிகை", "3 வாங்க", "bg-gray-100"], ["💰", "பட்ஜெட்", "₹21,000", "bg-amber-100"], ["📅", "நாட்காட்டி", "இன்று 2", "bg-sky-100"]],
+  en: [["ShoppingCart", "Groceries", "3", "bg-emerald-50 text-emerald-700"], ["Wallet", "Balance", "₹21,000", "bg-amber-50 text-amber-700"], ["CalendarDays", "Calendar", "2", "bg-sky-50 text-sky-700"]],
+  ta: [["ShoppingCart", "மளிகை", "3", "bg-emerald-50 text-emerald-700"], ["Wallet", "மீதம்", "₹21,000", "bg-amber-50 text-amber-700"], ["CalendarDays", "நாட்காட்டி", "2", "bg-sky-50 text-sky-700"]],
 };
 const MOCK_EVENTS = {
-  en: [["🎂", "Amma's birthday", "All day"], ["🩺", "Doctor visit", "6:30 PM"]],
-  ta: [["🎂", "அம்மா பிறந்தநாள்", "முழுநாள்"], ["🩺", "மருத்துவர்", "6:30 PM"]],
+  en: [["Amma's birthday", "All day"], ["Doctor visit", "6:30 PM"]],
+  ta: [["அம்மா பிறந்தநாள்", "முழுநாள்"], ["மருத்துவர்", "6:30 PM"]],
 };
 
 function LangToggle({ lang, onLang, className = "" }) {
@@ -820,9 +821,9 @@ function Landing({ brand, lang, onLang, onUser }) {
   const demo = async () => { setErr(""); setBusy(true); try { onUser((await api("/api/auth/demo", "POST")).user); } catch (e) { setErr(e.message); setBusy(false); } };
   return (
     <div className="min-h-screen bg-page text-gray-800">
-      <header className="sticky top-0 z-20 bg-page/90 backdrop-blur">
+      <header className="sticky top-0 z-20 bg-surface/90 backdrop-blur border-b border-line">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 px-4 py-3">
-          <span className="text-xl font-extrabold text-brand truncate" translate="no">🏡 {brand.name}</span>
+          <span className="flex items-center gap-2 min-w-0" translate="no"><span className="shrink-0 w-8 h-8 rounded-lg bg-brand text-white flex items-center justify-center"><HomeIcon size={18} /></span><span className="text-lg font-bold text-gray-900 truncate">{brand.name}</span></span>
           <div className="flex items-center gap-2">
             <LangToggle lang={lang} onLang={onLang} />
             <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-gray-300 bg-surface text-sm">{t.signIn}</Btn>
@@ -833,35 +834,39 @@ function Landing({ brand, lang, onLang, onUser }) {
 
       <section className="max-w-5xl mx-auto px-4 pt-8 pb-12 grid md:grid-cols-2 gap-8 items-center">
         <div className="text-center md:text-left">
-          <span className="inline-block rounded-full bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 mb-4">{t.heroBadge}</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900">{t.heroA}<span className="text-brand">{t.heroB}</span></h1>
+          <span className="inline-block rounded-full bg-brand/10 text-brand text-xs font-semibold px-3 py-1 mb-4">{t.heroBadge}</span>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-gray-900">{t.heroA}<span className="text-brand">{t.heroB}</span></h1>
           <p className="mt-4 text-lg text-gray-600">{t.heroText}</p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-            <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-lg shadow-lg">{t.createAcct}</Btn>
-            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-surface border-2 border-brand text-brand text-lg disabled:opacity-50">{busy ? t.loading : t.tryDemo}</Btn>
+            <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-base shadow-[0_8px_20px_-8px_rgba(22,101,52,0.8)]">{t.createAcct}</Btn>
+            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-surface border border-gray-300 text-gray-800 text-base disabled:opacity-50">{busy ? t.loading : t.tryDemo}</Btn>
           </div>
           {err && <p className="mt-3 text-sm text-red-600">{err}</p>}
           <p className="mt-3 text-sm text-gray-500">{t.already} <button onClick={() => setSheet("login")} className="font-bold text-brand underline">{t.signIn}</button></p>
         </div>
 
         <div className="mx-auto w-full max-w-xs" aria-hidden="true">
-          <div className="rounded-[2rem] bg-surface p-4 shadow-2xl border-4 border-green-900/10" translate="no">
-            <p className="font-bold text-brand mb-2">{brand.name}</p>
-            <div className="grid grid-cols-3 gap-2">
-              {MOCK_TILES[lang].map(([e, title, line, tone]) => (
-                <div key={title} className={`${tone} rounded-lg p-2.5 min-h-[6.5rem] flex flex-col`}>
-                  <div className="text-2xl leading-none">{e}</div>
-                  <div className="mt-auto pt-2 font-bold text-xs leading-tight text-gray-900">{title}</div>
-                  <div className="text-[11px] leading-tight text-gray-600">{line}</div>
-                </div>
-              ))}
+          <div className="rounded-[2rem] bg-page p-3 shadow-2xl border border-line" translate="no">
+            <div className="rounded-2xl bg-brand text-white p-4">
+              <p className="text-xs text-white/80">{t.goodMorning}</p>
+              <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-white/70">{t.heroBalance}</p>
+              <p className="text-2xl font-bold tracking-tight">₹21,000</p>
             </div>
-            <div className="mt-3 rounded-lg bg-gray-50 p-2.5 space-y-1.5">
-              {MOCK_EVENTS[lang].map(([e, title, when], i) => (
-                <div key={title} className={`flex items-center gap-2 rounded-xl bg-surface px-2.5 h-11 ${i === 1 ? "ring-2 ring-brand" : ""}`}>
-                  <span className="text-xl shrink-0">{e}</span>
-                  <span className="flex-1 min-w-0 text-sm font-semibold truncate">{title}</span>
-                  <span className={`shrink-0 whitespace-nowrap text-[11px] font-bold rounded-full px-2 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-gray-50 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {MOCK_TILES[lang].map(([ic, title, big, tint]) => { const I = FEATURE_ICON[ic]; return (
+                <div key={title} className="rounded-xl border border-line bg-surface p-2.5 min-h-[5.5rem] flex flex-col">
+                  <span className={`w-7 h-7 rounded-md flex items-center justify-center ${tint}`}><I size={15} /></span>
+                  <span className="mt-auto text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-tight pt-2">{title}</span>
+                  <span className="text-base font-bold text-gray-900 leading-tight">{big}</span>
+                </div>
+              ); })}
+            </div>
+            <div className="mt-3 rounded-xl border border-line bg-surface divide-y divide-line overflow-hidden">
+              {MOCK_EVENTS[lang].map(([title, when], i) => (
+                <div key={title} className="flex items-center gap-2 px-2.5 h-11">
+                  <span className="shrink-0 w-7 h-7 rounded-md bg-gray-100 text-gray-600 flex items-center justify-center"><Bell size={14} /></span>
+                  <span className="flex-1 min-w-0 text-xs font-semibold text-gray-900 truncate">{title}</span>
+                  <span className={`shrink-0 whitespace-nowrap text-[10px] font-semibold rounded-md px-1.5 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-gray-100 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
                 </div>
               ))}
             </div>
@@ -871,17 +876,17 @@ function Landing({ brand, lang, onLang, onUser }) {
 
       <section className="bg-surface py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gray-900">{t.featTitle}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center text-gray-900">{t.featTitle}</h2>
           <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {FEATURES[lang].map(([i, h, d]) => (
-              <div key={h} className="rounded-xl bg-gray-50 p-5"><div className="text-3xl mb-2">{i}</div><h3 className="font-bold text-lg">{h}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
+              <div key={h} className="rounded-xl bg-gray-50 border border-line p-5">{(() => { const I = FEATURE_ICON[i] || BookOpen; return <span className="w-10 h-10 rounded-lg bg-brand/10 text-brand flex items-center justify-center mb-3"><I size={20} /></span>; })()}<h3 className="font-semibold text-base text-gray-900">{h}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
             ))}
           </div>
         </div>
       </section>
 
       <section className="max-w-5xl mx-auto px-4 py-12">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gray-900">{t.howTitle}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center text-gray-900">{t.howTitle}</h2>
         <div className="mt-8 grid sm:grid-cols-3 gap-4">
           {STEPS[lang].map(([n, h, d]) => (
             <div key={n} className="rounded-xl bg-surface p-5 text-center border border-line"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{h}</h3><p className="text-sm text-gray-500">{d}</p></div>
@@ -890,11 +895,11 @@ function Landing({ brand, lang, onLang, onUser }) {
         <p className="mt-8 text-center text-sm text-gray-500">{t.soon}</p>
       </section>
 
-      <section className="bg-gradient-to-br from-green-600 to-green-800 text-white py-12 text-center px-4">
+      <section className="bg-brand text-white py-14 text-center px-4">
         <h2 className="text-2xl md:text-3xl font-extrabold">{t.ctaTitle}</h2>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-surface text-gray-700 text-lg">{t.createAcct}</Btn>
-          <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border-2 border-white text-white text-lg disabled:opacity-50">{t.tryDemo}</Btn>
+          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-brand text-base">{t.createAcct}</Btn>
+          <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border border-white/70 text-white text-base disabled:opacity-50">{t.tryDemo}</Btn>
         </div>
       </section>
       <footer className="text-center text-xs text-gray-400 py-6">© {new Date().getFullYear()} {brand.name}</footer>
