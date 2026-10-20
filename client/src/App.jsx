@@ -47,12 +47,14 @@ const fmt = (n) => (Math.round(n * 100) / 100).toString();
 // ---------- small pieces ----------
 const Btn = ({ className = "", ...p }) => <button {...p} className={`active:scale-95 transition rounded-lg font-semibold ${className}`} />;
 const Stepper = ({ value, unit, onChange }) => (
-  <div className="flex items-center gap-1">
-    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
-    <input key={value} type="number" inputMode="decimal" defaultValue={fmt(value)} onBlur={(e) => { const v = +e.target.value; if (v > 0 && v !== value) onChange(v); }}
-      className="w-12 text-center text-sm font-bold bg-transparent outline-none" />
-    <span className="text-xs text-gray-500 -ml-1 w-7">{unit}</span>
-    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
+  <div className="shrink-0 flex items-center gap-0.5">
+    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
+    <span className="w-[4.25rem] flex items-baseline justify-center gap-0.5">
+      <input key={value} type="number" inputMode="decimal" defaultValue={fmt(value)} onBlur={(e) => { const v = +e.target.value; if (v > 0 && v !== value) onChange(v); }}
+        className="w-9 min-w-0 text-right text-sm font-bold bg-transparent outline-none" />
+      <span className="text-[11px] text-gray-500 w-6 text-left truncate">{unit}</span>
+    </span>
+    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
   </div>
 );
 
@@ -60,13 +62,12 @@ function Row({ item, t, canDrag, onQty, onDelete, onToggle }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag });
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 10 : 0 }}
-      className={`flex items-center gap-2 bg-white rounded-lg p-2 border border-line ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
-      {canDrag ? <span {...attributes} {...listeners} className="px-0.5 text-gray-300 touch-none select-none cursor-grab flex items-center" aria-label="drag"><GripVertical size={18} /></span> : <span className="w-2" />}
-      <Btn onClick={() => onToggle(item)} className="w-7 h-7 rounded-md border-2 border-gray-300 text-transparent hover:text-gray-400 flex items-center justify-center" aria-label="bought"><Check size={16} strokeWidth={3} /></Btn>
-      <IconBox Icon={catIcon(itemCat(item.name))} />
-      <span className="flex-1 font-semibold leading-tight">{dn(item.name)}</span>
+      className={`flex items-center gap-2 bg-white rounded-lg px-2 py-2.5 border border-line ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
+      {canDrag ? <span {...attributes} {...listeners} className="shrink-0 text-gray-300 touch-none select-none cursor-grab flex items-center" aria-label="drag"><GripVertical size={18} /></span> : <span className="shrink-0 w-1" />}
+      <Btn onClick={() => onToggle(item)} className="shrink-0 w-7 h-7 rounded-md border-2 border-gray-300 text-transparent hover:text-gray-400 flex items-center justify-center" aria-label="bought"><Check size={16} strokeWidth={3} /></Btn>
+      <span className="flex-1 min-w-0 font-medium text-gray-900 truncate" title={dn(item.name)}>{dn(item.name)}</span>
       <Stepper value={item.qty} unit={item.unit} onChange={(q) => onQty(item, q)} />
-      <Btn onClick={() => onDelete(item)} className="w-8 h-9 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="delete"><Trash2 size={17} /></Btn>
+      <Btn onClick={() => onDelete(item)} className="shrink-0 w-8 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="delete"><Trash2 size={17} /></Btn>
     </div>
   );
 }
@@ -256,7 +257,7 @@ function RunningLow({ t, inv, list, onRestock, onUnrestock }) {
   );
 }
 
-function ListTab({ t, brand, list, setList, mutate, refresh }) {
+function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }), useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 8 } }));
   const allTodo = list.items.filter((i) => !i.bought), allDone = list.items.filter((i) => i.bought);
   const [q, setQ] = useState("");
@@ -292,23 +293,30 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
     <div className="space-y-3">
       {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
       {!list.items.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.empty}</p>}
-      {!!list.items.length && (
-        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
-          <div className="relative">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
-            {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
-          </div>
-          <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
-            {[["all", `${t.allTab} (${list.items.length})`], ["todo", `${t.toBuyTab} (${allTodo.length})`], ["bought", `✓ ${t.bought} (${allDone.length})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={chip(status === k)}>{l}</button>)}
-          </div>
-          {cats.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
-              <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
-              {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{c}</button>)}
+      <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
+        <div className="flex gap-2">
+          {!!list.items.length && (
+            <div className="relative flex-1 min-w-0">
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 pl-3 pr-9 py-2.5 outline-none focus:ring-2 ring-brand" />
+              {q && <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear"><XIcon size={16} /></button>}
             </div>
           )}
+          <Btn onClick={onAdd} className={`shrink-0 h-[2.75rem] px-3.5 bg-brand text-white flex items-center gap-1.5 text-sm ${list.items.length ? "" : "flex-1 justify-center"}`}><Plus size={18} />{t.addItem}</Btn>
         </div>
-      )}
+        {!!list.items.length && (
+          <div className="flex gap-2 items-center">
+            <div className="flex gap-2 overflow-x-auto flex-1 min-w-0">
+              {[["all", `${t.allTab} (${list.items.length})`], ["todo", `${t.toBuyTab} (${allTodo.length})`], ["bought", `${t.bought} (${allDone.length})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={`${chip(status === k)} whitespace-nowrap`}>{l}</button>)}
+            </div>
+            {cats.length > 1 && (
+              <select value={cat} onChange={(e) => setCat(e.target.value)} aria-label="category" className="shrink-0 max-w-[8.5rem] rounded-lg border border-gray-300 bg-white py-1.5 pl-2 pr-1 text-sm text-gray-700">
+                <option value="">{t.allTab}</option>
+                {cats.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            )}
+          </div>
+        )}
+      </div>
       {!!list.items.length && !todo.length && !done.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
       {filtered && !!todo.length && <p className="text-xs text-gray-400">{t.dragHint}</p>}
       {!!todo.length && (
@@ -1509,7 +1517,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
           <h1 className="lg:invisible font-bold text-gray-900" translate="no">{brand.name}</h1>
           <LangToggle lang={lang} onLang={onLang} />
         </header>
-        <main className={`max-w-5xl mx-auto px-4 lg:px-8 pt-5 ${tab === "groceries" ? "pb-44" : "pb-28"} lg:pb-10`}>
+        <main className={`max-w-5xl mx-auto px-4 lg:px-8 pt-5 ${tab === "groceries" && sub === "stock" ? "pb-44" : "pb-28"} lg:pb-10`}>
           {user.isDemo && <p className="mb-3 rounded-lg bg-amber-50 border border-amber-200 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}
           {err && <p className="mb-3 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">{err}</p>}
           {tab === "home" && <Home t={t} lang={lang} user={user} inv={inv} list={list} cal={hasCal ? cal : null} onGo={go} />}
@@ -1521,7 +1529,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
                 ))}
               </div>
               {sub === "list"
-                ? <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} />
+                ? <ListTab t={t} brand={brand} list={list} setList={setList} mutate={mutate} refresh={refresh} onAdd={() => setMic(true)} />
                 : sub === "low"
                   ? <RunningLow t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />
                   : sub === "history"
@@ -1541,7 +1549,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
           {tabs.map(([id, Icon, label]) => <Tab key={id} id={id} Icon={Icon} label={label} />)}
         </div>
       </nav>
-      {tab === "groceries" && sub !== "history" && (
+      {tab === "groceries" && sub === "stock" && (
         <div className="fixed inset-x-0 bottom-20 lg:bottom-6 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
           <div className="max-w-5xl mx-auto px-4 lg:px-8 flex justify-end lg:pl-60">
             <Btn onClick={() => setMic(true)} className="pointer-events-auto h-12 px-4 rounded-full bg-brand text-white shadow-lg flex items-center gap-1.5 font-semibold text-sm" aria-label="add"><Plus size={20} />{t.addItem}</Btn>
