@@ -1,5 +1,5 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, Plus, ShieldCheck } from "lucide-react";
+import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Trash2, GripVertical, Check, Minus, X as XIcon } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -31,20 +31,28 @@ const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad D
 const CAT_EMOJI = { Grains: "🌾", Pulses: "🫘", Grocery: "🛒", Dairy: "🥛", Vegetables: "🥬", Spices: "🌶️", Household: "🧺", Fruits: "🍎", "Oil & Ghee": "🧈", "Personal Care": "🧴", "Dry Fruits": "🥜", "Snacks & Drinks": "🥤", "Meat & Fish": "🍗", "Baby Care": "👶", Other: "📦" };
 let CAT = {}, LANG = "en";
 const emoji = (n, c) => CAT[n]?.emoji ?? EMOJI[n] ?? CAT_EMOJI[c] ?? "📦";
+// Line icons replace emoji across the app. Items show their category's icon.
+const CAT_ICON = { Grains: Wheat, Pulses: Nut, Grocery: ShoppingCart, Dairy: Milk, Vegetables: Carrot, Fruits: Apple, Spices: Flame, "Oil & Ghee": Droplets, Household: SprayCan, "Personal Care": Sparkles, "Dry Fruits": Nut, "Snacks & Drinks": CupSoda, "Meat & Fish": Beef, "Baby Care": Baby, Other: Package };
+const catIcon = (c) => CAT_ICON[c] || Package;
+// A small tinted square holding a line icon (the MotoBill pattern).
+function IconBox({ Icon, size = 18, className = "bg-gray-100 text-gray-600" }) {
+  return <span className={`shrink-0 w-9 h-9 rounded-lg flex items-center justify-center ${className}`}><Icon size={size} strokeWidth={2} /></span>;
+}
+const itemCat = (name, category) => category || CAT[name]?.category || "Other";
 const dn = (n) => (LANG === "ta" && CAT[n]?.ta) || n;
 const UNITS = ["kg", "g", "L", "ml", "pcs", "pack", "dozen"];
 const step = (u) => (u === "kg" || u === "L" ? 0.5 : u === "g" || u === "ml" ? 100 : 1);
 const fmt = (n) => (Math.round(n * 100) / 100).toString();
 
 // ---------- small pieces ----------
-const Btn = ({ className = "", ...p }) => <button {...p} className={`active:scale-95 transition rounded-2xl font-semibold ${className}`} />;
+const Btn = ({ className = "", ...p }) => <button {...p} className={`active:scale-95 transition rounded-lg font-semibold ${className}`} />;
 const Stepper = ({ value, unit, onChange }) => (
   <div className="flex items-center gap-1">
-    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="w-9 h-9 bg-green-100 text-brand text-xl">−</Btn>
+    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
     <input key={value} type="number" inputMode="decimal" defaultValue={fmt(value)} onBlur={(e) => { const v = +e.target.value; if (v > 0 && v !== value) onChange(v); }}
       className="w-12 text-center text-sm font-bold bg-transparent outline-none" />
     <span className="text-xs text-gray-500 -ml-1 w-7">{unit}</span>
-    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="w-9 h-9 bg-green-100 text-brand text-xl">+</Btn>
+    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
   </div>
 );
 
@@ -52,13 +60,13 @@ function Row({ item, t, canDrag, onQty, onDelete, onToggle }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag });
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 10 : 0 }}
-      className={`flex items-center gap-2 bg-white rounded-2xl p-2 shadow-sm ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
-      {canDrag ? <span {...attributes} {...listeners} className="px-1 text-2xl text-green-300 touch-none select-none cursor-grab" aria-label="drag">⋮⋮</span> : <span className="w-2" />}
-      <Btn onClick={() => onToggle(item)} className="w-9 h-9 border-2 border-green-300 text-transparent hover:text-green-300" aria-label="bought">✓</Btn>
-      <span className="text-2xl">{emoji(item.name)}</span>
+      className={`flex items-center gap-2 bg-white rounded-lg p-2 border border-line ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
+      {canDrag ? <span {...attributes} {...listeners} className="px-0.5 text-gray-300 touch-none select-none cursor-grab flex items-center" aria-label="drag"><GripVertical size={18} /></span> : <span className="w-2" />}
+      <Btn onClick={() => onToggle(item)} className="w-7 h-7 rounded-md border-2 border-gray-300 text-transparent hover:text-gray-400 flex items-center justify-center" aria-label="bought"><Check size={16} strokeWidth={3} /></Btn>
+      <IconBox Icon={catIcon(itemCat(item.name))} />
       <span className="flex-1 font-semibold leading-tight">{dn(item.name)}</span>
       <Stepper value={item.qty} unit={item.unit} onChange={(q) => onQty(item, q)} />
-      <Btn onClick={() => onDelete(item)} className="w-8 h-9 text-gray-300 text-lg" aria-label="delete">✕</Btn>
+      <Btn onClick={() => onDelete(item)} className="w-8 h-9 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="delete"><Trash2 size={17} /></Btn>
     </div>
   );
 }
@@ -79,7 +87,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
     && (tab === "low" ? low.has(c.name) : tab === "mine" ? mine.has(c.name) : true) && (!cat || c.category === cat));
   const looksList = /[\d,]/.test(q) || s.split(/\s+/).length > 2;
   const upd = (i, patch) => setRows(rows.map((r, j) => (j === i ? { ...r, ...patch, unknown: false } : r)));
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onDone}>
@@ -87,7 +95,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
         {!rows ? (
           <>
             <div className="p-4 pb-2 space-y-2">
-              <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand" />
+              <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand" />
               <div className="flex gap-2">
                 {[["all", t.allTab], ["low", `${t.lowTab} (${low.size})`], ["mine", t.mineTab]].map(([k, l]) => <button key={k} onClick={() => setTab(k)} className={chip(tab === k)}>{l}</button>)}
               </div>
@@ -104,8 +112,8 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
                 {shown.map((c) => {
                   const on = listNames.has(c.name);
                   return (
-                    <button key={c.name} onClick={() => (on ? onRemove(c.name) : onQuick(c))} className={`relative flex flex-col items-center gap-1 rounded-2xl p-3 text-center transition active:scale-95 ${on ? "bg-green-100 ring-2 ring-brand" : "bg-white shadow-sm"}`}>
-                      <span className="text-3xl">{c.emoji}</span>
+                    <button key={c.name} onClick={() => (on ? onRemove(c.name) : onQuick(c))} className={`relative flex flex-col items-center gap-1 rounded-lg p-3 text-center transition active:scale-95 ${on ? "bg-gray-100 ring-2 ring-brand" : "bg-white border border-line"}`}>
+                      <IconBox Icon={catIcon(c.category)} />
                       <span className="text-xs font-semibold leading-tight">{lang === "ta" && c.ta ? c.ta : c.name}</span>
                       {low.has(c.name) && !on && <span className="absolute top-1 right-1.5 text-[10px] text-red-500">●</span>}
                       {on && <span className="absolute top-1 right-1.5 text-xs text-brand font-bold">✓</span>}
@@ -121,12 +129,12 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
             <h3 className="font-bold text-lg mb-2">{t.check}</h3>
             <div className="space-y-2">
               {rows.map((r, i) => (
-                <div key={i} className={`flex items-center gap-2 rounded-2xl bg-white p-2 ${r.unknown ? "ring-2 ring-amber-300" : ""}`}>
-                  <span className="text-2xl">{emoji(r.name, r.category)}</span>
+                <div key={i} className={`flex items-center gap-2 rounded-lg bg-white p-2 ${r.unknown ? "ring-2 ring-amber-300" : ""}`}>
+                  <IconBox Icon={catIcon(itemCat(r.name, r.category))} />
                   <input value={r.name} onChange={(e) => upd(i, { name: e.target.value })} className="flex-1 min-w-0 font-semibold outline-none" />
-                  <input type="number" inputMode="decimal" value={r.qty} onChange={(e) => upd(i, { qty: +e.target.value })} className="w-16 text-center rounded-xl bg-green-50 py-1" />
-                  <select value={r.unit} onChange={(e) => upd(i, { unit: e.target.value })} className="rounded-xl bg-green-50 py-1">{UNITS.map((u) => <option key={u}>{u}</option>)}</select>
-                  <Btn onClick={() => setRows(rows.filter((_, j) => j !== i))} className="text-gray-300 px-1">✕</Btn>
+                  <input type="number" inputMode="decimal" value={r.qty} onChange={(e) => upd(i, { qty: +e.target.value })} className="w-16 text-center rounded-xl bg-gray-50 py-1" />
+                  <select value={r.unit} onChange={(e) => upd(i, { unit: e.target.value })} className="rounded-xl bg-gray-50 py-1">{UNITS.map((u) => <option key={u}>{u}</option>)}</select>
+                  <Btn onClick={() => setRows(rows.filter((_, j) => j !== i))} className="text-gray-400 hover:text-red-600 px-1 flex items-center" aria-label="remove row"><Trash2 size={16} /></Btn>
                 </div>
               ))}
             </div>
@@ -144,9 +152,9 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 // ---------- tabs ----------
 function Tile({ icon, title, lines, tone = "bg-white", className = "", onClick, children }) {
   return (
-    <button onClick={onClick} className={`${tone} rounded-3xl p-4 text-left shadow-sm active:scale-[.97] transition flex flex-col min-h-[7.5rem] ${className}`}>
+    <button onClick={onClick} className={`${tone} rounded-xl p-4 text-left active:scale-[.97] transition flex flex-col min-h-[7.5rem] ${className}`}>
       <span className="text-3xl leading-none">{icon}</span>
-      <span className="mt-2 font-bold text-green-950">{title}</span>
+      <span className="mt-2 font-bold text-gray-900">{title}</span>
       {lines.map((l, i) => <span key={i} className={`text-sm leading-snug ${i === 0 ? "text-gray-700 font-semibold" : "text-gray-500"}`}>{l}</span>)}
       {children}
     </button>
@@ -233,15 +241,15 @@ function RunningLow({ t, inv, list, onRestock, onUnrestock }) {
   const low = inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) }));
   return (
     <div className="space-y-2">
-      {!low.length && <p className="rounded-2xl bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
+      {!low.length && <p className="rounded-lg bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
       {low.map((i) => (
-        <div key={i.id} className="flex items-center gap-3 bg-white rounded-2xl p-3 shadow-sm">
-          <span className="text-3xl">{emoji(i.name, i.category)}</span>
+        <div key={i.id} className="flex items-center gap-3 bg-white rounded-lg p-3 border border-line">
+          <IconBox Icon={catIcon(itemCat(i.name, i.category))} />
           <div className="flex-1">
             <p className="font-semibold">{dn(i.name)}</p>
             <p className={`text-sm ${i.stock === 0 ? "text-red-600" : "text-amber-600"}`}>{fmt(i.stock)} {i.unit} {t.left} · {t.min} {fmt(i.minQty)}</p>
           </div>
-          <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-green-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
+          <Btn onClick={() => (i.onList ? onUnrestock(i.name) : onRestock(i))} className={`px-3 py-2 text-sm ${i.onList ? "bg-gray-100 text-green-700" : "bg-brand text-white"}`}>{i.onList ? t.onList : t.addList}</Btn>
         </div>
       ))}
     </div>
@@ -263,7 +271,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
   const filtered = !!q.trim() || !!cat;
   const todo = status === "bought" ? [] : allTodo.filter(match);
   const done = status === "todo" ? [] : allDone.filter(match);
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
   const onDragEnd = async ({ active, over }) => {
     if (!over || active.id === over.id) return;
     const ids = arrayMove(allTodo.map((i) => i.id), allTodo.findIndex((i) => i.id === active.id), allTodo.findIndex((i) => i.id === over.id));
@@ -283,11 +291,11 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
   return (
     <div className="space-y-3">
       {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
-      {!list.items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.empty}</p>}
+      {!list.items.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.empty}</p>}
       {!!list.items.length && (
         <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
           <div className="relative">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
             {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
           </div>
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
@@ -296,12 +304,12 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
           {cats.length > 1 && (
             <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
               <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
-              {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{CAT_EMOJI[c] ?? "📦"} {c}</button>)}
+              {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{c}</button>)}
             </div>
           )}
         </div>
       )}
-      {!!list.items.length && !todo.length && !done.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
+      {!!list.items.length && !todo.length && !done.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
       {filtered && !!todo.length && <p className="text-xs text-gray-400">{t.dragHint}</p>}
       {!!todo.length && (
         <>
@@ -319,9 +327,9 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
           <h2 className="font-bold pt-2 text-gray-500">{t.bought} ({done.length})</h2>
           <div className="space-y-1.5">
             {done.map((i) => (
-              <div key={i.id} className="flex items-center gap-2 rounded-2xl bg-green-50 p-2 opacity-80">
-                <Btn onClick={() => toggle(i)} className="w-9 h-9 bg-green-500 text-white">✓</Btn>
-                <span className="text-xl">{emoji(i.name)}</span>
+              <div key={i.id} className="flex items-center gap-2 rounded-lg bg-gray-50 p-2 opacity-80">
+                <Btn onClick={() => toggle(i)} className="w-9 h-9 bg-gray-500 text-white">✓</Btn>
+                <IconBox Icon={catIcon(itemCat(i.name))} />
                 <span className="flex-1 line-through text-gray-500">{dn(i.name)}</span>
                 <span className="text-sm text-gray-500">{fmt(i.qty)} {i.unit}</span>
               </div>
@@ -329,7 +337,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
           </div>
         </>
       )}
-      {!!list.items.length && <Btn onClick={() => setNextOpen(true)} className="w-full py-3 border-2 border-dashed border-green-300 text-brand">🔁 {t.newMonth}</Btn>}
+      {!!list.items.length && <Btn onClick={() => setNextOpen(true)} className="w-full py-3 border-2 border-dashed border-gray-300 text-brand">🔁 {t.newMonth}</Btn>}
     </div>
   );
 }
@@ -358,15 +366,15 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
   }, [items, q, status, cat]);
   const lowCount = items.filter(isLow).length;
   const groups = useMemo(() => shown.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [shown]);
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
   const save = async () => { if (!f.name.trim()) return; await api("/api/provisions/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
   return (
     <div className="space-y-4">
-      {!items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.stockEmpty}</p>}
+      {!items.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.stockEmpty}</p>}
       {!!items.length && (
         <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
           <div className="relative">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
             {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
           </div>
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
@@ -374,28 +382,28 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
           </div>
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
             <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
-            {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{CAT_EMOJI[c] ?? "📦"} {c}</button>)}
+            {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{c}</button>)}
           </div>
         </div>
       )}
-      {!!items.length && !shown.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
+      {!!items.length && !shown.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
       {Object.entries(groups).map(([cat, list]) => (
         <section key={cat}>
-          <h2 className="font-bold mb-1.5">{CAT_EMOJI[cat] ?? "📦"} {cat}</h2>
+          <h2 className="font-bold mb-1.5">{cat}</h2>
           <div className="space-y-2">
             {list.map((i) => {
               const low = i.minQty > 0 && i.stock <= i.minQty;
               return (
-                <div key={i.id} className={`flex items-center gap-2 rounded-2xl bg-white p-2.5 shadow-sm ${low ? "ring-2 ring-red-200" : ""}`}>
-                  <span className="text-2xl">{emoji(i.name, i.category)}</span>
+                <div key={i.id} className={`flex items-center gap-2 rounded-lg bg-white p-2.5 border border-line ${low ? "ring-2 ring-red-200" : ""}`}>
+                  <IconBox Icon={catIcon(itemCat(i.name, i.category))} />
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold leading-tight">{dn(i.name)}</p>
-                    <label className="text-xs text-gray-400">{t.min} <input type="number" inputMode="decimal" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-12 rounded bg-green-50 text-center text-gray-600" /></label>
+                    <label className="text-xs text-gray-400">{t.min} <input type="number" inputMode="decimal" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-12 rounded bg-gray-50 text-center text-gray-600" /></label>
                   </div>
-                  <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="w-9 h-9 bg-green-100 text-brand text-xl">−</Btn>
+                  <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
                   <span className={`min-w-16 text-center font-bold ${low ? "text-red-600" : ""}`}>{fmt(i.stock)} {i.unit}</span>
-                  <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="w-9 h-9 bg-green-100 text-brand text-xl">+</Btn>
-                  <Btn onClick={() => removeItem(i)} className="w-8 h-9 text-gray-300 hover:text-red-500 text-lg" aria-label="remove">✕</Btn>
+                  <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
+                  <Btn onClick={() => removeItem(i)} className="w-8 h-9 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="remove"><Trash2 size={17} /></Btn>
                 </div>
               );
             })}
@@ -403,19 +411,19 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
         </section>
       ))}
       {adding ? (
-        <div className="rounded-2xl bg-white p-3 space-y-2 shadow">
-          <input autoFocus placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className="w-full rounded-xl bg-green-50 p-2.5" />
+        <div className="rounded-lg bg-white p-3 space-y-2 shadow">
+          <input autoFocus placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className="w-full rounded-xl bg-gray-50 p-2.5" />
           <div className="flex gap-2">
-            <select value={f.unit} onChange={(e) => setF({ ...f, unit: e.target.value })} className="flex-1 rounded-xl bg-green-50 p-2.5">{UNITS.map((u) => <option key={u}>{u}</option>)}</select>
-            <input type="number" inputMode="decimal" value={f.minQty} onChange={(e) => setF({ ...f, minQty: +e.target.value })} className="w-24 rounded-xl bg-green-50 p-2.5 text-center" />
+            <select value={f.unit} onChange={(e) => setF({ ...f, unit: e.target.value })} className="flex-1 rounded-xl bg-gray-50 p-2.5">{UNITS.map((u) => <option key={u}>{u}</option>)}</select>
+            <input type="number" inputMode="decimal" value={f.minQty} onChange={(e) => setF({ ...f, minQty: +e.target.value })} className="w-24 rounded-xl bg-gray-50 p-2.5 text-center" />
           </div>
           <div className="flex gap-2">
             <Btn onClick={() => setAdding(false)} className="flex-1 py-2.5 bg-gray-100">{t.cancel}</Btn>
             <Btn onClick={save} className="flex-1 py-2.5 bg-brand text-white">{t.save}</Btn>
           </div>
         </div>
-      ) : <Btn onClick={() => setAdding(true)} className="w-full py-3 border-2 border-dashed border-green-300 text-brand">＋ {t.addItem}</Btn>}
-      <Btn onClick={onSeed} className="w-full py-3 bg-white border border-green-200 text-gray-600 text-sm">📥 {t.seed}</Btn>
+      ) : <Btn onClick={() => setAdding(true)} className="w-full py-3 border-2 border-dashed border-gray-300 text-brand">＋ {t.addItem}</Btn>}
+      <Btn onClick={onSeed} className="w-full py-3 bg-white border border-gray-300 text-gray-600 text-sm">📥 {t.seed}</Btn>
     </div>
   );
 }
@@ -439,9 +447,9 @@ function NextSheet({ t, onClose, onDone }) {
             const on = !off.has(r.name);
             return (
               <button key={r.name} onClick={() => { const n = new Set(off); on ? n.add(r.name) : n.delete(r.name); setOff(n); }}
-                className={`w-full flex items-center gap-3 rounded-2xl p-2.5 text-left ${on ? "bg-white shadow-sm" : "bg-green-100/50 opacity-60"}`}>
-                <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${on ? "bg-brand" : "border-2 border-green-300"}`}>{on && "✓"}</span>
-                <span className="text-2xl">{emoji(r.name)}</span>
+                className={`w-full flex items-center gap-3 rounded-lg p-2.5 text-left ${on ? "bg-white border border-line" : "bg-gray-100/60 opacity-60"}`}>
+                <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${on ? "bg-brand" : "border-2 border-gray-300"}`}>{on && "✓"}</span>
+                <IconBox Icon={catIcon(itemCat(r.name))} />
                 <span className="flex-1 font-semibold">{dn(r.name)}{r.reason === "low" && <span className="ml-2 text-xs font-bold text-red-500">{t.lowTag}</span>}</span>
                 <span className="text-sm text-gray-500">{fmt(r.qty)} {r.unit}</span>
               </button>
@@ -476,13 +484,13 @@ function History({ t, brand, onCopied }) {
         <h2 className="font-bold text-lg">{monthOf(open.closedAt)}</h2>
         <div className="space-y-1.5">
           {open.items.map((i) => (
-            <div key={i.id} className="flex items-center gap-2 rounded-2xl bg-white p-2.5 shadow-sm">
-              <span className="text-2xl">{emoji(i.name)}</span><span className={`flex-1 font-semibold ${i.bought ? "text-gray-400 line-through" : ""}`}>{dn(i.name)}</span>
+            <div key={i.id} className="flex items-center gap-2 rounded-lg bg-white p-2.5 border border-line">
+              <IconBox Icon={catIcon(itemCat(i.name))} /><span className={`flex-1 font-semibold ${i.bought ? "text-gray-400 line-through" : ""}`}>{dn(i.name)}</span>
               <span className="text-sm text-gray-500">{fmt(i.qty)} {i.unit}</span>
             </div>
           ))}
         </div>
-        {note && <p className="rounded-xl bg-green-100 p-2.5 text-center text-sm text-green-800">{note}</p>}
+        {note && <p className="rounded-xl bg-gray-100 p-2.5 text-center text-sm text-gray-700">{note}</p>}
         <Btn onClick={async () => { await api(`/api/provisions/history/${open.id}/copy`, "POST"); setNote(t.copied); onCopied(); }} className="w-full py-3.5 bg-brand text-white">{t.copyToList}</Btn>
         <Btn onClick={share} className="w-full py-3 bg-[#25D366] text-white">💬 {t.send}</Btn>
       </div>
@@ -491,9 +499,9 @@ function History({ t, brand, onCopied }) {
   return (
     <div className="space-y-2">
       {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
-      {rows?.length === 0 && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.historyEmpty}</p>}
+      {rows?.length === 0 && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.historyEmpty}</p>}
       {rows?.map((h) => (
-        <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-sm text-left active:scale-[.99]">
+        <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-lg bg-white p-3.5 border border-line text-left active:scale-[.99]">
           <span className="text-2xl">🗓️</span>
           <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {h.count === 1 ? t.item : t.items} · {h.bought} {t.boughtOf}</span></span>
           <span className="text-gray-300 text-xl">›</span>
@@ -512,13 +520,13 @@ const modList = (str) => (str || "").split(",").filter(Boolean);
 
 function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
   const pending = data.users.filter((u) => u.status === "pending").length;
-  const badge = { pending: "bg-amber-100 text-amber-800", active: "bg-green-100 text-green-800", disabled: "bg-gray-200 text-gray-600" };
+  const badge = { pending: "bg-amber-100 text-amber-800", active: "bg-gray-100 text-gray-700", disabled: "bg-gray-200 text-gray-600" };
   return (
     <div className="space-y-2">
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       <p className="text-sm text-gray-500">{data.users.length} {t.users} · {pending} {t.waiting}</p>
       {data.users.map((u) => (
-        <div key={u.id} className={`rounded-2xl bg-white p-3 shadow-sm ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
+        <div key={u.id} className={`rounded-lg bg-white p-3 border border-line ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0"><p className="font-bold truncate">{u.name} {u.role === "admin" && "👑"}</p><p className="text-sm text-gray-500">{u.phone} · {new Date(u.createdAt).toLocaleDateString("en-IN")}</p></div>
             <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${badge[u.status]}`}>{t["st_" + u.status]}</span>
@@ -584,12 +592,12 @@ function Sections({ t, lang, user, onUser }) {
       <h2 className="font-bold text-lg">{t.mySections}</h2>
       <p className="text-sm text-gray-500">{t.sectionsHint}</p>
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-      {!user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).length && <p className="rounded-2xl bg-white p-5 text-center text-gray-500">{t.noneAllowed}</p>}
+      {!user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).length && <p className="rounded-lg bg-white p-5 text-center text-gray-500">{t.noneAllowed}</p>}
       <div className="space-y-2">
         {user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).map((m) => {
           const on = user.modules.includes(m);
           return (
-            <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm text-left active:scale-[.99]">
+            <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-lg bg-white p-4 border border-line text-left active:scale-[.99]">
               <span className="text-2xl">{MODULE_ICON[m]}</span>
               <span className="flex-1 font-semibold">{moduleLabel(m, lang)}</span>
               <span className={`relative inline-block w-12 h-7 rounded-full transition-colors ${on ? "bg-brand" : "bg-gray-300"}`}>
@@ -611,11 +619,11 @@ function More({ t, lang, user, onUser, view, setView, onLogout }) {
     </div>
   );
   const Row2 = ({ icon, label, onClick, danger }) => (
-    <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm text-left font-semibold active:scale-[.99] ${danger ? "text-red-600" : ""}`}><span className="text-2xl">{icon}</span><span className="flex-1">{label}</span><span className="text-gray-300 text-xl">›</span></button>
+    <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-lg bg-white p-4 border border-line text-left font-semibold active:scale-[.99] ${danger ? "text-red-600" : ""}`}><span className="text-2xl">{icon}</span><span className="flex-1">{label}</span><span className="text-gray-300 text-xl">›</span></button>
   );
   return (
     <div className="space-y-2.5">
-      <div className="rounded-2xl bg-white p-4 shadow-sm"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
+      <div className="rounded-lg bg-white p-4 border border-line"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
       <Row2 icon="🧩" label={t.mySections} onClick={() => setView("sections")} />
       {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
       <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
@@ -648,8 +656,8 @@ const STEPS = {
 };
 // The phone mock-up on the landing page: a dashboard tile for each section.
 const MOCK_TILES = {
-  en: [["🛒", "Groceries", "3 to buy", "bg-green-100"], ["💰", "Budget", "₹21,000 left", "bg-amber-100"], ["📅", "Calendar", "2 today", "bg-sky-100"]],
-  ta: [["🛒", "மளிகை", "3 வாங்க", "bg-green-100"], ["💰", "பட்ஜெட்", "₹21,000", "bg-amber-100"], ["📅", "நாட்காட்டி", "இன்று 2", "bg-sky-100"]],
+  en: [["🛒", "Groceries", "3 to buy", "bg-gray-100"], ["💰", "Budget", "₹21,000 left", "bg-amber-100"], ["📅", "Calendar", "2 today", "bg-sky-100"]],
+  ta: [["🛒", "மளிகை", "3 வாங்க", "bg-gray-100"], ["💰", "பட்ஜெட்", "₹21,000", "bg-amber-100"], ["📅", "நாட்காட்டி", "இன்று 2", "bg-sky-100"]],
 };
 const MOCK_EVENTS = {
   en: [["🎂", "Amma's birthday", "All day"], ["🩺", "Doctor visit", "6:30 PM"]],
@@ -657,7 +665,7 @@ const MOCK_EVENTS = {
 };
 
 function LangToggle({ lang, onLang, className = "" }) {
-  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-white shadow-sm text-sm border border-green-200 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
+  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-white border border-line text-sm border border-gray-300 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
 }
 
 function AuthSheet({ t, lang, initial, onUser, onClose }) {
@@ -677,10 +685,10 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
     }
     else onUser((await api("/api/auth/login", "POST", f)).user);
   }); };
-  const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
+  const input = "w-full rounded-lg bg-white border border-gray-300 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50" onClick={onClose}>
-      <div className="w-full max-w-md bg-sheet rounded-t-3xl sm:rounded-3xl p-5 pb-8 max-h-[92vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-md bg-sheet rounded-t-3xl sm:rounded-xl p-5 pb-8 max-h-[92vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-end"><button onClick={onClose} className="text-gray-400 text-2xl px-2" aria-label="close">✕</button></div>
         {done ? (
           <div className="text-center space-y-3 pb-2">
@@ -690,7 +698,7 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-3">
-            <div className="flex rounded-2xl bg-green-100 p-1">
+            <div className="flex rounded-lg bg-gray-100 p-1">
               {[["login", t.signIn], ["signup", t.signUp]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
             </div>
             {mode === "signup" && <input className={input} placeholder={t.yourName} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
@@ -704,7 +712,7 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
                     const on = picked.includes(m);
                     return (
                       <button type="button" key={m} role="checkbox" aria-checked={on} onClick={() => togglePick(m)}
-                        className={`rounded-full px-3.5 py-2 text-sm font-semibold border ${on ? "bg-brand text-white border-brand" : "bg-white text-gray-500 border-green-200"}`}>
+                        className={`rounded-full px-3.5 py-2 text-sm font-semibold border ${on ? "bg-brand text-white border-brand" : "bg-white text-gray-500 border-gray-300"}`}>
                         {on ? "✓ " : ""}{MODULE_ICON[m]} {moduleLabel(m, lang)}
                       </button>
                     );
@@ -736,7 +744,7 @@ function Landing({ brand, lang, onLang, onUser }) {
           <span className="text-xl font-extrabold text-brand truncate" translate="no">🏡 {brand.name}</span>
           <div className="flex items-center gap-2">
             <LangToggle lang={lang} onLang={onLang} />
-            <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-green-300 bg-white text-sm">{t.signIn}</Btn>
+            <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-gray-300 bg-white text-sm">{t.signIn}</Btn>
             <Btn onClick={() => setSheet("signup")} className="px-3 py-1.5 bg-brand text-white text-sm">{t.signUp}</Btn>
           </div>
         </div>
@@ -744,8 +752,8 @@ function Landing({ brand, lang, onLang, onUser }) {
 
       <section className="max-w-5xl mx-auto px-4 pt-8 pb-12 grid md:grid-cols-2 gap-8 items-center">
         <div className="text-center md:text-left">
-          <span className="inline-block rounded-full bg-green-100 text-green-800 text-xs font-bold px-3 py-1 mb-4">{t.heroBadge}</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-green-950">{t.heroA}<span className="text-brand">{t.heroB}</span></h1>
+          <span className="inline-block rounded-full bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 mb-4">{t.heroBadge}</span>
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900">{t.heroA}<span className="text-brand">{t.heroB}</span></h1>
           <p className="mt-4 text-lg text-gray-600">{t.heroText}</p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
             <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-lg shadow-lg">{t.createAcct}</Btn>
@@ -760,19 +768,19 @@ function Landing({ brand, lang, onLang, onUser }) {
             <p className="font-bold text-brand mb-2">{brand.name}</p>
             <div className="grid grid-cols-3 gap-2">
               {MOCK_TILES[lang].map(([e, title, line, tone]) => (
-                <div key={title} className={`${tone} rounded-2xl p-2.5 min-h-[6.5rem] flex flex-col`}>
+                <div key={title} className={`${tone} rounded-lg p-2.5 min-h-[6.5rem] flex flex-col`}>
                   <div className="text-2xl leading-none">{e}</div>
-                  <div className="mt-auto pt-2 font-bold text-xs leading-tight text-green-950">{title}</div>
+                  <div className="mt-auto pt-2 font-bold text-xs leading-tight text-gray-900">{title}</div>
                   <div className="text-[11px] leading-tight text-gray-600">{line}</div>
                 </div>
               ))}
             </div>
-            <div className="mt-3 rounded-2xl bg-green-50/70 p-2.5 space-y-1.5">
+            <div className="mt-3 rounded-lg bg-gray-50 p-2.5 space-y-1.5">
               {MOCK_EVENTS[lang].map(([e, title, when], i) => (
                 <div key={title} className={`flex items-center gap-2 rounded-xl bg-white px-2.5 h-11 ${i === 1 ? "ring-2 ring-brand" : ""}`}>
                   <span className="text-xl shrink-0">{e}</span>
                   <span className="flex-1 min-w-0 text-sm font-semibold truncate">{title}</span>
-                  <span className={`shrink-0 whitespace-nowrap text-[11px] font-bold rounded-full px-2 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-green-50 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
+                  <span className={`shrink-0 whitespace-nowrap text-[11px] font-bold rounded-full px-2 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-gray-50 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
                 </div>
               ))}
             </div>
@@ -782,20 +790,20 @@ function Landing({ brand, lang, onLang, onUser }) {
 
       <section className="bg-white py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">{t.featTitle}</h2>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gray-900">{t.featTitle}</h2>
           <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {FEATURES[lang].map(([i, h, d]) => (
-              <div key={h} className="rounded-3xl bg-green-50 p-5"><div className="text-3xl mb-2">{i}</div><h3 className="font-bold text-lg">{h}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
+              <div key={h} className="rounded-xl bg-gray-50 p-5"><div className="text-3xl mb-2">{i}</div><h3 className="font-bold text-lg">{h}</h3><p className="text-sm text-gray-600 mt-1">{d}</p></div>
             ))}
           </div>
         </div>
       </section>
 
       <section className="max-w-5xl mx-auto px-4 py-12">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-center text-green-950">{t.howTitle}</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gray-900">{t.howTitle}</h2>
         <div className="mt-8 grid sm:grid-cols-3 gap-4">
           {STEPS[lang].map(([n, h, d]) => (
-            <div key={n} className="rounded-3xl bg-white p-5 text-center shadow-sm"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{h}</h3><p className="text-sm text-gray-500">{d}</p></div>
+            <div key={n} className="rounded-xl bg-white p-5 text-center border border-line"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{h}</h3><p className="text-sm text-gray-500">{d}</p></div>
           ))}
         </div>
         <p className="mt-8 text-center text-sm text-gray-500">{t.soon}</p>
@@ -804,7 +812,7 @@ function Landing({ brand, lang, onLang, onUser }) {
       <section className="bg-gradient-to-br from-green-600 to-green-800 text-white py-12 text-center px-4">
         <h2 className="text-2xl md:text-3xl font-extrabold">{t.ctaTitle}</h2>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-green-800 text-lg">{t.createAcct}</Btn>
+          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-gray-700 text-lg">{t.createAcct}</Btn>
           <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border-2 border-white text-white text-lg disabled:opacity-50">{t.tryDemo}</Btn>
         </div>
       </section>
@@ -861,19 +869,19 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
   const [paid, setPaid] = useState(!!initial.paid);
   const [err, setErr] = useState("");
   const cats = type === "income" ? INCOME_CATS : EXPENSE_CATS;
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
   const save = () => {
     const n = Number(amount);
     if (!amount.trim() || !Number.isFinite(n) || n <= 0) return setErr(b.needAmount);
     const category = cat || "Other";
     onSave({ ...(editing && { id: initial.id }), type, category, title: title.trim() || category, amount: n, paid: type === "expense" && paid });
   };
-  const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
+  const input = "w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
       <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
         {editing ? <h3 className="font-bold text-lg">{b.editEntry}</h3> : (
-          <div className="flex rounded-2xl bg-green-100 p-1">
+          <div className="flex rounded-lg bg-gray-100 p-1">
             {[["income", b.income], ["expense", b.expenses]].map(([k, l]) => (
               <button key={k} onClick={() => { setType(k); setCat(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${type === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
             ))}
@@ -888,8 +896,8 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
         </div>
         <input className={input} placeholder={b.whatFor} value={title} maxLength={60} onChange={(e) => setTitle(e.target.value)} />
         {type === "expense" && (
-          <button onClick={() => setPaid(!paid)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3 text-left">
-            <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${paid ? "bg-brand" : "border-2 border-green-300"}`}>{paid && "✓"}</span>
+          <button onClick={() => setPaid(!paid)} className="w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left">
+            <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${paid ? "bg-brand" : "border-2 border-gray-300"}`}>{paid && "✓"}</span>
             <span className="font-semibold">{b.markPaid}</span>
           </button>
         )}
@@ -950,9 +958,9 @@ function Budget({ t, lang }) {
   }, [rows]);
 
   const Entry = ({ e }) => (
-    <div className={`flex items-center gap-2 rounded-2xl bg-white p-2.5 shadow-sm ${e.id < 0 ? "opacity-60" : ""}`}>
+    <div className={`flex items-center gap-2 rounded-lg bg-white p-2.5 border border-line ${e.id < 0 ? "opacity-60" : ""}`}>
       {e.type === "expense" ? (
-        <button onClick={() => togglePaid(e)} aria-label="paid" className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm ${e.paid ? "bg-brand text-white" : "border-2 border-green-300 text-transparent"}`}>✓</button>
+        <button onClick={() => togglePaid(e)} aria-label="paid" className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm ${e.paid ? "bg-brand text-white" : "border-2 border-gray-300 text-transparent"}`}>✓</button>
       ) : <span className="w-7 shrink-0" />}
       <button onClick={() => e.id > 0 && setSheet(e)} className="flex-1 min-w-0 flex items-center gap-2 text-left">
         <span className="text-2xl">{BCAT_ICON[e.category] ?? "📌"}</span>
@@ -968,7 +976,7 @@ function Budget({ t, lang }) {
   const savedPct = data.income > 0 ? Math.round((data.balance / data.income) * 100) : null;
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between rounded-2xl bg-white p-2 shadow-sm">
+      <div className="flex items-center justify-between rounded-lg bg-white p-2 border border-line">
         <Btn onClick={() => setMonth(shiftMonth(month, -1))} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
         <div className="text-center"><p className="font-bold">{monthName(month, lang)}</p>{month === thisMonth() && <p className="text-xs text-green-700">{b.thisMonth}</p>}</div>
         <Btn onClick={() => setMonth(shiftMonth(month, 1))} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
@@ -977,9 +985,9 @@ function Budget({ t, lang }) {
       {rows === null ? <p className="text-center text-gray-400 py-6">…</p> : (
         <>
           <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-2xl bg-green-100 p-3"><p className="text-xs text-green-800">{b.income}</p><p className="font-extrabold text-green-900 text-sm sm:text-base">{inr(data.income)}</p></div>
-            <div className="rounded-2xl bg-amber-100 p-3"><p className="text-xs text-amber-800">{b.expenses}</p><p className="font-extrabold text-amber-900 text-sm sm:text-base">{inr(data.expense)}</p></div>
-            <div className={`rounded-2xl p-3 ${data.balance >= 0 ? "bg-white" : "bg-red-100"}`}><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-extrabold text-sm sm:text-base ${data.balance >= 0 ? "text-green-800" : "text-red-700"}`}>{inr(data.balance)}</p></div>
+            <div className="rounded-lg bg-gray-100 p-3"><p className="text-xs text-gray-700">{b.income}</p><p className="font-extrabold text-gray-900 text-sm sm:text-base">{inr(data.income)}</p></div>
+            <div className="rounded-lg bg-amber-100 p-3"><p className="text-xs text-amber-800">{b.expenses}</p><p className="font-extrabold text-amber-900 text-sm sm:text-base">{inr(data.expense)}</p></div>
+            <div className={`rounded-lg p-3 ${data.balance >= 0 ? "bg-white" : "bg-red-100"}`}><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-extrabold text-sm sm:text-base ${data.balance >= 0 ? "text-gray-700" : "text-red-700"}`}>{inr(data.balance)}</p></div>
           </div>
           {data.income > 0 && (
             <p className={`text-center text-sm ${data.balance < 0 ? "text-red-600 font-semibold" : "text-gray-500"}`}>
@@ -988,7 +996,7 @@ function Budget({ t, lang }) {
           )}
           {data.expense > 0 && <p className="text-center text-xs text-gray-500">{b.paid}: {inr(data.paid)} · {b.pending}: {inr(data.expense - data.paid)}</p>}
 
-          <section className="rounded-3xl bg-white p-4 shadow-sm">
+          <section className="rounded-xl bg-white p-4 border border-line">
             <h2 className="font-bold mb-2">{b.where}</h2>
             {!data.slices.length ? <p className="text-gray-400 text-sm py-4 text-center">{b.noExpenses}</p> : (
               <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -1013,19 +1021,19 @@ function Budget({ t, lang }) {
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="font-bold">💰 {b.income}</h2>
               <Btn onClick={() => setSheet({ type: "income" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addIncome}</Btn></div>
-            {!data.inc.length && <p className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
+            {!data.inc.length && <p className="rounded-lg bg-white p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
             {data.inc.map((e) => <Entry key={e.id} e={e} />)}
           </section>
 
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="font-bold">🧾 {b.expenses}</h2>
               <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addExpense}</Btn></div>
-            {!data.exp.length && <p className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
+            {!data.exp.length && <p className="rounded-lg bg-white p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
             {data.exp.map((e) => <Entry key={e.id} e={e} />)}
           </section>
 
-          {note && <p className="rounded-xl bg-green-100 p-2.5 text-center text-sm text-green-800">{note}</p>}
-          <Btn onClick={copy} className="w-full py-3 border-2 border-dashed border-green-300 text-brand">🔁 {b.copyPrev} ({monthName(shiftMonth(month, -1), lang)})</Btn>
+          {note && <p className="rounded-xl bg-gray-100 p-2.5 text-center text-sm text-gray-700">{note}</p>}
+          <Btn onClick={copy} className="w-full py-3 border-2 border-dashed border-gray-300 text-brand">🔁 {b.copyPrev} ({monthName(shiftMonth(month, -1), lang)})</Btn>
         </>
       )}
       {sheet && <BudgetSheet key={sheet.id || sheet.type} b={b} lang={lang} initial={sheet} onSave={save} onDelete={remove} onClose={() => setSheet(null)} />}
@@ -1070,8 +1078,8 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
   const [repeat, setRepeat] = useState(initial.repeat || "none");
   const [note, setNote] = useState(initial.note || "");
   const [err, setErr] = useState("");
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-green-100"}`;
-  const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
+  const input = "w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
   const save = () => {
     if (!date) return setErr(c.pickDate);
     onSave({ ...(editing && { id: initial.id }), title: title.trim() || ecat(category, lang), category, date, time: allDay ? "" : time, repeat, note: note.trim() });
@@ -1089,8 +1097,8 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
           <label className="block"><span className="text-sm text-gray-500">{c.date}</span><input type="date" className={input} value={date} onChange={(e) => { setDate(e.target.value); setErr(""); }} /></label>
           <label className="block"><span className="text-sm text-gray-500">{c.time}</span><input type="time" disabled={allDay} className={`${input} disabled:opacity-40`} value={time} onChange={(e) => setTime(e.target.value)} /></label>
         </div>
-        <button onClick={() => setAllDay(!allDay)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-3 text-left">
-          <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${allDay ? "bg-brand" : "border-2 border-green-300"}`}>{allDay && "✓"}</span><span className="font-semibold">{c.allDay}</span>
+        <button onClick={() => setAllDay(!allDay)} className="w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left">
+          <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${allDay ? "bg-brand" : "border-2 border-gray-300"}`}>{allDay && "✓"}</span><span className="font-semibold">{c.allDay}</span>
         </button>
         <div>
           <p className="text-sm text-gray-500 mb-1.5">{c.repeat}</p>
@@ -1110,9 +1118,9 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
 
 function EventRow({ o, c, lang, today, nowM, onOpen }) {
   const st = statusOf(o, today, nowM);
-  const ring = st === "now" ? "ring-2 ring-brand bg-green-50" : st === "past" ? "opacity-50" : "";
+  const ring = st === "now" ? "ring-2 ring-brand bg-gray-50" : st === "past" ? "opacity-50" : "";
   return (
-    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-2xl bg-white p-3 text-left shadow-sm active:scale-[.99] ${ring}`}>
+    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left border border-line active:scale-[.99] ${ring}`}>
       <span className="text-2xl">{ECAT_ICON[o.category] ?? "📌"}</span>
       <span className="flex-1 min-w-0">
         <span className="block font-semibold truncate">{o.title}</span>
@@ -1166,7 +1174,7 @@ function Calendar({ lang, cal }) {
   return (
     <div className="space-y-3">
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-      <div className="rounded-3xl bg-white p-3 shadow-sm">
+      <div className="rounded-xl bg-white p-3 border border-line">
         <div className="flex items-center justify-between mb-2">
           <Btn onClick={() => go(-1)} className="w-10 h-10 text-2xl text-brand" aria-label="previous month">‹</Btn>
           <button onClick={() => { setYm({ y: t0.y, m: t0.m }); setSel(today); }} className="font-bold">{monthTitle(ym.y, ym.m, lang)}</button>
@@ -1191,7 +1199,7 @@ function Calendar({ lang, cal }) {
         <Btn onClick={() => setSheet({ date: sel })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {c.addEvent}</Btn>
       </div>
       {events === null && <p className="text-center text-gray-400 py-4">…</p>}
-      {events && !dayEvents.length && <p className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
+      {events && !dayEvents.length && <p className="rounded-lg bg-white p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
       <div className="space-y-2">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>
       {sheet && <EventSheet key={sheet.id || "new"} c={c} lang={lang} initial={sheet} onSave={saveSheet} onDelete={delSheet} onClose={() => setSheet(null)} />}
     </div>
@@ -1316,12 +1324,12 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
       <div className="flex gap-2">
         {MOODS.map(([k, e]) => (
           <button key={k} onClick={() => { const nm = mood === k ? "" : k; setMood(nm); change(text, nm); }} aria-pressed={mood === k}
-            className={`flex-1 rounded-2xl py-2 text-2xl border ${mood === k ? "bg-brand/10 border-brand scale-105" : "bg-white border-transparent"}`}>{e}</button>
+            className={`flex-1 rounded-lg py-2 text-2xl border ${mood === k ? "bg-brand/10 border-brand scale-105" : "bg-white border-transparent"}`}>{e}</button>
         ))}
       </div>
       <textarea value={text} maxLength={DIARY_MAX} onChange={(e) => { setText(e.target.value); change(e.target.value, mood); }}
         placeholder={d.writeHere} rows={12} lang={lang === "ta" ? "ta" : "en"}
-        className="w-full rounded-3xl bg-white p-4 text-lg leading-relaxed outline-none focus:ring-2 ring-brand shadow-sm resize-none" />
+        className="w-full rounded-xl bg-white p-4 text-lg leading-relaxed outline-none focus:ring-2 ring-brand border border-line resize-none" />
       <div className="flex items-center justify-between text-xs text-gray-400 px-1">
         <span>{words} {d.words}</span><span>{DIARY_MAX - text.length} {d.charsLeft}</span>
       </div>
@@ -1331,7 +1339,7 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
         <section className="space-y-2 pt-2">
           <h3 className="font-bold">🕰️ {d.onThisDay}</h3>
           {memories.map((m) => (
-            <div key={m.id} className="rounded-2xl bg-white p-3 shadow-sm">
+            <div key={m.id} className="rounded-lg bg-white p-3 border border-line">
               <p className="text-xs font-bold text-brand">{parseYmd(m.date).y} {moodIcon(m.mood)}</p>
               <p className="text-sm text-gray-700 whitespace-pre-wrap">{preview(m.text)}</p>
             </div>
@@ -1374,11 +1382,11 @@ function Diary({ lang }) {
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       <Btn onClick={() => setOpen(today)} className="w-full py-3.5 bg-brand text-white text-lg shadow">✏️ {hasToday ? d.today : `${d.today} · ${shortDay(today, lang)}`}</Btn>
       <div className="relative">
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={d.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={d.search} className="w-full rounded-lg bg-white border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
         {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
       </div>
       {hits === null && (
-        <div className="flex items-center justify-between rounded-2xl bg-white p-2 shadow-sm">
+        <div className="flex items-center justify-between rounded-lg bg-white p-2 border border-line">
           <Btn onClick={() => go(-1)} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
           <label className="relative text-center font-bold cursor-pointer">
             {monthTitle(ym.y, ym.m, lang)}
@@ -1388,10 +1396,10 @@ function Diary({ lang }) {
         </div>
       )}
       {list === null && <p className="text-center text-gray-400 py-4">…</p>}
-      {list && !list.length && <p className="rounded-2xl bg-white p-5 text-center text-gray-400">{hits ? d.searchEmpty : d.noEntries}</p>}
+      {list && !list.length && <p className="rounded-lg bg-white p-5 text-center text-gray-400">{hits ? d.searchEmpty : d.noEntries}</p>}
       <div className="space-y-2">
         {(list || []).map((e) => (
-          <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-2xl bg-white p-3.5 text-left shadow-sm active:scale-[.99]">
+          <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-lg bg-white p-3.5 text-left border border-line active:scale-[.99]">
             <p className="flex items-center gap-2 text-sm font-bold text-brand"><span>{shortDay(e.date, lang)}{hits ? ` · ${parseYmd(e.date).y}` : ""}</span><span>{moodIcon(e.mood)}</span></p>
             <p className="mt-0.5 text-gray-700 text-sm whitespace-pre-wrap">{preview(e.text) || "…"}</p>
           </button>
@@ -1503,7 +1511,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
             <>
               <div className="grid grid-cols-4 gap-1 rounded-lg bg-gray-100 p-1 mb-4">
                 {[["list", t.list], ["stock", t.stock], ["low", `${t.lowTab}${lowCount ? ` (${lowCount})` : ""}`], ["history", t.history]].map(([k, l]) => (
-                  <button key={k} onClick={() => setSub(k)} className={`rounded-md py-2 px-1 text-sm font-medium truncate ${sub === k ? "bg-white shadow-sm text-gray-900" : "text-gray-500"}`}>{l}</button>
+                  <button key={k} onClick={() => setSub(k)} className={`rounded-md py-2 px-1 text-sm font-medium truncate ${sub === k ? "bg-white border border-line text-gray-900" : "text-gray-500"}`}>{l}</button>
                 ))}
               </div>
               {sub === "list"
