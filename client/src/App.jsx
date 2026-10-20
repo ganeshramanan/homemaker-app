@@ -59,13 +59,13 @@ const fmt = (n) => (Math.round(n * 100) / 100).toString();
 const Btn = ({ className = "", ...p }) => <button {...p} className={`active:scale-95 transition rounded-lg font-semibold ${className}`} />;
 const Stepper = ({ value, unit, onChange }) => (
   <div className="shrink-0 flex items-center gap-0.5">
-    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
-    <span className="w-[4.25rem] flex items-baseline justify-center gap-0.5">
+    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
+    <span className="w-[3.75rem] flex items-baseline justify-center gap-0.5">
       <input key={value} type="number" inputMode="decimal" defaultValue={fmt(value)} onBlur={(e) => { const v = +e.target.value; if (v > 0 && v !== value) onChange(v); }}
         className="w-9 min-w-0 text-right text-sm font-bold bg-transparent outline-none" />
       <span className="text-[11px] text-gray-500 w-6 text-left truncate">{unit}</span>
     </span>
-    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
+    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
   </div>
 );
 
@@ -73,12 +73,12 @@ function Row({ item, t, canDrag, onQty, onDelete, onToggle }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag });
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 10 : 0 }}
-      className={`flex items-center gap-2 bg-surface px-2.5 py-2.5 ${isDragging ? "shadow-xl ring-2 ring-brand rounded-lg" : ""}`}>
+      className={`flex items-center gap-1.5 bg-surface px-2 py-2.5 ${isDragging ? "shadow-xl ring-2 ring-brand rounded-lg" : ""}`}>
       {canDrag ? <span {...attributes} {...listeners} className="shrink-0 text-gray-300 touch-none select-none cursor-grab flex items-center" aria-label="drag"><GripVertical size={18} /></span> : <span className="shrink-0 w-1" />}
       <Btn onClick={() => onToggle(item)} className="shrink-0 w-7 h-7 rounded-md border-2 border-gray-300 text-transparent hover:text-gray-400 flex items-center justify-center" aria-label="bought"><Check size={16} strokeWidth={3} /></Btn>
-      <span className="flex-1 min-w-0 font-medium text-gray-900 truncate" title={dn(item.name)}>{dn(item.name)}</span>
+      <span className="flex-1 min-w-0 font-medium leading-tight text-gray-900 line-clamp-2 break-words" title={dn(item.name)}>{dn(item.name)}</span>
       <Stepper value={item.qty} unit={item.unit} onChange={(q) => onQty(item, q)} />
-      <Btn onClick={() => onDelete(item)} className="shrink-0 w-8 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="delete"><Trash2 size={17} /></Btn>
+      <Btn onClick={() => onDelete(item)} className="shrink-0 w-7 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="delete"><Trash2 size={17} /></Btn>
     </div>
   );
 }
@@ -449,7 +449,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
               return (
                 <div key={i.id} className="flex items-center gap-2 px-3 py-2.5">
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 truncate">{dn(i.name)}</p>
+                    <p className="font-medium leading-tight text-gray-900 line-clamp-2 break-words">{dn(i.name)}</p>
                     <p className="flex items-center gap-1.5 text-[11px] text-gray-500">
                       <label className="flex items-center gap-1">{t.min}
                         <input type="number" inputMode="decimal" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-11 rounded border border-gray-300 bg-surface text-center text-gray-700" />
@@ -458,11 +458,11 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
                     </p>
                   </div>
                   <div className="shrink-0 flex items-center gap-0.5">
-                    <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
-                    <span className={`w-[4.25rem] text-center text-sm font-bold ${low ? "text-red-600" : "text-gray-900"}`}>{fmt(i.stock)} <span className="text-[11px] font-normal text-gray-500">{i.unit}</span></span>
-                    <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
+                    <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
+                    <span className={`w-[3.75rem] text-center text-sm font-bold ${low ? "text-red-600" : "text-gray-900"}`}>{fmt(i.stock)} <span className="text-[11px] font-normal text-gray-500">{i.unit}</span></span>
+                    <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
                   </div>
-                  <Btn onClick={() => removeItem(i)} className="shrink-0 w-8 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="remove"><Trash2 size={17} /></Btn>
+                  <Btn onClick={() => removeItem(i)} className="shrink-0 w-7 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="remove"><Trash2 size={17} /></Btn>
                 </div>
               );
             })}
