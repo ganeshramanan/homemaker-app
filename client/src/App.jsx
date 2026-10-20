@@ -626,11 +626,11 @@ const STEPS = {
 // The phone mock-up on the landing page: a dashboard tile for each section.
 const MOCK_TILES = {
   en: [["🛒", "Groceries", "3 to buy", "bg-green-100"], ["💰", "Budget", "₹21,000 left", "bg-amber-100"], ["📅", "Calendar", "2 today", "bg-sky-100"]],
-  ta: [["🛒", "மளிகை", "3 வாங்க வேண்டும்", "bg-green-100"], ["💰", "பட்ஜெட்", "₹21,000 மீதம்", "bg-amber-100"], ["📅", "நாட்காட்டி", "இன்று 2", "bg-sky-100"]],
+  ta: [["🛒", "மளிகை", "3 வாங்க", "bg-green-100"], ["💰", "பட்ஜெட்", "₹21,000", "bg-amber-100"], ["📅", "நாட்காட்டி", "இன்று 2", "bg-sky-100"]],
 };
 const MOCK_EVENTS = {
   en: [["🎂", "Amma's birthday", "All day"], ["🩺", "Doctor visit", "6:30 PM"]],
-  ta: [["🎂", "அம்மா பிறந்தநாள்", "நாள் முழுவதும்"], ["🩺", "மருத்துவர் சந்திப்பு", "6:30 PM"]],
+  ta: [["🎂", "அம்மா பிறந்தநாள்", "முழுநாள்"], ["🩺", "மருத்துவர்", "6:30 PM"]],
 };
 
 function LangToggle({ lang, onLang, className = "" }) {
