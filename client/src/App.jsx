@@ -28,10 +28,7 @@ const T = {
     cancel: "ரத்து", more: "மேலும்", goodMorning: "காலை வணக்கம்", goodAfternoon: "மதிய வணக்கம்", goodEvening: "மாலை வணக்கம்", heroBalance: "இந்த மாத மீதம்", heroToBuy: "வாங்க வேண்டியவை", quickAdd: "விரைவு சேர்", qaItem: "மளிகைப் பொருள்", qaExpense: "செலவு", qaIncome: "வருமானம்", qaEvent: "நிகழ்வு", qaDiary: "டைரி குறிப்பு", appearance: "தோற்றம்", themeLight: "வெளிர்", themeDark: "இருண்ட", themeAuto: "போன்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
-const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
-const CAT_EMOJI = { Grains: "🌾", Pulses: "🫘", Grocery: "🛒", Dairy: "🥛", Vegetables: "🥬", Spices: "🌶️", Household: "🧺", Fruits: "🍎", "Oil & Ghee": "🧈", "Personal Care": "🧴", "Dry Fruits": "🥜", "Snacks & Drinks": "🥤", "Meat & Fish": "🍗", "Baby Care": "👶", Other: "📦" };
 let CAT = {}, LANG = "en";
-const emoji = (n, c) => CAT[n]?.emoji ?? EMOJI[n] ?? CAT_EMOJI[c] ?? "📦";
 // Line icons replace emoji across the app. Items show their category's icon.
 const CAT_ICON = { Grains: Wheat, Pulses: Nut, Grocery: ShoppingCart, Dairy: Milk, Vegetables: Carrot, Fruits: Apple, Spices: Flame, "Oil & Ghee": Droplets, Household: SprayCan, "Personal Care": Sparkles, "Dry Fruits": Nut, "Snacks & Drinks": CupSoda, "Meat & Fish": Beef, "Baby Care": Baby, Other: Package };
 const catIcon = (c) => CAT_ICON[c] || Package;
@@ -102,7 +99,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
     && (tab === "low" ? low.has(c.name) : tab === "mine" ? mine.has(c.name) : true) && (!cat || c.category === cat));
   const looksList = /[\d,]/.test(q) || s.split(/\s+/).length > 2;
   const upd = (i, patch) => setRows(rows.map((r, j) => (j === i ? { ...r, ...patch, unknown: false } : r)));
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onDone}>
@@ -154,7 +151,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
               ))}
             </div>
             <div className="flex gap-2 mt-4">
-              <Btn onClick={() => setRows(null)} className="flex-1 py-3 bg-surface text-gray-600">←</Btn>
+              <Btn onClick={() => setRows(null)} className="flex-1 py-3 bg-surface border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="back"><ChevronLeft size={18} /></Btn>
               <Btn onClick={() => onParsed(rows.map(({ unknown, category, ...r }) => r))} disabled={!rows.length} className="flex-[3] py-3 bg-brand text-white disabled:opacity-40">{t.addAll} ({rows.length})</Btn>
             </div>
           </div>
@@ -321,7 +318,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
   const filtered = !!q.trim() || !!cat;
   const todo = status === "bought" ? [] : allTodo.filter(match);
   const done = status === "todo" ? [] : allDone.filter(match);
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
   const onDragEnd = async ({ active, over }) => {
     if (!over || active.id === over.id) return;
     const ids = arrayMove(allTodo.map((i) => i.id), allTodo.findIndex((i) => i.id === active.id), allTodo.findIndex((i) => i.id === over.id));
@@ -422,7 +419,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
   }, [items, q, status, cat]);
   const lowCount = items.filter(isLow).length;
   const groups = useMemo(() => shown.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [shown]);
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
   const save = async () => { if (!f.name.trim()) return; await api("/api/provisions/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
   return (
     <div className="space-y-4">
@@ -542,7 +539,7 @@ function History({ t, brand, onCopied }) {
     };
     return (
       <div className="space-y-3">
-        <Btn onClick={() => { setOpen(null); setNote(""); }} className="text-brand px-1">← {t.back}</Btn>
+        <Btn onClick={() => { setOpen(null); setNote(""); }} className="text-brand px-1 flex items-center gap-1"><ChevronLeft size={18} />{t.back}</Btn>
         <h2 className="font-bold text-lg">{monthOf(open.closedAt)}</h2>
         <div className="space-y-1.5">
           {open.items.map((i) => (
@@ -566,7 +563,7 @@ function History({ t, brand, onCopied }) {
         <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-3.5 border border-line text-left active:scale-[.99]">
           <IconBox Icon={CalendarDays} />
           <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {h.count === 1 ? t.item : t.items} · {h.bought} {t.boughtOf}</span></span>
-          <span className="text-gray-300 text-xl">›</span>
+          <ChevronRight size={18} className="text-gray-300" />
         </button>
       ))}
     </div>
@@ -574,7 +571,8 @@ function History({ t, brand, onCopied }) {
 }
 
 // ---------- admin ----------
-const MODULE_ICON = { provisions: "🛒", budget: "💰", calendar: "📅", diary: "📔" };
+const MODULE_LUCIDE = { provisions: ShoppingCart, budget: Wallet, calendar: CalendarDays, diary: BookOpen };
+const ModIcon = ({ m, size = 16 }) => { const I = MODULE_LUCIDE[m] || Package; return <I size={size} />; };
 // Sections that have a screen in the app.
 const SHIPPED_MODULES = ["provisions", "budget", "calendar", "diary"];
 const moduleLabel = (m, lang) => (m === "provisions" ? T[lang].groceries : m === "budget" ? BT[lang].title : m === "calendar" ? CT[lang].title : m === "diary" ? DT[lang].title : m);
@@ -600,7 +598,7 @@ function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
                 <div className="flex flex-wrap gap-1.5">
                   {data.modules.filter((m) => SHIPPED_MODULES.includes(m)).map((m) => {
                     const on = modList(u.modules).includes(m);
-                    return <button key={m} onClick={() => onToggleMod(u, m)} aria-pressed={on} className={`rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-gray-100 text-gray-400 line-through"}`}>{MODULE_ICON[m]} {moduleLabel(m, lang)}</button>;
+                    return <button key={m} onClick={() => onToggleMod(u, m)} aria-pressed={on} className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white" : "bg-gray-100 text-gray-400 line-through"}`}><ModIcon m={m} size={14} /> {moduleLabel(m, lang)}</button>;
                   })}
                 </div>
               </div>
@@ -660,7 +658,7 @@ function Sections({ t, lang, user, onUser }) {
           const on = user.modules.includes(m);
           return (
             <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-4 border border-line text-left active:scale-[.99]">
-              <span className="text-2xl">{MODULE_ICON[m]}</span>
+              <IconBox Icon={MODULE_LUCIDE[m] || Package} />
               <span className="flex-1 font-semibold">{moduleLabel(m, lang)}</span>
               <span className={`relative inline-block w-12 h-7 rounded-full transition-colors ${on ? "bg-brand" : "bg-gray-300"}`}>
                 <span className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow transition-all ${on ? "left-[1.4rem]" : "left-0.5"}`} />
@@ -815,8 +813,8 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
                     const on = picked.includes(m);
                     return (
                       <button type="button" key={m} role="checkbox" aria-checked={on} onClick={() => togglePick(m)}
-                        className={`rounded-full px-3.5 py-2 text-sm font-semibold border ${on ? "bg-brand text-white border-brand" : "bg-surface text-gray-500 border-gray-300"}`}>
-                        {on ? "✓ " : ""}{MODULE_ICON[m]} {moduleLabel(m, lang)}
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium border ${on ? "bg-brand text-white border-brand" : "bg-surface text-gray-600 border-gray-300"}`}>
+                        {on && <Check size={14} strokeWidth={3} />}<ModIcon m={m} size={14} />{moduleLabel(m, lang)}
                       </button>
                     );
                   })}
@@ -935,7 +933,6 @@ function Landing({ brand, lang, onLang, onUser }) {
 const INCOME_CATS = ["Salary", "Business", "Rent received", "Interest", "Gift", "Other"];
 const EXPENSE_CATS = ["Rent", "Groceries", "Electricity", "Water", "Gas", "Mobile & Internet", "EMI / Loan", "School fees", "Medical", "Fuel", "Transport", "Insurance", "Savings", "Entertainment", "Festival", "Clothing", "Other"];
 const BCAT_TA = { Salary: "சம்பளம்", Business: "தொழில்", "Rent received": "வாடகை வருமானம்", Interest: "வட்டி", Gift: "பரிசு", Other: "மற்றவை", Rent: "வாடகை", Groceries: "மளிகை", Electricity: "மின்சாரம்", Water: "தண்ணீர்", Gas: "கேஸ்", "Mobile & Internet": "மொபைல் & இணையம்", "EMI / Loan": "EMI / கடன்", "School fees": "பள்ளிக் கட்டணம்", Medical: "மருத்துவம்", Fuel: "பெட்ரோல்", Transport: "பயணம்", Insurance: "காப்பீடு", Savings: "சேமிப்பு", Entertainment: "பொழுதுபோக்கு", Festival: "பண்டிகை", Clothing: "உடைகள்" };
-const BCAT_ICON = { Salary: "💼", Business: "🏪", "Rent received": "🏠", Interest: "🏦", Gift: "🎁", Other: "📌", Rent: "🏠", Groceries: "🛒", Electricity: "💡", Water: "🚰", Gas: "🔥", "Mobile & Internet": "📱", "EMI / Loan": "💳", "School fees": "🎓", Medical: "💊", Fuel: "⛽", Transport: "🚌", Insurance: "🛡️", Savings: "🐷", Entertainment: "🎬", Festival: "🪔", Clothing: "👗" };
 const BCAT_LUCIDE = { Salary: Briefcase, Business: Landmark, "Rent received": Home, Interest: Landmark, Gift: Gift, Other: Pin, Rent: Home, Groceries: ShoppingCart, Electricity: Lightbulb, Water: Droplets, Gas: Flame, "Mobile & Internet": Smartphone, "EMI / Loan": CreditCard, "School fees": GraduationCap, Medical: Stethoscope, Fuel: Fuel, Transport: Bus, Insurance: ShieldCheck, Savings: PiggyBank, Entertainment: Clapperboard, Festival: PartyPopper, Clothing: Shirt };
 const bIcon = (c) => BCAT_LUCIDE[c] || Pin;
 const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
@@ -979,7 +976,7 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
   const [paid, setPaid] = useState(!!initial.paid);
   const [err, setErr] = useState("");
   const cats = type === "income" ? INCOME_CATS : EXPENSE_CATS;
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
   const save = () => {
     const n = Number(amount);
     if (!amount.trim() || !Number.isFinite(n) || n <= 0) return setErr(b.needAmount);
@@ -1095,9 +1092,9 @@ function Budget({ t, lang, signal }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between rounded-lg bg-surface p-2 border border-line">
-        <Btn onClick={() => setMonth(shiftMonth(month, -1))} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
+        <Btn onClick={() => setMonth(shiftMonth(month, -1))} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="previous month"><ChevronLeft size={18} /></Btn>
         <div className="text-center"><p className="font-bold">{monthName(month, lang)}</p>{month === thisMonth() && <p className="text-xs text-green-700">{b.thisMonth}</p>}</div>
-        <Btn onClick={() => setMonth(shiftMonth(month, 1))} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
+        <Btn onClick={() => setMonth(shiftMonth(month, 1))} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="next month"><ChevronRight size={18} /></Btn>
       </div>
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       {rows === null ? <div className="space-y-4"><div className="grid grid-cols-3 gap-2"><span className="skeleton h-16" /><span className="skeleton h-16" /><span className="skeleton h-16" /></div><span className="skeleton block h-40" /><SkeletonRows n={3} /></div> : (
@@ -1138,14 +1135,14 @@ function Budget({ t, lang, signal }) {
 
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{b.income}</h2>
-              <Btn onClick={() => setSheet({ type: "income" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addIncome}</Btn></div>
+              <Btn onClick={() => setSheet({ type: "income" })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{b.addIncome}</Btn></div>
             {!data.inc.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
             {!!data.inc.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.inc.map((e) => <Entry key={e.id} e={e} />)}</div>}
           </section>
 
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{b.expenses}</h2>
-              <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addExpense}</Btn></div>
+              <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{b.addExpense}</Btn></div>
             {!data.exp.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
             {!!data.exp.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.exp.map((e) => <Entry key={e.id} e={e} />)}</div>}
           </section>
@@ -1164,7 +1161,6 @@ function Budget({ t, lang, signal }) {
 const ECAT_LUCIDE = { Birthday: Cake, Anniversary: Heart, "Bill due": Receipt, "EMI due": CreditCard, "Credit card": CreditCard, Doctor: Stethoscope, Meeting: Users, School: GraduationCap, Festival: PartyPopper, Reminder: Bell, Other: Pin };
 const eIcon = (c) => ECAT_LUCIDE[c] || Pin;
 const EVENT_CATS = ["Birthday", "Anniversary", "Bill due", "EMI due", "Credit card", "Doctor", "Meeting", "School", "Festival", "Reminder", "Other"];
-const ECAT_ICON = { Birthday: "🎂", Anniversary: "💑", "Bill due": "🧾", "EMI due": "💳", "Credit card": "💳", Doctor: "🩺", Meeting: "👥", School: "🎓", Festival: "🪔", Reminder: "⏰", Other: "📌" };
 const ECAT_TA = { Birthday: "பிறந்தநாள்", Anniversary: "திருமண நாள்", "Bill due": "பில் கட்டணம்", "EMI due": "EMI தேதி", "Credit card": "கிரெடிட் கார்டு", Doctor: "மருத்துவர்", Meeting: "சந்திப்பு", School: "பள்ளி", Festival: "பண்டிகை", Reminder: "நினைவூட்டல்", Other: "மற்றவை" };
 const CT = {
   en: { title: "Calendar", addEvent: "Add event", newEvent: "New event", editEvent: "Edit event", eventTitle: "What is it?", date: "Date", time: "Time", allDay: "All day", repeat: "Repeat", none: "Does not repeat", yearly: "Every year", monthly: "Every month", note: "Note (optional)", category: "Type", today: "Today", tomorrow: "Tomorrow", now: "Now", soon: "Later today", upcoming: "Coming up", nothingToday: "Nothing planned today", nothingSoon: "No events in the next 7 days", noEvents: "No events on this day", onThisDay: "On this day", viewAll: "Open calendar", save: "Save", cancel: "Cancel", del: "Delete", pickDate: "Choose a date", gotoToday: "Today", repeatsYearly: "every year", repeatsMonthly: "every month", wd: ["S", "M", "T", "W", "T", "F", "S"] },
@@ -1198,7 +1194,7 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
   const [repeat, setRepeat] = useState(initial.repeat || "none");
   const [note, setNote] = useState(initial.note || "");
   const [err, setErr] = useState("");
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
   const input = "w-full rounded-lg bg-surface border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
   const save = () => {
     if (!date) return setErr(c.pickDate);
@@ -1238,17 +1234,16 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
 
 function EventRow({ o, c, lang, today, nowM, onOpen }) {
   const st = statusOf(o, today, nowM);
-  const ring = st === "now" ? "ring-2 ring-brand bg-gray-50" : st === "past" ? "opacity-50" : "";
   return (
-    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-lg bg-surface p-3 text-left border border-line active:scale-[.99] ${ring}`}>
+    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 px-3.5 py-3 text-left active:bg-gray-50 ${st === "now" ? "bg-emerald-50 shadow-[inset_3px_0_0_var(--color-brand)]" : st === "past" ? "opacity-50" : ""}`}>
       <IconBox Icon={eIcon(o.category)} />
       <span className="flex-1 min-w-0">
-        <span className="block font-semibold truncate">{o.title}</span>
+        <span className="block font-semibold text-gray-900 truncate">{o.title}</span>
         <span className="block text-xs text-gray-500 truncate">
           {o.time ? fmtTime(o.time) : c.allDay}{o.repeat === "yearly" ? ` · ${c.repeatsYearly}` : o.repeat === "monthly" ? ` · ${c.repeatsMonthly}` : ""}{o.note ? ` · ${o.note}` : ""}
         </span>
       </span>
-      {st === "now" && <span className="rounded-full bg-brand text-white text-xs font-bold px-2.5 py-1 animate-pulse">{c.now}</span>}
+      {st === "now" && <span className="shrink-0 rounded-md bg-brand text-white text-[11px] font-semibold px-2 py-0.5">{c.now}</span>}
     </button>
   );
 }
@@ -1297,17 +1292,17 @@ function Calendar({ lang, cal, signal }) {
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       <div className="rounded-xl bg-surface p-3 border border-line">
         <div className="flex items-center justify-between mb-2">
-          <Btn onClick={() => go(-1)} className="w-10 h-10 text-2xl text-brand" aria-label="previous month">‹</Btn>
-          <button onClick={() => { setYm({ y: t0.y, m: t0.m }); setSel(today); }} className="font-bold">{monthTitle(ym.y, ym.m, lang)}</button>
-          <Btn onClick={() => go(1)} className="w-10 h-10 text-2xl text-brand" aria-label="next month">›</Btn>
+          <Btn onClick={() => go(-1)} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="previous month"><ChevronLeft size={18} /></Btn>
+          <button onClick={() => { setYm({ y: t0.y, m: t0.m }); setSel(today); }} className="font-semibold text-gray-900">{monthTitle(ym.y, ym.m, lang)}</button>
+          <Btn onClick={() => go(1)} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="next month"><ChevronRight size={18} /></Btn>
         </div>
-        <div className="grid grid-cols-7 text-center text-xs text-gray-400 mb-1">{c.wd.map((w, i) => <span key={i}>{w}</span>)}</div>
+        <div className="grid grid-cols-7 text-center text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1">{c.wd.map((w, i) => <span key={i}>{w}</span>)}</div>
         <div className="grid grid-cols-7 gap-y-1">
           {cells.map((d, i) => {
             if (!d) return <span key={`b${i}`} />;
             const n = (byDay[d] || []).length, isToday = d === today, isSel = d === sel;
             return (
-              <button key={d} onClick={() => openDay(d)} className={`relative mx-auto w-10 h-11 rounded-xl flex flex-col items-center justify-center text-sm ${isSel ? "bg-brand text-white font-bold" : isToday ? "ring-2 ring-brand font-bold text-brand" : "text-gray-700"}`}>
+              <button key={d} onClick={() => openDay(d)} className={`relative mx-auto w-10 h-11 rounded-lg flex flex-col items-center justify-center text-sm ${isSel ? "bg-brand text-white font-semibold" : isToday ? "border border-brand font-semibold text-brand" : "text-gray-700 hover:bg-gray-50"}`}>
                 {parseYmd(d).d}
                 {n > 0 && <span className={`absolute bottom-1 flex gap-0.5`}>{Array.from({ length: Math.min(n, 3) }).map((_, k) => <i key={k} className={`w-1 h-1 rounded-full ${isSel ? "bg-surface" : "bg-brand"}`} />)}</span>}
               </button>
@@ -1316,12 +1311,12 @@ function Calendar({ lang, cal, signal }) {
         </div>
       </div>
       <div className="flex items-center justify-between">
-        <h2 className="font-bold">{dayLabel(sel, today, c, lang)}</h2>
-        <Btn onClick={() => setSheet({ date: sel })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {c.addEvent}</Btn>
+        <h2 className="font-semibold text-gray-900">{dayLabel(sel, today, c, lang)}</h2>
+        <Btn onClick={() => setSheet({ date: sel })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{c.addEvent}</Btn>
       </div>
       {events === null && <SkeletonRows n={2} />}
-      {events && !dayEvents.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
-      <div className="space-y-2">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>
+      {events && !dayEvents.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
+      {!!dayEvents.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>}
       {sheet && <EventSheet key={sheet.id || "new"} c={c} lang={lang} initial={sheet} onSave={saveSheet} onDelete={delSheet} onClose={() => setSheet(null)} />}
     </div>
   );
@@ -1438,7 +1433,7 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <Btn onClick={() => { flush(); onBack(); }} className="w-10 h-10 text-2xl text-brand" aria-label="back">‹</Btn>
+        <Btn onClick={() => { flush(); onBack(); }} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="back"><ChevronLeft size={18} /></Btn>
         <h2 className="flex-1 font-bold leading-tight">{dayTitle(date, lang)}</h2>
         <span className={`text-xs font-semibold ${state === "failed" ? "text-red-600" : "text-gray-400"}`}>{state === "saved" ? `✓ ${d.saved}` : state === "saving" ? d.saving : d.failed}</span>
       </div>
@@ -1511,12 +1506,12 @@ function Diary({ lang, signal }) {
       </div>
       {hits === null && (
         <div className="flex items-center justify-between rounded-lg bg-surface p-2 border border-line">
-          <Btn onClick={() => go(-1)} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
+          <Btn onClick={() => go(-1)} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="previous month"><ChevronLeft size={18} /></Btn>
           <label className="relative text-center font-bold cursor-pointer">
             {monthTitle(ym.y, ym.m, lang)}
             <input type="date" aria-label={d.jump} value="" onChange={(e) => e.target.value && setOpen(e.target.value)} className="absolute inset-0 opacity-0 w-full cursor-pointer" />
           </label>
-          <Btn onClick={() => go(1)} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
+          <Btn onClick={() => go(1)} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="next month"><ChevronRight size={18} /></Btn>
         </div>
       )}
       {list === null && <SkeletonRows n={4} />}
