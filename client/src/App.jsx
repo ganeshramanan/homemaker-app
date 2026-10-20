@@ -710,23 +710,23 @@ function Landing({ brand, lang, onLang, onUser }) {
         </div>
 
         <div className="mx-auto w-full max-w-xs" aria-hidden="true">
-          <div className="rounded-[2rem] bg-white p-4 shadow-2xl border-4 border-green-900/10 rotate-1" translate="no">
+          <div className="rounded-[2rem] bg-white p-4 shadow-2xl border-4 border-green-900/10" translate="no">
             <p className="font-bold text-brand mb-2">{brand.name}</p>
-            <div className="grid grid-cols-2 gap-2">
-              {MOCK_TILES[lang].map(([e, title, line, tone], i, all) => (
-                <div key={title} className={`${tone} rounded-2xl p-3 ${i === all.length - 1 && all.length % 2 === 1 ? "col-span-2" : ""}`}>
+            <div className="grid grid-cols-3 gap-2">
+              {MOCK_TILES[lang].map(([e, title, line, tone]) => (
+                <div key={title} className={`${tone} rounded-2xl p-2.5 min-h-[6.5rem] flex flex-col`}>
                   <div className="text-2xl leading-none">{e}</div>
-                  <div className="mt-1.5 font-bold text-sm text-green-950">{title}</div>
-                  <div className="text-xs text-gray-600">{line}</div>
+                  <div className="mt-auto pt-2 font-bold text-xs leading-tight text-green-950">{title}</div>
+                  <div className="text-[11px] leading-tight text-gray-600">{line}</div>
                 </div>
               ))}
             </div>
             <div className="mt-3 rounded-2xl bg-green-50/70 p-2.5 space-y-1.5">
               {MOCK_EVENTS[lang].map(([e, title, when], i) => (
-                <div key={title} className={`flex items-center gap-2 rounded-xl bg-white px-2.5 py-2 ${i === 1 ? "ring-2 ring-brand" : ""}`}>
-                  <span className="text-xl">{e}</span>
-                  <span className="flex-1 text-sm font-semibold truncate">{title}</span>
-                  <span className={`text-xs font-bold rounded-full px-2 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-green-50 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
+                <div key={title} className={`flex items-center gap-2 rounded-xl bg-white px-2.5 h-11 ${i === 1 ? "ring-2 ring-brand" : ""}`}>
+                  <span className="text-xl shrink-0">{e}</span>
+                  <span className="flex-1 min-w-0 text-sm font-semibold truncate">{title}</span>
+                  <span className={`shrink-0 whitespace-nowrap text-[11px] font-bold rounded-full px-2 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-green-50 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
                 </div>
               ))}
             </div>
