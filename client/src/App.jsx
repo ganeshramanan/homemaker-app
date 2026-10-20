@@ -395,9 +395,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
   );
 }
 
-function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
-  const [adding, setAdding] = useState(false);
-  const [f, setF] = useState({ name: "", unit: "kg", minQty: 1 });
+function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
   const patch = (i, body) => {
     setItems((p) => p.map((x) => (x.id !== i.id ? x : { ...x, ...(body.delta != null && { stock: Math.max(0, +(x.stock + body.delta).toFixed(3)) }), ...(body.minQty != null && { minQty: body.minQty }) })));
     mutate(() => api(`/api/provisions/inventory/${i.id}`, "PATCH", body));
@@ -420,15 +418,17 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
   const lowCount = items.filter(isLow).length;
   const groups = useMemo(() => shown.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [shown]);
   const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
-  const save = async () => { if (!f.name.trim()) return; await api("/api/provisions/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
   return (
     <div className="space-y-4">
       {!items.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.stockEmpty}</p>}
       {!!items.length && (
         <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
-          <div className="relative">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-surface border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
-            {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear"><XIcon size={16} /></button>}
+          <div className="flex gap-2">
+            <div className="relative flex-1 min-w-0">
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-surface border border-gray-300 pl-3 pr-9 py-2.5 outline-none focus:ring-2 ring-brand" />
+              {q && <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear"><XIcon size={16} /></button>}
+            </div>
+            <Btn onClick={onAdd} className="shrink-0 h-[2.75rem] px-3.5 bg-brand text-white flex items-center gap-1.5 text-sm"><Plus size={18} />{t.addItem}</Btn>
           </div>
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
             {[["all", `${t.allTab} (${items.length})`], ["low", `${t.lowTab} (${lowCount})`], ["ok", `${t.okTab} (${items.length - lowCount})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={chip(status === k)}>{l}</button>)}
@@ -469,19 +469,6 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
           </div>
         </section>
       ))}
-      {adding ? (
-        <div className="rounded-xl bg-surface border border-line p-3 space-y-2">
-          <input autoFocus placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className="w-full rounded-lg border border-gray-300 bg-surface p-2.5" />
-          <div className="flex gap-2">
-            <select value={f.unit} onChange={(e) => setF({ ...f, unit: e.target.value })} className="flex-1 rounded-lg border border-gray-300 bg-surface p-2.5">{UNITS.map((u) => <option key={u}>{u}</option>)}</select>
-            <input type="number" inputMode="decimal" value={f.minQty} onChange={(e) => setF({ ...f, minQty: +e.target.value })} className="w-24 rounded-lg border border-gray-300 bg-surface p-2.5 text-center" />
-          </div>
-          <div className="flex gap-2">
-            <Btn onClick={() => setAdding(false)} className="flex-1 py-2.5 bg-gray-100">{t.cancel}</Btn>
-            <Btn onClick={save} className="flex-1 py-2.5 bg-brand text-white">{t.save}</Btn>
-          </div>
-        </div>
-      ) : <Btn onClick={() => setAdding(true)} className="w-full py-3 border border-dashed border-gray-300 text-brand flex items-center justify-center gap-1.5"><Plus size={18} />{t.addItem}</Btn>}
       <Btn onClick={onSeed} className="w-full py-3 bg-surface border border-gray-300 text-gray-600 text-sm">{t.seed}</Btn>
     </div>
   );
@@ -1653,7 +1640,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
                   ? <RunningLow t={t} inv={inv} list={list} onRestock={restock} onUnrestock={unpick} />
                   : sub === "history"
                     ? <History t={t} brand={brand} onCopied={refresh} />
-                    : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} />}
+                    : <Stock t={t} items={inv} setItems={setInv} mutate={mutate} refresh={refresh} onSeed={seed} onAdd={() => setMic(true)} />}
             </>
           )}
           {tab === "budget" && <Budget t={t} lang={lang} signal={signal} />}
@@ -1691,13 +1678,6 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
                 </button>
               ))}
             </div>
-          </div>
-        </div>
-      )}
-      {tab === "groceries" && sub === "stock" && (
-        <div className="fixed inset-x-0 bottom-20 lg:bottom-6 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
-          <div className="max-w-5xl mx-auto px-4 lg:px-8 flex justify-end lg:pl-60">
-            <Btn onClick={() => setMic(true)} className="pointer-events-auto h-12 px-4 rounded-full bg-brand text-white shadow-lg flex items-center gap-1.5 font-semibold text-sm" aria-label="add"><Plus size={20} />{t.addItem}</Btn>
           </div>
         </div>
       )}
