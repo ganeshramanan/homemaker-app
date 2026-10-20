@@ -1,9 +1,9 @@
-// ONE place to rename the product. Options for your friend to pick from:
-// "Maligai Mate" | "Veettu Kanakku" | "Amma's List" | "Pantry Pal" | "Illam" | "Kitchen Kanakku"
-// Or set the BRAND_NAME env var on Render to override the name without touching code.
+// ONE place to rename the product.
+// Name ideas for your friend to pick from: "Illam" | "Kudumbam" | "Veettu Thittam" | "Nimmadhi" | "Home Hub"
+// NOTE: if the BRAND_NAME environment variable is set on Render, it overrides "name" below.
 export default {
-  name: "Maligai Mate",
-  tagline: "Make your list. Send it. Stay stocked.",
+  name: "Illam",
+  tagline: "Groceries, budget and calendar for your home.",
   themeColor: "#15803d",
   backgroundColor: "#f6faf6",
 };
