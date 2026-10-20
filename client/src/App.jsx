@@ -1,5 +1,5 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { getMode, saveMode } from "./theme.js";
+import { getMode, saveMode, isDark } from "./theme.js";
 import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
@@ -747,7 +747,23 @@ const MOCK_EVENTS = {
 };
 
 function LangToggle({ lang, onLang, className = "" }) {
-  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-surface border border-line text-sm border border-gray-300 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
+  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 h-9 bg-surface border border-gray-300 text-sm ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
+}
+
+// One tap switches light and dark. It is shown in every header, on every screen.
+function ThemeToggle() {
+  const [dark, setDark] = useState(() => isDark(getMode()));
+  const flip = () => { const next = dark ? "light" : "dark"; saveMode(next); setDark(!dark); };
+  return (
+    <button onClick={flip} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} title={dark ? "Light mode" : "Dark mode"}
+      className="w-9 h-9 shrink-0 rounded-lg border border-gray-300 bg-surface text-gray-700 flex items-center justify-center active:scale-95 transition">
+      {dark ? <Sun size={18} /> : <Moon size={18} />}
+    </button>
+  );
+}
+
+function HeaderTools({ lang, onLang }) {
+  return <div className="flex items-center gap-2"><ThemeToggle /><LangToggle lang={lang} onLang={onLang} /></div>;
 }
 
 function AuthSheet({ t, lang, initial, onUser, onClose }) {
@@ -825,9 +841,10 @@ function Landing({ brand, lang, onLang, onUser }) {
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 px-4 py-3">
           <span className="flex items-center gap-2 min-w-0" translate="no"><span className="shrink-0 w-8 h-8 rounded-lg bg-brand text-white flex items-center justify-center"><HomeIcon size={18} /></span><span className="text-lg font-bold text-gray-900 truncate">{brand.name}</span></span>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <LangToggle lang={lang} onLang={onLang} />
-            <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-gray-300 bg-surface text-sm">{t.signIn}</Btn>
-            <Btn onClick={() => setSheet("signup")} className="px-3 py-1.5 bg-brand text-white text-sm">{t.signUp}</Btn>
+            <Btn onClick={() => setSheet("login")} className="hidden sm:inline-flex items-center h-9 px-3 text-brand border border-gray-300 bg-surface text-sm">{t.signIn}</Btn>
+            <Btn onClick={() => setSheet("signup")} className="inline-flex items-center h-9 px-3 bg-brand text-white text-sm">{t.signUp}</Btn>
           </div>
         </div>
       </header>
@@ -1636,7 +1653,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
       <div className="lg:pl-60">
         <header className="sticky top-0 z-20 flex items-center justify-between px-4 lg:px-8 py-3 bg-surface/90 backdrop-blur border-b border-line" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
           <h1 className="lg:invisible font-bold text-gray-900" translate="no">{brand.name}</h1>
-          <LangToggle lang={lang} onLang={onLang} />
+          <HeaderTools lang={lang} onLang={onLang} />
         </header>
         <main className={`max-w-5xl mx-auto px-4 lg:px-8 pt-5 ${tab === "groceries" && sub === "stock" ? "pb-44" : "pb-28"} lg:pb-10`}>
           {user.isDemo && <p className="mb-3 rounded-lg bg-amber-50 border border-amber-200 p-2.5 text-center text-xs text-amber-800">{t.demoNote}</p>}

@@ -1,6 +1,6 @@
-// Light / dark / follow-the-phone. The choice is remembered on this device.
+// Light / dark / follow-the-phone. The choice is remembered on this device. New visitors start in light.
 const KEY = "theme";
-export const getMode = () => localStorage.getItem(KEY) || "system";
+export const getMode = () => localStorage.getItem(KEY) || "light";
 export const isDark = (mode) => mode === "dark" || (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
 export function applyMode(mode) {
