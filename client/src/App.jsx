@@ -1,5 +1,6 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Trash2, GripVertical, Check, Minus, X as XIcon } from "lucide-react";
+import { getMode, saveMode } from "./theme.js";
+import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Trash2, GripVertical, Check, Minus, X as XIcon } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -19,12 +20,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", appearance: "Appearance", themeLight: "Light", themeDark: "Dark", themeAuto: "Phone", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", appearance: "தோற்றம்", themeLight: "வெளிர்", themeDark: "இருண்ட", themeAuto: "போன்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -48,13 +49,13 @@ const fmt = (n) => (Math.round(n * 100) / 100).toString();
 const Btn = ({ className = "", ...p }) => <button {...p} className={`active:scale-95 transition rounded-lg font-semibold ${className}`} />;
 const Stepper = ({ value, unit, onChange }) => (
   <div className="shrink-0 flex items-center gap-0.5">
-    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
+    <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
     <span className="w-[4.25rem] flex items-baseline justify-center gap-0.5">
       <input key={value} type="number" inputMode="decimal" defaultValue={fmt(value)} onBlur={(e) => { const v = +e.target.value; if (v > 0 && v !== value) onChange(v); }}
         className="w-9 min-w-0 text-right text-sm font-bold bg-transparent outline-none" />
       <span className="text-[11px] text-gray-500 w-6 text-left truncate">{unit}</span>
     </span>
-    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
+    <Btn onClick={() => onChange(+(value + step(unit)).toFixed(3))} className="shrink-0 w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
   </div>
 );
 
@@ -62,7 +63,7 @@ function Row({ item, t, canDrag, onQty, onDelete, onToggle }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag });
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 10 : 0 }}
-      className={`flex items-center gap-2 bg-white rounded-lg px-2 py-2.5 border border-line ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
+      className={`flex items-center gap-2 bg-surface rounded-lg px-2 py-2.5 border border-line ${isDragging ? "shadow-xl ring-2 ring-brand" : ""}`}>
       {canDrag ? <span {...attributes} {...listeners} className="shrink-0 text-gray-300 touch-none select-none cursor-grab flex items-center" aria-label="drag"><GripVertical size={18} /></span> : <span className="shrink-0 w-1" />}
       <Btn onClick={() => onToggle(item)} className="shrink-0 w-7 h-7 rounded-md border-2 border-gray-300 text-transparent hover:text-gray-400 flex items-center justify-center" aria-label="bought"><Check size={16} strokeWidth={3} /></Btn>
       <span className="flex-1 min-w-0 font-medium text-gray-900 truncate" title={dn(item.name)}>{dn(item.name)}</span>
@@ -88,7 +89,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
     && (tab === "low" ? low.has(c.name) : tab === "mine" ? mine.has(c.name) : true) && (!cat || c.category === cat));
   const looksList = /[\d,]/.test(q) || s.split(/\s+/).length > 2;
   const upd = (i, patch) => setRows(rows.map((r, j) => (j === i ? { ...r, ...patch, unknown: false } : r)));
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onDone}>
@@ -96,7 +97,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
         {!rows ? (
           <>
             <div className="p-4 pb-2 space-y-2">
-              <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand" />
+              <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-surface border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand" />
               <div className="flex gap-2">
                 {[["all", t.allTab], ["low", `${t.lowTab} (${low.size})`], ["mine", t.mineTab]].map(([k, l]) => <button key={k} onClick={() => setTab(k)} className={chip(tab === k)}>{l}</button>)}
               </div>
@@ -105,7 +106,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
                 {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{c}</button>)}
               </div>
               {listNames.size > 0 && <p className="text-xs text-gray-400">{t.tapAgain}</p>}
-              {looksList && <Btn onClick={async () => setRows(await api("/api/provisions/parse", "POST", { text: q }))} className="w-full py-2.5 bg-white border-2 border-brand text-brand text-sm">✍️ {t.readList}</Btn>}
+              {looksList && <Btn onClick={async () => setRows(await api("/api/provisions/parse", "POST", { text: q }))} className="w-full py-2.5 bg-surface border-2 border-brand text-brand text-sm">✍️ {t.readList}</Btn>}
             </div>
             <div className="flex-1 overflow-auto px-4 pb-2">
               {!shown.length && <p className="text-center text-gray-400 py-8">{t.noMatch}</p>}
@@ -113,7 +114,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
                 {shown.map((c) => {
                   const on = listNames.has(c.name);
                   return (
-                    <button key={c.name} onClick={() => (on ? onRemove(c.name) : onQuick(c))} className={`relative flex flex-col items-center gap-1 rounded-lg p-3 text-center transition active:scale-95 ${on ? "bg-gray-100 ring-2 ring-brand" : "bg-white border border-line"}`}>
+                    <button key={c.name} onClick={() => (on ? onRemove(c.name) : onQuick(c))} className={`relative flex flex-col items-center gap-1 rounded-lg p-3 text-center transition active:scale-95 ${on ? "bg-gray-100 ring-2 ring-brand" : "bg-surface border border-line"}`}>
                       <IconBox Icon={catIcon(c.category)} />
                       <span className="text-xs font-semibold leading-tight">{lang === "ta" && c.ta ? c.ta : c.name}</span>
                       {low.has(c.name) && !on && <span className="absolute top-1 right-1.5 text-[10px] text-red-500">●</span>}
@@ -130,7 +131,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
             <h3 className="font-bold text-lg mb-2">{t.check}</h3>
             <div className="space-y-2">
               {rows.map((r, i) => (
-                <div key={i} className={`flex items-center gap-2 rounded-lg bg-white p-2 ${r.unknown ? "ring-2 ring-amber-300" : ""}`}>
+                <div key={i} className={`flex items-center gap-2 rounded-lg bg-surface p-2 ${r.unknown ? "ring-2 ring-amber-300" : ""}`}>
                   <IconBox Icon={catIcon(itemCat(r.name, r.category))} />
                   <input value={r.name} onChange={(e) => upd(i, { name: e.target.value })} className="flex-1 min-w-0 font-semibold outline-none" />
                   <input type="number" inputMode="decimal" value={r.qty} onChange={(e) => upd(i, { qty: +e.target.value })} className="w-16 text-center rounded-xl bg-gray-50 py-1" />
@@ -140,7 +141,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
               ))}
             </div>
             <div className="flex gap-2 mt-4">
-              <Btn onClick={() => setRows(null)} className="flex-1 py-3 bg-white text-gray-600">←</Btn>
+              <Btn onClick={() => setRows(null)} className="flex-1 py-3 bg-surface text-gray-600">←</Btn>
               <Btn onClick={() => onParsed(rows.map(({ unknown, category, ...r }) => r))} disabled={!rows.length} className="flex-[3] py-3 bg-brand text-white disabled:opacity-40">{t.addAll} ({rows.length})</Btn>
             </div>
           </div>
@@ -151,7 +152,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 }
 
 // ---------- tabs ----------
-function Tile({ icon, title, lines, tone = "bg-white", className = "", onClick, children }) {
+function Tile({ icon, title, lines, tone = "bg-surface", className = "", onClick, children }) {
   return (
     <button onClick={onClick} className={`${tone} rounded-xl p-4 text-left active:scale-[.97] transition flex flex-col min-h-[7.5rem] ${className}`}>
       <span className="text-3xl leading-none">{icon}</span>
@@ -211,14 +212,14 @@ function Home({ t, lang, user, inv, list, cal, onGo }) {
       </div>
 
       {!tiles.length ? (
-        <div className="rounded-xl border border-line bg-white p-5 text-center space-y-3">
+        <div className="rounded-xl border border-line bg-surface p-5 text-center space-y-3">
           <p className="text-gray-500">{t.noneShown}</p>
           <Btn onClick={() => onGo("more", null, "sections")} className="px-5 py-2.5 bg-brand text-white rounded-lg">{t.chooseSections}</Btn>
         </div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {tiles.map(({ key, Icon, tint, label, big, sub, bar, badge, danger, go }) => (
-            <button key={key} onClick={go} className="text-left rounded-xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:border-gray-300 active:bg-gray-50 transition flex flex-col min-h-[7.5rem]">
+            <button key={key} onClick={go} className="text-left rounded-xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] hover:border-gray-300 active:bg-gray-50 transition flex flex-col min-h-[7.5rem]">
               <span className="flex items-start justify-between gap-2">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 leading-tight">{label}</span>
                 <span className={`shrink-0 w-9 h-9 rounded-lg flex items-center justify-center ${tint}`}><Icon size={18} strokeWidth={2} /></span>
@@ -242,9 +243,9 @@ function RunningLow({ t, inv, list, onRestock, onUnrestock }) {
   const low = inv.filter((i) => i.minQty > 0 && i.stock <= i.minQty).sort((a, b) => a.stock / a.minQty - b.stock / b.minQty).map((i) => ({ ...i, onList: names.has(i.name) }));
   return (
     <div className="space-y-2">
-      {!low.length && <p className="rounded-lg bg-white p-4 text-gray-500">{t.lowEmpty}</p>}
+      {!low.length && <p className="rounded-lg bg-surface p-4 text-gray-500">{t.lowEmpty}</p>}
       {low.map((i) => (
-        <div key={i.id} className="flex items-center gap-3 bg-white rounded-lg p-3 border border-line">
+        <div key={i.id} className="flex items-center gap-3 bg-surface rounded-lg p-3 border border-line">
           <IconBox Icon={catIcon(itemCat(i.name, i.category))} />
           <div className="flex-1">
             <p className="font-semibold">{dn(i.name)}</p>
@@ -272,7 +273,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
   const filtered = !!q.trim() || !!cat;
   const todo = status === "bought" ? [] : allTodo.filter(match);
   const done = status === "todo" ? [] : allDone.filter(match);
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
   const onDragEnd = async ({ active, over }) => {
     if (!over || active.id === over.id) return;
     const ids = arrayMove(allTodo.map((i) => i.id), allTodo.findIndex((i) => i.id === active.id), allTodo.findIndex((i) => i.id === over.id));
@@ -292,12 +293,12 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
   return (
     <div className="space-y-3">
       {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
-      {!list.items.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.empty}</p>}
+      {!list.items.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.empty}</p>}
       <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
         <div className="flex gap-2">
           {!!list.items.length && (
             <div className="relative flex-1 min-w-0">
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 pl-3 pr-9 py-2.5 outline-none focus:ring-2 ring-brand" />
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-surface border border-gray-300 pl-3 pr-9 py-2.5 outline-none focus:ring-2 ring-brand" />
               {q && <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear"><XIcon size={16} /></button>}
             </div>
           )}
@@ -309,7 +310,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
               {[["all", `${t.allTab} (${list.items.length})`], ["todo", `${t.toBuyTab} (${allTodo.length})`], ["bought", `${t.bought} (${allDone.length})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={`${chip(status === k)} whitespace-nowrap`}>{l}</button>)}
             </div>
             {cats.length > 1 && (
-              <select value={cat} onChange={(e) => setCat(e.target.value)} aria-label="category" className="shrink-0 max-w-[8.5rem] rounded-lg border border-gray-300 bg-white py-1.5 pl-2 pr-1 text-sm text-gray-700">
+              <select value={cat} onChange={(e) => setCat(e.target.value)} aria-label="category" className="shrink-0 max-w-[8.5rem] rounded-lg border border-gray-300 bg-surface py-1.5 pl-2 pr-1 text-sm text-gray-700">
                 <option value="">{t.allTab}</option>
                 {cats.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
@@ -317,7 +318,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
           </div>
         )}
       </div>
-      {!!list.items.length && !todo.length && !done.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
+      {!!list.items.length && !todo.length && !done.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.noMatch}</p>}
       {filtered && !!todo.length && <p className="text-xs text-gray-400">{t.dragHint}</p>}
       {!!todo.length && (
         <>
@@ -374,15 +375,15 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
   }, [items, q, status, cat]);
   const lowCount = items.filter(isLow).length;
   const groups = useMemo(() => shown.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [shown]);
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
   const save = async () => { if (!f.name.trim()) return; await api("/api/provisions/inventory", "POST", { ...f, name: f.name.trim() }); setAdding(false); setF({ name: "", unit: "kg", minQty: 1 }); refresh(); };
   return (
     <div className="space-y-4">
-      {!items.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.stockEmpty}</p>}
+      {!items.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.stockEmpty}</p>}
       {!!items.length && (
         <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
           <div className="relative">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-white border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-surface border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
             {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
           </div>
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
@@ -394,7 +395,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
           </div>
         </div>
       )}
-      {!!items.length && !shown.length && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.noMatch}</p>}
+      {!!items.length && !shown.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.noMatch}</p>}
       {Object.entries(groups).map(([cat, list]) => (
         <section key={cat}>
           <h2 className="font-bold mb-1.5">{cat}</h2>
@@ -402,15 +403,15 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
             {list.map((i) => {
               const low = i.minQty > 0 && i.stock <= i.minQty;
               return (
-                <div key={i.id} className={`flex items-center gap-2 rounded-lg bg-white p-2.5 border border-line ${low ? "ring-2 ring-red-200" : ""}`}>
+                <div key={i.id} className={`flex items-center gap-2 rounded-lg bg-surface p-2.5 border border-line ${low ? "ring-2 ring-red-200" : ""}`}>
                   <IconBox Icon={catIcon(itemCat(i.name, i.category))} />
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold leading-tight">{dn(i.name)}</p>
                     <label className="text-xs text-gray-400">{t.min} <input type="number" inputMode="decimal" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-12 rounded bg-gray-50 text-center text-gray-600" /></label>
                   </div>
-                  <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
+                  <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
                   <span className={`min-w-16 text-center font-bold ${low ? "text-red-600" : ""}`}>{fmt(i.stock)} {i.unit}</span>
-                  <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
+                  <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="w-8 h-8 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
                   <Btn onClick={() => removeItem(i)} className="w-8 h-9 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="remove"><Trash2 size={17} /></Btn>
                 </div>
               );
@@ -419,7 +420,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
         </section>
       ))}
       {adding ? (
-        <div className="rounded-lg bg-white p-3 space-y-2 shadow">
+        <div className="rounded-lg bg-surface p-3 space-y-2 shadow">
           <input autoFocus placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className="w-full rounded-xl bg-gray-50 p-2.5" />
           <div className="flex gap-2">
             <select value={f.unit} onChange={(e) => setF({ ...f, unit: e.target.value })} className="flex-1 rounded-xl bg-gray-50 p-2.5">{UNITS.map((u) => <option key={u}>{u}</option>)}</select>
@@ -431,7 +432,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
           </div>
         </div>
       ) : <Btn onClick={() => setAdding(true)} className="w-full py-3 border-2 border-dashed border-gray-300 text-brand">＋ {t.addItem}</Btn>}
-      <Btn onClick={onSeed} className="w-full py-3 bg-white border border-gray-300 text-gray-600 text-sm">📥 {t.seed}</Btn>
+      <Btn onClick={onSeed} className="w-full py-3 bg-surface border border-gray-300 text-gray-600 text-sm">📥 {t.seed}</Btn>
     </div>
   );
 }
@@ -455,7 +456,7 @@ function NextSheet({ t, onClose, onDone }) {
             const on = !off.has(r.name);
             return (
               <button key={r.name} onClick={() => { const n = new Set(off); on ? n.add(r.name) : n.delete(r.name); setOff(n); }}
-                className={`w-full flex items-center gap-3 rounded-lg p-2.5 text-left ${on ? "bg-white border border-line" : "bg-gray-100/60 opacity-60"}`}>
+                className={`w-full flex items-center gap-3 rounded-lg p-2.5 text-left ${on ? "bg-surface border border-line" : "bg-gray-100/60 opacity-60"}`}>
                 <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${on ? "bg-brand" : "border-2 border-gray-300"}`}>{on && "✓"}</span>
                 <IconBox Icon={catIcon(itemCat(r.name))} />
                 <span className="flex-1 font-semibold">{dn(r.name)}{r.reason === "low" && <span className="ml-2 text-xs font-bold text-red-500">{t.lowTag}</span>}</span>
@@ -465,7 +466,7 @@ function NextSheet({ t, onClose, onDone }) {
           })}
         </div>
         <div className="p-4 flex gap-2">
-          <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{t.cancel}</Btn>
+          <Btn onClick={onClose} className="flex-1 py-3 bg-surface text-gray-600">{t.cancel}</Btn>
           <Btn onClick={go} disabled={busy} className="flex-[2] py-3 bg-brand text-white disabled:opacity-50">{t.startList} ({chosen.length})</Btn>
         </div>
       </div>
@@ -492,7 +493,7 @@ function History({ t, brand, onCopied }) {
         <h2 className="font-bold text-lg">{monthOf(open.closedAt)}</h2>
         <div className="space-y-1.5">
           {open.items.map((i) => (
-            <div key={i.id} className="flex items-center gap-2 rounded-lg bg-white p-2.5 border border-line">
+            <div key={i.id} className="flex items-center gap-2 rounded-lg bg-surface p-2.5 border border-line">
               <IconBox Icon={catIcon(itemCat(i.name))} /><span className={`flex-1 font-semibold ${i.bought ? "text-gray-400 line-through" : ""}`}>{dn(i.name)}</span>
               <span className="text-sm text-gray-500">{fmt(i.qty)} {i.unit}</span>
             </div>
@@ -507,9 +508,9 @@ function History({ t, brand, onCopied }) {
   return (
     <div className="space-y-2">
       {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
-      {rows?.length === 0 && <p className="rounded-lg bg-white p-6 text-center text-gray-500">{t.historyEmpty}</p>}
+      {rows?.length === 0 && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.historyEmpty}</p>}
       {rows?.map((h) => (
-        <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-lg bg-white p-3.5 border border-line text-left active:scale-[.99]">
+        <button key={h.id} onClick={() => view(h.id)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-3.5 border border-line text-left active:scale-[.99]">
           <span className="text-2xl">🗓️</span>
           <span className="flex-1"><span className="block font-bold">{monthOf(h.closedAt)}</span><span className="text-sm text-gray-500">{h.count} {h.count === 1 ? t.item : t.items} · {h.bought} {t.boughtOf}</span></span>
           <span className="text-gray-300 text-xl">›</span>
@@ -534,7 +535,7 @@ function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       <p className="text-sm text-gray-500">{data.users.length} {t.users} · {pending} {t.waiting}</p>
       {data.users.map((u) => (
-        <div key={u.id} className={`rounded-lg bg-white p-3 border border-line ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
+        <div key={u.id} className={`rounded-lg bg-surface p-3 border border-line ${u.status === "pending" ? "ring-2 ring-amber-300" : ""}`}>
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0"><p className="font-bold truncate">{u.name} {u.role === "admin" && "👑"}</p><p className="text-sm text-gray-500">{u.phone} · {new Date(u.createdAt).toLocaleDateString("en-IN")}</p></div>
             <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${badge[u.status]}`}>{t["st_" + u.status]}</span>
@@ -600,12 +601,12 @@ function Sections({ t, lang, user, onUser }) {
       <h2 className="font-bold text-lg">{t.mySections}</h2>
       <p className="text-sm text-gray-500">{t.sectionsHint}</p>
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-      {!user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).length && <p className="rounded-lg bg-white p-5 text-center text-gray-500">{t.noneAllowed}</p>}
+      {!user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).length && <p className="rounded-lg bg-surface p-5 text-center text-gray-500">{t.noneAllowed}</p>}
       <div className="space-y-2">
         {user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).map((m) => {
           const on = user.modules.includes(m);
           return (
-            <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-lg bg-white p-4 border border-line text-left active:scale-[.99]">
+            <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-4 border border-line text-left active:scale-[.99]">
               <span className="text-2xl">{MODULE_ICON[m]}</span>
               <span className="flex-1 font-semibold">{moduleLabel(m, lang)}</span>
               <span className={`relative inline-block w-12 h-7 rounded-full transition-colors ${on ? "bg-brand" : "bg-gray-300"}`}>
@@ -619,22 +620,44 @@ function Sections({ t, lang, user, onUser }) {
   );
 }
 
+function ThemePicker({ t }) {
+  const [mode, setMode] = useState(getMode());
+  const pick = (m) => { saveMode(m); setMode(m); };
+  const opts = [["light", Sun, t.themeLight], ["dark", Moon, t.themeDark], ["system", Smartphone, t.themeAuto]];
+  return (
+    <div className="rounded-lg bg-surface p-4 border border-line">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">{t.appearance}</p>
+      <div className="grid grid-cols-3 gap-1 rounded-lg bg-gray-100 p-1">
+        {opts.map(([k, Icon, label]) => (
+          <button key={k} onClick={() => pick(k)} aria-pressed={mode === k} className={`flex items-center justify-center gap-1.5 rounded-md py-2 text-sm font-medium ${mode === k ? "bg-surface shadow-sm text-gray-900" : "text-gray-500"}`}>
+            <Icon size={16} />{label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function More({ t, lang, user, onUser, view, setView, onLogout }) {
   if (view) return (
     <div className="space-y-3">
-      <Btn onClick={() => setView(null)} className="text-brand px-1">← {t.back}</Btn>
+      <Btn onClick={() => setView(null)} className="text-brand px-1 flex items-center gap-1"><ChevronLeft size={18} />{t.back}</Btn>
       {view === "sections" ? <Sections t={t} lang={lang} user={user} onUser={onUser} /> : <Admin t={t} lang={lang} />}
     </div>
   );
-  const Row2 = ({ icon, label, onClick, danger }) => (
-    <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-lg bg-white p-4 border border-line text-left font-semibold active:scale-[.99] ${danger ? "text-red-600" : ""}`}><span className="text-2xl">{icon}</span><span className="flex-1">{label}</span><span className="text-gray-300 text-xl">›</span></button>
+  const Row2 = ({ Icon, label, onClick, danger }) => (
+    <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-lg bg-surface p-3.5 border border-line text-left font-medium active:bg-gray-50 ${danger ? "text-red-600" : "text-gray-900"}`}>
+      <IconBox Icon={Icon} className={danger ? "bg-red-50 text-red-600" : "bg-gray-100 text-gray-600"} /><span className="flex-1">{label}</span><ChevronRight size={18} className="text-gray-400" />
+    </button>
   );
   return (
     <div className="space-y-2.5">
-      <div className="rounded-lg bg-white p-4 border border-line"><p className="font-bold text-lg">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
-      <Row2 icon="🧩" label={t.mySections} onClick={() => setView("sections")} />
-      {user.role === "admin" && <Row2 icon="👑" label={t.adminUsers} onClick={() => setView("admin")} />}
-      <Row2 icon="🚪" label={t.signOut} onClick={onLogout} danger />
+      <h1 className="text-2xl font-bold text-gray-900">{t.more}</h1>
+      <div className="rounded-lg bg-surface p-4 border border-line"><p className="font-bold text-lg text-gray-900">{user.name}</p><p className="text-sm text-gray-500">{user.isDemo ? t.demoNote : user.phone}</p></div>
+      <ThemePicker t={t} />
+      <Row2 Icon={LayoutGrid} label={t.mySections} onClick={() => setView("sections")} />
+      {user.role === "admin" && <Row2 Icon={ShieldCheck} label={t.adminUsers} onClick={() => setView("admin")} />}
+      <Row2 Icon={LogOut} label={t.signOut} onClick={onLogout} danger />
     </div>
   );
 }
@@ -673,7 +696,7 @@ const MOCK_EVENTS = {
 };
 
 function LangToggle({ lang, onLang, className = "" }) {
-  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-white border border-line text-sm border border-gray-300 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
+  return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-surface border border-line text-sm border border-gray-300 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
 }
 
 function AuthSheet({ t, lang, initial, onUser, onClose }) {
@@ -693,7 +716,7 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
     }
     else onUser((await api("/api/auth/login", "POST", f)).user);
   }); };
-  const input = "w-full rounded-lg bg-white border border-gray-300 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
+  const input = "w-full rounded-lg bg-surface border border-gray-300 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50" onClick={onClose}>
       <div className="w-full max-w-md bg-sheet rounded-t-3xl sm:rounded-xl p-5 pb-8 max-h-[92vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
@@ -707,7 +730,7 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
         ) : (
           <form onSubmit={submit} className="space-y-3">
             <div className="flex rounded-lg bg-gray-100 p-1">
-              {[["login", t.signIn], ["signup", t.signUp]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
+              {[["login", t.signIn], ["signup", t.signUp]].map(([k, l]) => <button type="button" key={k} onClick={() => { setMode(k); setErr(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${mode === k ? "bg-surface shadow text-brand" : "text-gray-500"}`}>{l}</button>)}
             </div>
             {mode === "signup" && <input className={input} placeholder={t.yourName} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
             <input className={input} placeholder={t.phone} inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
@@ -720,7 +743,7 @@ function AuthSheet({ t, lang, initial, onUser, onClose }) {
                     const on = picked.includes(m);
                     return (
                       <button type="button" key={m} role="checkbox" aria-checked={on} onClick={() => togglePick(m)}
-                        className={`rounded-full px-3.5 py-2 text-sm font-semibold border ${on ? "bg-brand text-white border-brand" : "bg-white text-gray-500 border-gray-300"}`}>
+                        className={`rounded-full px-3.5 py-2 text-sm font-semibold border ${on ? "bg-brand text-white border-brand" : "bg-surface text-gray-500 border-gray-300"}`}>
                         {on ? "✓ " : ""}{MODULE_ICON[m]} {moduleLabel(m, lang)}
                       </button>
                     );
@@ -752,7 +775,7 @@ function Landing({ brand, lang, onLang, onUser }) {
           <span className="text-xl font-extrabold text-brand truncate" translate="no">🏡 {brand.name}</span>
           <div className="flex items-center gap-2">
             <LangToggle lang={lang} onLang={onLang} />
-            <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-gray-300 bg-white text-sm">{t.signIn}</Btn>
+            <Btn onClick={() => setSheet("login")} className="px-3 py-1.5 text-brand border border-gray-300 bg-surface text-sm">{t.signIn}</Btn>
             <Btn onClick={() => setSheet("signup")} className="px-3 py-1.5 bg-brand text-white text-sm">{t.signUp}</Btn>
           </div>
         </div>
@@ -765,14 +788,14 @@ function Landing({ brand, lang, onLang, onUser }) {
           <p className="mt-4 text-lg text-gray-600">{t.heroText}</p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
             <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-brand text-white text-lg shadow-lg">{t.createAcct}</Btn>
-            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-white border-2 border-brand text-brand text-lg disabled:opacity-50">{busy ? t.loading : t.tryDemo}</Btn>
+            <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 bg-surface border-2 border-brand text-brand text-lg disabled:opacity-50">{busy ? t.loading : t.tryDemo}</Btn>
           </div>
           {err && <p className="mt-3 text-sm text-red-600">{err}</p>}
           <p className="mt-3 text-sm text-gray-500">{t.already} <button onClick={() => setSheet("login")} className="font-bold text-brand underline">{t.signIn}</button></p>
         </div>
 
         <div className="mx-auto w-full max-w-xs" aria-hidden="true">
-          <div className="rounded-[2rem] bg-white p-4 shadow-2xl border-4 border-green-900/10" translate="no">
+          <div className="rounded-[2rem] bg-surface p-4 shadow-2xl border-4 border-green-900/10" translate="no">
             <p className="font-bold text-brand mb-2">{brand.name}</p>
             <div className="grid grid-cols-3 gap-2">
               {MOCK_TILES[lang].map(([e, title, line, tone]) => (
@@ -785,7 +808,7 @@ function Landing({ brand, lang, onLang, onUser }) {
             </div>
             <div className="mt-3 rounded-lg bg-gray-50 p-2.5 space-y-1.5">
               {MOCK_EVENTS[lang].map(([e, title, when], i) => (
-                <div key={title} className={`flex items-center gap-2 rounded-xl bg-white px-2.5 h-11 ${i === 1 ? "ring-2 ring-brand" : ""}`}>
+                <div key={title} className={`flex items-center gap-2 rounded-xl bg-surface px-2.5 h-11 ${i === 1 ? "ring-2 ring-brand" : ""}`}>
                   <span className="text-xl shrink-0">{e}</span>
                   <span className="flex-1 min-w-0 text-sm font-semibold truncate">{title}</span>
                   <span className={`shrink-0 whitespace-nowrap text-[11px] font-bold rounded-full px-2 py-0.5 ${i === 1 ? "bg-brand text-white" : "bg-gray-50 text-gray-600"}`}>{i === 1 ? CT[lang].now : when}</span>
@@ -796,7 +819,7 @@ function Landing({ brand, lang, onLang, onUser }) {
         </div>
       </section>
 
-      <section className="bg-white py-12">
+      <section className="bg-surface py-12">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gray-900">{t.featTitle}</h2>
           <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -811,7 +834,7 @@ function Landing({ brand, lang, onLang, onUser }) {
         <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gray-900">{t.howTitle}</h2>
         <div className="mt-8 grid sm:grid-cols-3 gap-4">
           {STEPS[lang].map(([n, h, d]) => (
-            <div key={n} className="rounded-xl bg-white p-5 text-center border border-line"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{h}</h3><p className="text-sm text-gray-500">{d}</p></div>
+            <div key={n} className="rounded-xl bg-surface p-5 text-center border border-line"><div className="mx-auto w-10 h-10 rounded-full bg-brand text-white font-extrabold flex items-center justify-center mb-2">{n}</div><h3 className="font-bold">{h}</h3><p className="text-sm text-gray-500">{d}</p></div>
           ))}
         </div>
         <p className="mt-8 text-center text-sm text-gray-500">{t.soon}</p>
@@ -820,7 +843,7 @@ function Landing({ brand, lang, onLang, onUser }) {
       <section className="bg-gradient-to-br from-green-600 to-green-800 text-white py-12 text-center px-4">
         <h2 className="text-2xl md:text-3xl font-extrabold">{t.ctaTitle}</h2>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-white text-gray-700 text-lg">{t.createAcct}</Btn>
+          <Btn onClick={() => setSheet("signup")} className="px-6 py-3.5 bg-surface text-gray-700 text-lg">{t.createAcct}</Btn>
           <Btn onClick={demo} disabled={busy} className="px-6 py-3.5 border-2 border-white text-white text-lg disabled:opacity-50">{t.tryDemo}</Btn>
         </div>
       </section>
@@ -879,21 +902,21 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
   const [paid, setPaid] = useState(!!initial.paid);
   const [err, setErr] = useState("");
   const cats = type === "income" ? INCOME_CATS : EXPENSE_CATS;
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
   const save = () => {
     const n = Number(amount);
     if (!amount.trim() || !Number.isFinite(n) || n <= 0) return setErr(b.needAmount);
     const category = cat || "Other";
     onSave({ ...(editing && { id: initial.id }), type, category, title: title.trim() || category, amount: n, paid: type === "expense" && paid });
   };
-  const input = "w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
+  const input = "w-full rounded-lg bg-surface border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
       <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
         {editing ? <h3 className="font-bold text-lg">{b.editEntry}</h3> : (
           <div className="flex rounded-lg bg-gray-100 p-1">
             {[["income", b.income], ["expense", b.expenses]].map(([k, l]) => (
-              <button key={k} onClick={() => { setType(k); setCat(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${type === k ? "bg-white shadow text-brand" : "text-gray-500"}`}>{l}</button>
+              <button key={k} onClick={() => { setType(k); setCat(""); }} className={`flex-1 rounded-xl py-2 font-semibold ${type === k ? "bg-surface shadow text-brand" : "text-gray-500"}`}>{l}</button>
             ))}
           </div>
         )}
@@ -906,7 +929,7 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
         </div>
         <input className={input} placeholder={b.whatFor} value={title} maxLength={60} onChange={(e) => setTitle(e.target.value)} />
         {type === "expense" && (
-          <button onClick={() => setPaid(!paid)} className="w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left">
+          <button onClick={() => setPaid(!paid)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-3 text-left">
             <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${paid ? "bg-brand" : "border-2 border-gray-300"}`}>{paid && "✓"}</span>
             <span className="font-semibold">{b.markPaid}</span>
           </button>
@@ -914,7 +937,7 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
         {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
         <div className="flex gap-2">
           {editing && <Btn onClick={() => onDelete(initial.id)} className="px-4 py-3 bg-red-50 text-red-600">{b.del}</Btn>}
-          <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{b.cancel}</Btn>
+          <Btn onClick={onClose} className="flex-1 py-3 bg-surface text-gray-600">{b.cancel}</Btn>
           <Btn onClick={save} className="flex-[2] py-3 bg-brand text-white">{b.save}</Btn>
         </div>
       </div>
@@ -968,7 +991,7 @@ function Budget({ t, lang }) {
   }, [rows]);
 
   const Entry = ({ e }) => (
-    <div className={`flex items-center gap-2 rounded-lg bg-white p-2.5 border border-line ${e.id < 0 ? "opacity-60" : ""}`}>
+    <div className={`flex items-center gap-2 rounded-lg bg-surface p-2.5 border border-line ${e.id < 0 ? "opacity-60" : ""}`}>
       {e.type === "expense" ? (
         <button onClick={() => togglePaid(e)} aria-label="paid" className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm ${e.paid ? "bg-brand text-white" : "border-2 border-gray-300 text-transparent"}`}>✓</button>
       ) : <span className="w-7 shrink-0" />}
@@ -986,7 +1009,7 @@ function Budget({ t, lang }) {
   const savedPct = data.income > 0 ? Math.round((data.balance / data.income) * 100) : null;
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between rounded-lg bg-white p-2 border border-line">
+      <div className="flex items-center justify-between rounded-lg bg-surface p-2 border border-line">
         <Btn onClick={() => setMonth(shiftMonth(month, -1))} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
         <div className="text-center"><p className="font-bold">{monthName(month, lang)}</p>{month === thisMonth() && <p className="text-xs text-green-700">{b.thisMonth}</p>}</div>
         <Btn onClick={() => setMonth(shiftMonth(month, 1))} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
@@ -997,7 +1020,7 @@ function Budget({ t, lang }) {
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-lg bg-gray-100 p-3"><p className="text-xs text-gray-700">{b.income}</p><p className="font-extrabold text-gray-900 text-sm sm:text-base">{inr(data.income)}</p></div>
             <div className="rounded-lg bg-amber-100 p-3"><p className="text-xs text-amber-800">{b.expenses}</p><p className="font-extrabold text-amber-900 text-sm sm:text-base">{inr(data.expense)}</p></div>
-            <div className={`rounded-lg p-3 ${data.balance >= 0 ? "bg-white" : "bg-red-100"}`}><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-extrabold text-sm sm:text-base ${data.balance >= 0 ? "text-gray-700" : "text-red-700"}`}>{inr(data.balance)}</p></div>
+            <div className={`rounded-lg p-3 ${data.balance >= 0 ? "bg-surface" : "bg-red-100"}`}><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-extrabold text-sm sm:text-base ${data.balance >= 0 ? "text-gray-700" : "text-red-700"}`}>{inr(data.balance)}</p></div>
           </div>
           {data.income > 0 && (
             <p className={`text-center text-sm ${data.balance < 0 ? "text-red-600 font-semibold" : "text-gray-500"}`}>
@@ -1006,7 +1029,7 @@ function Budget({ t, lang }) {
           )}
           {data.expense > 0 && <p className="text-center text-xs text-gray-500">{b.paid}: {inr(data.paid)} · {b.pending}: {inr(data.expense - data.paid)}</p>}
 
-          <section className="rounded-xl bg-white p-4 border border-line">
+          <section className="rounded-xl bg-surface p-4 border border-line">
             <h2 className="font-bold mb-2">{b.where}</h2>
             {!data.slices.length ? <p className="text-gray-400 text-sm py-4 text-center">{b.noExpenses}</p> : (
               <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -1031,14 +1054,14 @@ function Budget({ t, lang }) {
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="font-bold">💰 {b.income}</h2>
               <Btn onClick={() => setSheet({ type: "income" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addIncome}</Btn></div>
-            {!data.inc.length && <p className="rounded-lg bg-white p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
+            {!data.inc.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{b.noIncome}</p>}
             {data.inc.map((e) => <Entry key={e.id} e={e} />)}
           </section>
 
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="font-bold">🧾 {b.expenses}</h2>
               <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {b.addExpense}</Btn></div>
-            {!data.exp.length && <p className="rounded-lg bg-white p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
+            {!data.exp.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
             {data.exp.map((e) => <Entry key={e.id} e={e} />)}
           </section>
 
@@ -1090,8 +1113,8 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
   const [repeat, setRepeat] = useState(initial.repeat || "none");
   const [note, setNote] = useState(initial.note || "");
   const [err, setErr] = useState("");
-  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-white text-gray-600 border border-line"}`;
-  const input = "w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
+  const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-surface text-gray-600 border border-line"}`;
+  const input = "w-full rounded-lg bg-surface border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
   const save = () => {
     if (!date) return setErr(c.pickDate);
     onSave({ ...(editing && { id: initial.id }), title: title.trim() || ecat(category, lang), category, date, time: allDay ? "" : time, repeat, note: note.trim() });
@@ -1109,7 +1132,7 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
           <label className="block"><span className="text-sm text-gray-500">{c.date}</span><input type="date" className={input} value={date} onChange={(e) => { setDate(e.target.value); setErr(""); }} /></label>
           <label className="block"><span className="text-sm text-gray-500">{c.time}</span><input type="time" disabled={allDay} className={`${input} disabled:opacity-40`} value={time} onChange={(e) => setTime(e.target.value)} /></label>
         </div>
-        <button onClick={() => setAllDay(!allDay)} className="w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left">
+        <button onClick={() => setAllDay(!allDay)} className="w-full flex items-center gap-3 rounded-lg bg-surface p-3 text-left">
           <span className={`w-6 h-6 rounded-md flex items-center justify-center text-white text-sm ${allDay ? "bg-brand" : "border-2 border-gray-300"}`}>{allDay && "✓"}</span><span className="font-semibold">{c.allDay}</span>
         </button>
         <div>
@@ -1120,7 +1143,7 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
         {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
         <div className="flex gap-2">
           {editing && <Btn onClick={() => onDelete(initial.id)} className="px-4 py-3 bg-red-50 text-red-600">{c.del}</Btn>}
-          <Btn onClick={onClose} className="flex-1 py-3 bg-white text-gray-600">{c.cancel}</Btn>
+          <Btn onClick={onClose} className="flex-1 py-3 bg-surface text-gray-600">{c.cancel}</Btn>
           <Btn onClick={save} className="flex-[2] py-3 bg-brand text-white">{c.save}</Btn>
         </div>
       </div>
@@ -1132,7 +1155,7 @@ function EventRow({ o, c, lang, today, nowM, onOpen }) {
   const st = statusOf(o, today, nowM);
   const ring = st === "now" ? "ring-2 ring-brand bg-gray-50" : st === "past" ? "opacity-50" : "";
   return (
-    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left border border-line active:scale-[.99] ${ring}`}>
+    <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-lg bg-surface p-3 text-left border border-line active:scale-[.99] ${ring}`}>
       <IconBox Icon={eIcon(o.category)} />
       <span className="flex-1 min-w-0">
         <span className="block font-semibold truncate">{o.title}</span>
@@ -1186,7 +1209,7 @@ function Calendar({ lang, cal }) {
   return (
     <div className="space-y-3">
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-      <div className="rounded-xl bg-white p-3 border border-line">
+      <div className="rounded-xl bg-surface p-3 border border-line">
         <div className="flex items-center justify-between mb-2">
           <Btn onClick={() => go(-1)} className="w-10 h-10 text-2xl text-brand" aria-label="previous month">‹</Btn>
           <button onClick={() => { setYm({ y: t0.y, m: t0.m }); setSel(today); }} className="font-bold">{monthTitle(ym.y, ym.m, lang)}</button>
@@ -1200,7 +1223,7 @@ function Calendar({ lang, cal }) {
             return (
               <button key={d} onClick={() => openDay(d)} className={`relative mx-auto w-10 h-11 rounded-xl flex flex-col items-center justify-center text-sm ${isSel ? "bg-brand text-white font-bold" : isToday ? "ring-2 ring-brand font-bold text-brand" : "text-gray-700"}`}>
                 {parseYmd(d).d}
-                {n > 0 && <span className={`absolute bottom-1 flex gap-0.5`}>{Array.from({ length: Math.min(n, 3) }).map((_, k) => <i key={k} className={`w-1 h-1 rounded-full ${isSel ? "bg-white" : "bg-brand"}`} />)}</span>}
+                {n > 0 && <span className={`absolute bottom-1 flex gap-0.5`}>{Array.from({ length: Math.min(n, 3) }).map((_, k) => <i key={k} className={`w-1 h-1 rounded-full ${isSel ? "bg-surface" : "bg-brand"}`} />)}</span>}
               </button>
             );
           })}
@@ -1211,7 +1234,7 @@ function Calendar({ lang, cal }) {
         <Btn onClick={() => setSheet({ date: sel })} className="px-3 py-1.5 bg-brand text-white text-sm">＋ {c.addEvent}</Btn>
       </div>
       {events === null && <p className="text-center text-gray-400 py-4">…</p>}
-      {events && !dayEvents.length && <p className="rounded-lg bg-white p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
+      {events && !dayEvents.length && <p className="rounded-lg bg-surface p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
       <div className="space-y-2">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>
       {sheet && <EventSheet key={sheet.id || "new"} c={c} lang={lang} initial={sheet} onSave={saveSheet} onDelete={delSheet} onClose={() => setSheet(null)} />}
     </div>
@@ -1228,7 +1251,7 @@ function CalendarCard({ lang, cal, onOpen }) {
   const upcoming = occ.filter((o) => o.date > today);
   const label = (o) => { const st = statusOf(o, today, nowM); return st === "now" ? c.now : st === "soon" ? fmtTime(o.time) : o.time ? fmtTime(o.time) : c.allDay; };
   return (
-    <section className="rounded-xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] space-y-3">
+    <section className="rounded-xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] space-y-3">
       <button onClick={onOpen} className="w-full flex items-center justify-between text-left">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">{c.today} · {longDate(today, lang)}</span>
         <ChevronRight size={18} className="text-gray-400" />
@@ -1238,9 +1261,9 @@ function CalendarCard({ lang, cal, onOpen }) {
         const st = statusOf(o, today, nowM);
         return (
           <button key={o.key} onClick={onOpen} className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-left border ${st === "now" ? "border-brand bg-emerald-50" : "border-line bg-gray-50"}`}>
-            <span className="shrink-0 w-8 h-8 rounded-md bg-white border border-line text-gray-600 flex items-center justify-center"><Bell size={16} /></span>
+            <span className="shrink-0 w-8 h-8 rounded-md bg-surface border border-line text-gray-600 flex items-center justify-center"><Bell size={16} /></span>
             <span className="flex-1 min-w-0 text-sm font-semibold text-gray-900 truncate">{o.title}</span>
-            <span className={`text-xs font-semibold rounded-md px-2 py-0.5 ${st === "now" ? "bg-brand text-white" : "bg-white border border-line text-gray-600"}`}>{label(o)}</span>
+            <span className={`text-xs font-semibold rounded-md px-2 py-0.5 ${st === "now" ? "bg-brand text-white" : "bg-surface border border-line text-gray-600"}`}>{label(o)}</span>
           </button>
         );
       })}
@@ -1336,14 +1359,14 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
       <div className="flex gap-2">
         {MOODS.map(([k, Icon, en, ta]) => (
           <button key={k} onClick={() => { const nm = mood === k ? "" : k; setMood(nm); change(text, nm); }} aria-pressed={mood === k}
-            className={`flex-1 rounded-lg py-2 border flex flex-col items-center gap-0.5 ${mood === k ? "bg-brand/10 border-brand text-brand" : "bg-white border-line text-gray-500"}`}>
+            className={`flex-1 rounded-lg py-2 border flex flex-col items-center gap-0.5 ${mood === k ? "bg-brand/10 border-brand text-brand" : "bg-surface border-line text-gray-500"}`}>
             <Icon size={20} strokeWidth={1.9} /><span className="text-[10px] font-medium leading-none">{lang === "ta" ? ta : en}</span>
           </button>
         ))}
       </div>
       <textarea value={text} maxLength={DIARY_MAX} onChange={(e) => { setText(e.target.value); change(e.target.value, mood); }}
         placeholder={d.writeHere} rows={12} lang={lang === "ta" ? "ta" : "en"}
-        className="w-full rounded-xl bg-white p-4 text-lg leading-relaxed outline-none focus:ring-2 ring-brand border border-line resize-none" />
+        className="w-full rounded-xl bg-surface p-4 text-lg leading-relaxed outline-none focus:ring-2 ring-brand border border-line resize-none" />
       <div className="flex items-center justify-between text-xs text-gray-400 px-1">
         <span>{words} {d.words}</span><span>{DIARY_MAX - text.length} {d.charsLeft}</span>
       </div>
@@ -1353,7 +1376,7 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
         <section className="space-y-2 pt-2">
           <h3 className="font-bold">🕰️ {d.onThisDay}</h3>
           {memories.map((m) => (
-            <div key={m.id} className="rounded-lg bg-white p-3 border border-line">
+            <div key={m.id} className="rounded-lg bg-surface p-3 border border-line">
               <p className="text-xs font-bold text-brand">{parseYmd(m.date).y}{m.mood ? ` · ${moodLabel(m.mood, lang)}` : ""}</p>
               <p className="text-sm text-gray-700 whitespace-pre-wrap">{preview(m.text)}</p>
             </div>
@@ -1396,11 +1419,11 @@ function Diary({ lang }) {
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       <Btn onClick={() => setOpen(today)} className="w-full py-3.5 bg-brand text-white text-lg shadow">✏️ {hasToday ? d.today : `${d.today} · ${shortDay(today, lang)}`}</Btn>
       <div className="relative">
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={d.search} className="w-full rounded-lg bg-white border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={d.search} className="w-full rounded-lg bg-surface border border-gray-300 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
         {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
       </div>
       {hits === null && (
-        <div className="flex items-center justify-between rounded-lg bg-white p-2 border border-line">
+        <div className="flex items-center justify-between rounded-lg bg-surface p-2 border border-line">
           <Btn onClick={() => go(-1)} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
           <label className="relative text-center font-bold cursor-pointer">
             {monthTitle(ym.y, ym.m, lang)}
@@ -1410,10 +1433,10 @@ function Diary({ lang }) {
         </div>
       )}
       {list === null && <p className="text-center text-gray-400 py-4">…</p>}
-      {list && !list.length && <p className="rounded-lg bg-white p-5 text-center text-gray-400">{hits ? d.searchEmpty : d.noEntries}</p>}
+      {list && !list.length && <p className="rounded-lg bg-surface p-5 text-center text-gray-400">{hits ? d.searchEmpty : d.noEntries}</p>}
       <div className="space-y-2">
         {(list || []).map((e) => (
-          <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-lg bg-white p-3.5 text-left border border-line active:scale-[.99]">
+          <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-lg bg-surface p-3.5 text-left border border-line active:scale-[.99]">
             <p className="flex items-center gap-2 text-sm font-bold text-brand"><span>{shortDay(e.date, lang)}{hits ? ` · ${parseYmd(e.date).y}` : ""}</span><span className="font-normal text-gray-500">{moodLabel(e.mood, lang)}</span></p>
             <p className="mt-0.5 text-gray-700 text-sm whitespace-pre-wrap">{preview(e.text) || "…"}</p>
           </button>
@@ -1502,7 +1525,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
 
   return (
     <div className="min-h-screen bg-page text-gray-800">
-      <aside className="hidden lg:flex fixed inset-y-0 left-0 w-60 flex-col border-r border-line bg-white px-3 py-4 z-30">
+      <aside className="hidden lg:flex fixed inset-y-0 left-0 w-60 flex-col border-r border-line bg-surface px-3 py-4 z-30">
         <div className="flex items-center gap-2.5 px-2 pb-4">
           <span className="w-9 h-9 rounded-lg bg-brand text-white flex items-center justify-center"><HomeIcon size={19} /></span>
           <span className="leading-tight"><span className="block font-bold text-gray-900" translate="no">{brand.name}</span><span className="block text-[11px] text-gray-500 truncate">{brand.tagline}</span></span>
@@ -1513,7 +1536,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
       </aside>
 
       <div className="lg:pl-60">
-        <header className="sticky top-0 z-20 flex items-center justify-between px-4 lg:px-8 py-3 bg-white/90 backdrop-blur border-b border-line" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
+        <header className="sticky top-0 z-20 flex items-center justify-between px-4 lg:px-8 py-3 bg-surface/90 backdrop-blur border-b border-line" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
           <h1 className="lg:invisible font-bold text-gray-900" translate="no">{brand.name}</h1>
           <LangToggle lang={lang} onLang={onLang} />
         </header>
@@ -1525,7 +1548,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
             <>
               <div className="grid grid-cols-4 gap-1 rounded-lg bg-gray-100 p-1 mb-4">
                 {[["list", t.list], ["stock", t.stock], ["low", `${t.lowTab}${lowCount ? ` (${lowCount})` : ""}`], ["history", t.history]].map(([k, l]) => (
-                  <button key={k} onClick={() => setSub(k)} className={`rounded-md py-2 px-1 text-sm font-medium truncate ${sub === k ? "bg-white border border-line text-gray-900" : "text-gray-500"}`}>{l}</button>
+                  <button key={k} onClick={() => setSub(k)} className={`rounded-md py-2 px-1 text-sm font-medium truncate ${sub === k ? "bg-surface border border-line text-gray-900" : "text-gray-500"}`}>{l}</button>
                 ))}
               </div>
               {sub === "list"
@@ -1544,7 +1567,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
         </main>
       </div>
 
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-line" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-surface border-t border-line" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="max-w-xl mx-auto flex items-end">
           {tabs.map(([id, Icon, label]) => <Tab key={id} id={id} Icon={Icon} label={label} />)}
         </div>
