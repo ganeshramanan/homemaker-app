@@ -46,3 +46,16 @@
 
 html, body { background: var(--color-page, #f5f6f8); overscroll-behavior: none; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
 button { touch-action: manipulation; }
+
+/* Motion: sheets slide up, backdrops fade in, taps give feedback. Switched off for people who prefer reduced motion. */
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.fixed.inset-0.z-50 { animation: fade-in .18s ease-out; }
+.fixed.inset-0.z-50 > div { animation: sheet-up .26s cubic-bezier(.2,.8,.2,1); }
+@media (min-width: 640px) { .fixed.inset-0.z-50 > div { animation-name: pop-in; } }
+.skeleton { background: linear-gradient(90deg, var(--color-gray-100, #f3f4f6) 25%, var(--color-gray-200, #e5e7eb) 50%, var(--color-gray-100, #f3f4f6) 75%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; border-radius: .5rem; }
+@media (prefers-reduced-motion: reduce) {
+  .fixed.inset-0.z-50, .fixed.inset-0.z-50 > div, .skeleton { animation: none !important; }
+}
