@@ -5,5 +5,5 @@ export default {
   name: "Illam",
   tagline: "Groceries, budget and calendar for your home.",
   themeColor: "#15803d",
-  backgroundColor: "#f6faf6",
+  backgroundColor: "#faf6ee",
 };

@@ -82,7 +82,7 @@ function AddSheet({ t, lang, catalog, inv, listNames, onQuick, onRemove, onParse
 
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onDone}>
-      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl h-[88vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl h-[88vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
         {!rows ? (
           <>
             <div className="p-4 pb-2 space-y-2">
@@ -264,7 +264,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh }) {
       {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
       {!list.items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.empty}</p>}
       {!!list.items.length && (
-        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-green-50/95 backdrop-blur">
+        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
           <div className="relative">
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
             {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
@@ -343,7 +343,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed }) {
     <div className="space-y-4">
       {!items.length && <p className="rounded-2xl bg-white p-6 text-center text-gray-500">{t.stockEmpty}</p>}
       {!!items.length && (
-        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-green-50/95 backdrop-blur">
+        <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
           <div className="relative">
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
             {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
@@ -410,7 +410,7 @@ function NextSheet({ t, onClose, onDone }) {
   const go = async () => { setBusy(true); try { onDone(await api("/api/provisions/list/new", "POST", { items: chosen.map(({ name, qty, unit }) => ({ name, qty, unit })) })); } finally { setBusy(false); } };
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
-      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl max-h-[88vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl max-h-[88vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
         <div className="p-4 pb-2"><h3 className="font-bold text-lg">{t.nextTitle}</h3><p className="text-sm text-gray-500">{t.nextNote}</p></div>
         <div className="flex-1 overflow-auto px-4 space-y-1.5">
           {rows === null && <p className="text-center text-gray-400 py-6">…</p>}
@@ -651,7 +651,7 @@ function AuthSheet({ t, initial, onUser, onClose }) {
   const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50" onClick={onClose}>
-      <div className="w-full max-w-md bg-green-50 rounded-t-3xl sm:rounded-3xl p-5 pb-8 max-h-[92vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-md bg-sheet rounded-t-3xl sm:rounded-3xl p-5 pb-8 max-h-[92vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-end"><button onClick={onClose} className="text-gray-400 text-2xl px-2" aria-label="close">✕</button></div>
         {done ? (
           <div className="text-center space-y-3 pb-2">
@@ -684,8 +684,8 @@ function Landing({ brand, lang, onLang, onUser }) {
   const [err, setErr] = useState("");
   const demo = async () => { setErr(""); setBusy(true); try { onUser((await api("/api/auth/demo", "POST")).user); } catch (e) { setErr(e.message); setBusy(false); } };
   return (
-    <div className="min-h-screen bg-green-50 text-gray-800">
-      <header className="sticky top-0 z-20 bg-green-50/90 backdrop-blur">
+    <div className="min-h-screen bg-page text-gray-800">
+      <header className="sticky top-0 z-20 bg-page/90 backdrop-blur">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 px-4 py-3">
           <span className="text-xl font-extrabold text-brand truncate" translate="no">🏡 {brand.name}</span>
           <div className="flex items-center gap-2">
@@ -825,7 +825,7 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
   const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
-      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
         {editing ? <h3 className="font-bold text-lg">{b.editEntry}</h3> : (
           <div className="flex rounded-2xl bg-green-100 p-1">
             {[["income", b.income], ["expense", b.expenses]].map(([k, l]) => (
@@ -1032,7 +1032,7 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
   };
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
-      <div className="w-full max-w-xl mx-auto bg-green-50 rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-3xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
         <h3 className="font-bold text-lg">{editing ? c.editEvent : c.newEvent}</h3>
         <div>
           <p className="text-sm text-gray-500 mb-1.5">{c.category}</p>
@@ -1261,7 +1261,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
 
   return (
     <div className={`min-h-screen max-w-xl mx-auto ${tab === "groceries" ? "pb-44" : "pb-28"} text-gray-800`}>
-      <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-green-50/90 backdrop-blur" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
+      <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-page/90 backdrop-blur" style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}>
         <div><h1 className="text-xl font-extrabold text-brand leading-tight">{brand.name}</h1></div>
         <LangToggle lang={lang} onLang={onLang} />
       </header>

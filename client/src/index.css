@@ -1,4 +1,8 @@
 @import "tailwindcss";
-@theme { --color-brand: #15803d; }
-html, body { background: #f6faf6; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+@theme {
+  --color-brand: #15803d;
+  --color-page: #faf6ee;   /* warm off-white page background */
+  --color-sheet: #fffdf8;  /* popups and bottom sheets */
+}
+html, body { background: #faf6ee; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
 button { touch-action: manipulation; }
