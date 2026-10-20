@@ -828,6 +828,8 @@ const INCOME_CATS = ["Salary", "Business", "Rent received", "Interest", "Gift", 
 const EXPENSE_CATS = ["Rent", "Groceries", "Electricity", "Water", "Gas", "Mobile & Internet", "EMI / Loan", "School fees", "Medical", "Fuel", "Transport", "Insurance", "Savings", "Entertainment", "Festival", "Clothing", "Other"];
 const BCAT_TA = { Salary: "சம்பளம்", Business: "தொழில்", "Rent received": "வாடகை வருமானம்", Interest: "வட்டி", Gift: "பரிசு", Other: "மற்றவை", Rent: "வாடகை", Groceries: "மளிகை", Electricity: "மின்சாரம்", Water: "தண்ணீர்", Gas: "கேஸ்", "Mobile & Internet": "மொபைல் & இணையம்", "EMI / Loan": "EMI / கடன்", "School fees": "பள்ளிக் கட்டணம்", Medical: "மருத்துவம்", Fuel: "பெட்ரோல்", Transport: "பயணம்", Insurance: "காப்பீடு", Savings: "சேமிப்பு", Entertainment: "பொழுதுபோக்கு", Festival: "பண்டிகை", Clothing: "உடைகள்" };
 const BCAT_ICON = { Salary: "💼", Business: "🏪", "Rent received": "🏠", Interest: "🏦", Gift: "🎁", Other: "📌", Rent: "🏠", Groceries: "🛒", Electricity: "💡", Water: "🚰", Gas: "🔥", "Mobile & Internet": "📱", "EMI / Loan": "💳", "School fees": "🎓", Medical: "💊", Fuel: "⛽", Transport: "🚌", Insurance: "🛡️", Savings: "🐷", Entertainment: "🎬", Festival: "🪔", Clothing: "👗" };
+const BCAT_LUCIDE = { Salary: Briefcase, Business: Landmark, "Rent received": Home, Interest: Landmark, Gift: Gift, Other: Pin, Rent: Home, Groceries: ShoppingCart, Electricity: Lightbulb, Water: Droplets, Gas: Flame, "Mobile & Internet": Smartphone, "EMI / Loan": CreditCard, "School fees": GraduationCap, Medical: Stethoscope, Fuel: Fuel, Transport: Bus, Insurance: ShieldCheck, Savings: PiggyBank, Entertainment: Clapperboard, Festival: PartyPopper, Clothing: Shirt };
+const bIcon = (c) => BCAT_LUCIDE[c] || Pin;
 const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
 const BT = {
   en: { title: "Budget", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
@@ -891,7 +893,7 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
         <div>
           <p className="text-sm text-gray-500 mb-1.5">{b.category}</p>
           <div className="flex flex-wrap gap-2">
-            {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{BCAT_ICON[c]} {bcat(c, lang)}</button>)}
+            {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{bcat(c, lang)}</button>)}
           </div>
         </div>
         <input className={input} placeholder={b.whatFor} value={title} maxLength={60} onChange={(e) => setTitle(e.target.value)} />
@@ -963,7 +965,7 @@ function Budget({ t, lang }) {
         <button onClick={() => togglePaid(e)} aria-label="paid" className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm ${e.paid ? "bg-brand text-white" : "border-2 border-gray-300 text-transparent"}`}>✓</button>
       ) : <span className="w-7 shrink-0" />}
       <button onClick={() => e.id > 0 && setSheet(e)} className="flex-1 min-w-0 flex items-center gap-2 text-left">
-        <span className="text-2xl">{BCAT_ICON[e.category] ?? "📌"}</span>
+        <IconBox Icon={bIcon(e.category)} />
         <span className="min-w-0">
           <span className="block font-semibold truncate">{e.title === e.category ? bcat(e.category, lang) : e.title}</span>
           <span className="block text-xs text-gray-400 truncate">{bcat(e.category, lang)}{e.type === "expense" && !e.paid ? ` · ${b.pending}` : ""}</span>
@@ -1007,7 +1009,7 @@ function Budget({ t, lang }) {
                     return (
                       <li key={sl.name} className="flex items-center gap-2 text-sm">
                         <span className="w-3 h-3 rounded-full shrink-0" style={{ background: sl.color }} />
-                        <span className="flex-1 truncate">{BCAT_ICON[sl.name]} {bcat(sl.name, lang)}</span>
+                        <span className="flex-1 truncate">{bcat(sl.name, lang)}</span>
                         <span className="text-gray-500">{inr(sl.value)}</span>
                         <span className="w-10 text-right font-bold">{pct < 1 ? "<1" : Math.round(pct)}%</span>
                       </li>
@@ -1043,6 +1045,8 @@ function Budget({ t, lang }) {
 
 
 // ---------- calendar ----------
+const ECAT_LUCIDE = { Birthday: Cake, Anniversary: Heart, "Bill due": Receipt, "EMI due": CreditCard, "Credit card": CreditCard, Doctor: Stethoscope, Meeting: Users, School: GraduationCap, Festival: PartyPopper, Reminder: Bell, Other: Pin };
+const eIcon = (c) => ECAT_LUCIDE[c] || Pin;
 const EVENT_CATS = ["Birthday", "Anniversary", "Bill due", "EMI due", "Credit card", "Doctor", "Meeting", "School", "Festival", "Reminder", "Other"];
 const ECAT_ICON = { Birthday: "🎂", Anniversary: "💑", "Bill due": "🧾", "EMI due": "💳", "Credit card": "💳", Doctor: "🩺", Meeting: "👥", School: "🎓", Festival: "🪔", Reminder: "⏰", Other: "📌" };
 const ECAT_TA = { Birthday: "பிறந்தநாள்", Anniversary: "திருமண நாள்", "Bill due": "பில் கட்டணம்", "EMI due": "EMI தேதி", "Credit card": "கிரெடிட் கார்டு", Doctor: "மருத்துவர்", Meeting: "சந்திப்பு", School: "பள்ளி", Festival: "பண்டிகை", Reminder: "நினைவூட்டல்", Other: "மற்றவை" };
@@ -1090,7 +1094,7 @@ function EventSheet({ c, lang, initial, onSave, onDelete, onClose }) {
         <h3 className="font-bold text-lg">{editing ? c.editEvent : c.newEvent}</h3>
         <div>
           <p className="text-sm text-gray-500 mb-1.5">{c.category}</p>
-          <div className="flex flex-wrap gap-2">{EVENT_CATS.map((k) => <button key={k} onClick={() => setCategory(k)} className={chip(category === k)}>{ECAT_ICON[k]} {ecat(k, lang)}</button>)}</div>
+          <div className="flex flex-wrap gap-2">{EVENT_CATS.map((k) => <button key={k} onClick={() => setCategory(k)} className={chip(category === k)}>{ecat(k, lang)}</button>)}</div>
         </div>
         <input className={input} placeholder={c.eventTitle} value={title} maxLength={80} onChange={(e) => setTitle(e.target.value)} />
         <div className="grid grid-cols-2 gap-2">
@@ -1121,7 +1125,7 @@ function EventRow({ o, c, lang, today, nowM, onOpen }) {
   const ring = st === "now" ? "ring-2 ring-brand bg-gray-50" : st === "past" ? "opacity-50" : "";
   return (
     <button onClick={() => onOpen(o)} className={`w-full flex items-center gap-3 rounded-lg bg-white p-3 text-left border border-line active:scale-[.99] ${ring}`}>
-      <span className="text-2xl">{ECAT_ICON[o.category] ?? "📌"}</span>
+      <IconBox Icon={eIcon(o.category)} />
       <span className="flex-1 min-w-0">
         <span className="block font-semibold truncate">{o.title}</span>
         <span className="block text-xs text-gray-500 truncate">
@@ -1247,13 +1251,13 @@ function CalendarCard({ lang, cal, onOpen }) {
 }
 
 // ---------- diary ----------
-const MOODS = [["happy", "😊"], ["calm", "😌"], ["tired", "😴"], ["sad", "😔"], ["angry", "😠"]];
+const MOODS = [["happy", Smile, "Happy", "மகிழ்ச்சி"], ["calm", Heart, "Calm", "அமைதி"], ["tired", Moon, "Tired", "சோர்வு"], ["sad", Frown, "Sad", "சோகம்"], ["angry", Angry, "Angry", "கோபம்"]];
 const DT = {
   en: { title: "Diary", tile: "Write about today", today: "Today", writeHere: "Write about your day…", saving: "Saving…", saved: "Saved", clear: "Delete this entry", clearAsk: "Delete this day's entry?", search: "Search your diary…", noEntries: "Nothing written this month.", onThisDay: "On this day", words: "words", charsLeft: "left", searchEmpty: "No matches.", jump: "Go to date", failed: "Could not save. Retrying…", tip: "Tip: tap the microphone on your keyboard to speak instead of typing." },
   ta: { title: "டைரி", tile: "இன்றைய நாளை எழுதுங்கள்", today: "இன்று", writeHere: "இன்றைய நாளைப் பற்றி எழுதுங்கள்…", saving: "சேமிக்கிறது…", saved: "சேமிக்கப்பட்டது", clear: "இந்த பதிவை நீக்கு", clearAsk: "இந்த நாளின் பதிவை நீக்கவா?", search: "டைரியில் தேடுங்கள்…", noEntries: "இந்த மாதம் எதுவும் எழுதவில்லை.", onThisDay: "இதே நாளில்", words: "சொற்கள்", charsLeft: "மீதம்", searchEmpty: "பொருத்தம் இல்லை.", jump: "தேதிக்குச் செல்", failed: "சேமிக்க முடியவில்லை. மீண்டும் முயல்கிறது…", tip: "குறிப்பு: தட்டச்சுக்கு பதிலாக பேச, விசைப்பலகையில் உள்ள மைக்ரோஃபோனைத் தட்டவும்." },
 };
 const DIARY_MAX = 8000;
-const moodIcon = (m) => MOODS.find((x) => x[0] === m)?.[1] || "";
+const moodLabel = (m, lang) => { const x = MOODS.find((y) => y[0] === m); return x ? (lang === "ta" ? x[3] : x[2]) : ""; };
 const dayTitle = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); };
 const shortDay = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "short", day: "numeric", month: "short" }); };
 const preview = (s) => { const one = s.replace(/\s+/g, " ").trim(); return one.length > 110 ? one.slice(0, 110) + "…" : one; };
@@ -1322,9 +1326,11 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
         <span className={`text-xs font-semibold ${state === "failed" ? "text-red-600" : "text-gray-400"}`}>{state === "saved" ? `✓ ${d.saved}` : state === "saving" ? d.saving : d.failed}</span>
       </div>
       <div className="flex gap-2">
-        {MOODS.map(([k, e]) => (
+        {MOODS.map(([k, Icon, en, ta]) => (
           <button key={k} onClick={() => { const nm = mood === k ? "" : k; setMood(nm); change(text, nm); }} aria-pressed={mood === k}
-            className={`flex-1 rounded-lg py-2 text-2xl border ${mood === k ? "bg-brand/10 border-brand scale-105" : "bg-white border-transparent"}`}>{e}</button>
+            className={`flex-1 rounded-lg py-2 border flex flex-col items-center gap-0.5 ${mood === k ? "bg-brand/10 border-brand text-brand" : "bg-white border-line text-gray-500"}`}>
+            <Icon size={20} strokeWidth={1.9} /><span className="text-[10px] font-medium leading-none">{lang === "ta" ? ta : en}</span>
+          </button>
         ))}
       </div>
       <textarea value={text} maxLength={DIARY_MAX} onChange={(e) => { setText(e.target.value); change(e.target.value, mood); }}
@@ -1340,7 +1346,7 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
           <h3 className="font-bold">🕰️ {d.onThisDay}</h3>
           {memories.map((m) => (
             <div key={m.id} className="rounded-lg bg-white p-3 border border-line">
-              <p className="text-xs font-bold text-brand">{parseYmd(m.date).y} {moodIcon(m.mood)}</p>
+              <p className="text-xs font-bold text-brand">{parseYmd(m.date).y}{m.mood ? ` · ${moodLabel(m.mood, lang)}` : ""}</p>
               <p className="text-sm text-gray-700 whitespace-pre-wrap">{preview(m.text)}</p>
             </div>
           ))}
@@ -1400,7 +1406,7 @@ function Diary({ lang }) {
       <div className="space-y-2">
         {(list || []).map((e) => (
           <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-lg bg-white p-3.5 text-left border border-line active:scale-[.99]">
-            <p className="flex items-center gap-2 text-sm font-bold text-brand"><span>{shortDay(e.date, lang)}{hits ? ` · ${parseYmd(e.date).y}` : ""}</span><span>{moodIcon(e.mood)}</span></p>
+            <p className="flex items-center gap-2 text-sm font-bold text-brand"><span>{shortDay(e.date, lang)}{hits ? ` · ${parseYmd(e.date).y}` : ""}</span><span className="font-normal text-gray-500">{moodLabel(e.mood, lang)}</span></p>
             <p className="mt-0.5 text-gray-700 text-sm whitespace-pre-wrap">{preview(e.text) || "…"}</p>
           </button>
         ))}
