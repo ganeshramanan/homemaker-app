@@ -4,7 +4,7 @@ import { prisma } from "./db.js";
 import { seedInventory, addRows, activeList } from "./provisions.js";
 
 // Add new section ids here as modules are built (budget, reminders, diary, fitness).
-export const ALL_MODULES = ["provisions", "budget", "calendar"];
+export const ALL_MODULES = ["provisions", "budget", "calendar", "diary"];
 const SESSION_DAYS = 30;
 
 const hashPw = (pw) => { const salt = crypto.randomBytes(16); return `${salt.toString("hex")}:${crypto.scryptSync(pw, salt, 64).toString("hex")}`; };
@@ -79,7 +79,9 @@ authRouter.post("/signup", wrap(async (req, res) => {
   if (phone.length !== 10) return res.status(400).json({ error: "Enter a 10 digit phone number" });
   if (pw.length < 6) return res.status(400).json({ error: "Password needs at least 6 characters" });
   if (await prisma.user.findUnique({ where: { phone } })) return res.status(409).json({ error: "This phone number is already registered" });
-  await prisma.user.create({ data: { name, phone, passwordHash: hashPw(pw) } });
+  const asked = [...new Set([].concat(req.body.modules ?? ALL_MODULES).filter((m) => ALL_MODULES.includes(m)))];
+  if (!asked.length) return res.status(400).json({ error: "Choose at least one section" });
+  await prisma.user.create({ data: { name, phone, passwordHash: hashPw(pw), modules: asked.join(",") } });
   res.json({ status: "pending" });
 }));
 

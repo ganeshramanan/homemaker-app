@@ -18,12 +18,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up 🎉", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", more: "More", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: family diary and fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", more: "More", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "✨ Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு 🎉", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", more: "மேலும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: குடும்ப டைரி மற்றும் உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", more: "மேலும்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "✨ டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 const EMOJI = { Rice: "🍚", "Wheat Flour": "🌾", "Toor Dal": "🫘", "Urad Dal": "🫘", Sugar: "🍬", Salt: "🧂", "Cooking Oil": "🛢️", "Tea Powder": "🍵", "Coffee Powder": "☕", Milk: "🥛", Curd: "🥣", Eggs: "🥚", Tomato: "🍅", Onion: "🧅", Potato: "🥔", Garlic: "🧄", Coconut: "🥥", "Chilli Powder": "🌶️", "Turmeric Powder": "🟡", Tamarind: "🟤", Bread: "🍞", Soap: "🧼", Detergent: "🧺" };
@@ -184,6 +184,7 @@ function Home({ t, lang, user, inv, list, cal, onGo }) {
     <Tile key="c" icon="📅" title={c.title} lines={calLines} tone="bg-sky-100" onClick={() => onGo("calendar")}>
       {nowCount > 0 && <span className="mt-1 inline-block self-start rounded-full bg-brand text-white text-xs font-bold px-2.5 py-0.5 animate-pulse">{c.now}</span>}
     </Tile>);
+  if (has("diary")) tiles.push(<Tile key="d" icon="📔" title={DT[lang].title} lines={[DT[lang].tile]} tone="bg-rose-100" onClick={() => onGo("diary")} />);
 
   return (
     <div className="space-y-5">
@@ -483,8 +484,10 @@ function History({ t, brand, onCopied }) {
 }
 
 // ---------- admin ----------
-const MODULE_ICON = { provisions: "🛒", budget: "💰", calendar: "📅" };
-const moduleLabel = (m, lang) => (m === "provisions" ? T[lang].groceries : m === "budget" ? BT[lang].title : m === "calendar" ? CT[lang].title : m);
+const MODULE_ICON = { provisions: "🛒", budget: "💰", calendar: "📅", diary: "📔" };
+// Sections that have a screen in the app.
+const SHIPPED_MODULES = ["provisions", "budget", "calendar", "diary"];
+const moduleLabel = (m, lang) => (m === "provisions" ? T[lang].groceries : m === "budget" ? BT[lang].title : m === "calendar" ? CT[lang].title : m === "diary" ? DT[lang].title : m);
 const modList = (str) => (str || "").split(",").filter(Boolean);
 
 function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
@@ -505,7 +508,7 @@ function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
               <div className="mt-2.5">
                 <p className="text-xs text-gray-400 mb-1">{t.sectionsFor}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  {data.modules.map((m) => {
+                  {data.modules.filter((m) => SHIPPED_MODULES.includes(m)).map((m) => {
                     const on = modList(u.modules).includes(m);
                     return <button key={m} onClick={() => onToggleMod(u, m)} aria-pressed={on} className={`rounded-full px-3 py-1.5 text-sm font-semibold ${on ? "bg-brand text-white" : "bg-gray-100 text-gray-400 line-through"}`}>{MODULE_ICON[m]} {moduleLabel(m, lang)}</button>;
                   })}
@@ -561,9 +564,9 @@ function Sections({ t, lang, user, onUser }) {
       <h2 className="font-bold text-lg">{t.mySections}</h2>
       <p className="text-sm text-gray-500">{t.sectionsHint}</p>
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
-      {!user.allowed.length && <p className="rounded-2xl bg-white p-5 text-center text-gray-500">{t.noneAllowed}</p>}
+      {!user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).length && <p className="rounded-2xl bg-white p-5 text-center text-gray-500">{t.noneAllowed}</p>}
       <div className="space-y-2">
-        {user.allowed.map((m) => {
+        {user.allowed.filter((m) => SHIPPED_MODULES.includes(m)).map((m) => {
           const on = user.modules.includes(m);
           return (
             <button key={m} role="switch" aria-checked={on} onClick={() => toggle(m)} className="w-full flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm text-left active:scale-[.99]">
@@ -608,7 +611,7 @@ const FEATURES = {
     ["📅", "Calendar", "Save birthdays, bill dues and appointments. What is on today shows on your home screen and lights up when the time arrives."],
     ["🧩", "Only what you need", "Choose which sections you want to see. Your admin can switch sections on or off for each person."],
     ["🌐", "Tamil and English", "Switch language any time. Item names show in Tamil too."],
-    ["🔒", "Private to your family", "Your lists, budget and events belong to your account only."],
+    ["📔", "Daily diary", "Write about your day and read it back any time, by date, by month or with search. Private to your account."],
   ],
   ta: [
     ["🛒", "மளிகை", "275+ அன்றாடப் பொருட்களிலிருந்து மாத பட்டியலைத் தயாரித்து, வாட்ஸ்அப்பில் கடைக்கு அனுப்புங்கள். வீட்டில் என்ன மீதம் உள்ளது என்பதையும் கண்காணியுங்கள்."],
@@ -616,12 +619,12 @@ const FEATURES = {
     ["📅", "நாட்காட்டி", "பிறந்தநாள், பில் தேதி, சந்திப்புகளை சேமிக்கவும். இன்றைய நிகழ்வுகள் முகப்பில் தெரியும்; நேரம் வந்ததும் ‘இப்போது’ என்று ஒளிரும்."],
     ["🧩", "உங்களுக்குத் தேவையானது மட்டும்", "எந்த பிரிவுகளைப் பார்க்க வேண்டும் என்பதை நீங்களே தேர்ந்தெடுக்கலாம். ஒவ்வொருவருக்கும் பிரிவுகளை நிர்வாகி இயக்கவோ முடக்கவோ முடியும்."],
     ["🌐", "தமிழ் மற்றும் ஆங்கிலம்", "எப்போது வேண்டுமானாலும் மொழியை மாற்றலாம். பொருட்களின் பெயர்கள் தமிழிலும் தெரியும்."],
-    ["🔒", "உங்கள் குடும்பத்திற்கு மட்டும்", "உங்கள் பட்டியல்கள், பட்ஜெட் மற்றும் நிகழ்வுகள் உங்கள் கணக்கிற்கு மட்டுமே சொந்தம்."],
+    ["📔", "தினசரி டைரி", "உங்கள் நாளைப் பற்றி எழுதுங்கள்; தேதி, மாதம் அல்லது தேடல் மூலம் எப்போது வேண்டுமானாலும் படியுங்கள். உங்கள் கணக்கிற்கு மட்டும்."],
   ],
 };
 const STEPS = {
-  en: [["1", "Create your account", "Sign up, or try the demo first"], ["2", "Pick your sections", "Groceries, Budget, Calendar"], ["3", "Run your home", "Everything on one dashboard"]],
-  ta: [["1", "கணக்கை உருவாக்குங்கள்", "பதிவு செய்யுங்கள் அல்லது முதலில் டெமோ பாருங்கள்"], ["2", "பிரிவுகளைத் தேர்ந்தெடுங்கள்", "மளிகை, பட்ஜெட், நாட்காட்டி"], ["3", "இல்லத்தை நிர்வகியுங்கள்", "எல்லாம் ஒரே முகப்பில்"]],
+  en: [["1", "Create your account", "Sign up, or try the demo first"], ["2", "Pick your sections", "Groceries, Budget, Calendar, Diary"], ["3", "Run your home", "Everything on one dashboard"]],
+  ta: [["1", "கணக்கை உருவாக்குங்கள்", "பதிவு செய்யுங்கள் அல்லது முதலில் டெமோ பாருங்கள்"], ["2", "பிரிவுகளைத் தேர்ந்தெடுங்கள்", "மளிகை, பட்ஜெட், நாட்காட்டி, டைரி"], ["3", "இல்லத்தை நிர்வகியுங்கள்", "எல்லாம் ஒரே முகப்பில்"]],
 };
 // The phone mock-up on the landing page: a dashboard tile for each section.
 const MOCK_TILES = {
@@ -637,15 +640,21 @@ function LangToggle({ lang, onLang, className = "" }) {
   return <Btn onClick={() => onLang(lang === "en" ? "ta" : "en")} className={`px-3 py-1.5 bg-white shadow-sm text-sm border border-green-200 ${className}`}>{lang === "en" ? "தமிழ்" : "English"}</Btn>;
 }
 
-function AuthSheet({ t, initial, onUser, onClose }) {
+function AuthSheet({ t, lang, initial, onUser, onClose }) {
   const [mode, setMode] = useState(initial);
   const [f, setF] = useState({ name: "", phone: "", password: "" });
+  const [picked, setPicked] = useState(SHIPPED_MODULES);
+  const togglePick = (m) => setPicked((p) => (p.includes(m) ? p.filter((x) => x !== m) : [...p, m]));
   const [err, setErr] = useState("");
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const run = async (fn) => { setErr(""); setBusy(true); try { await fn(); } catch (e) { setErr(e.message); } finally { setBusy(false); } };
   const submit = (e) => { e.preventDefault(); run(async () => {
-    if (mode === "signup") { await api("/api/auth/signup", "POST", f); setDone(true); }
+    if (mode === "signup") {
+      if (!picked.length) throw new Error(t.pickAtLeast);
+      await api("/api/auth/signup", "POST", { ...f, modules: picked });
+      setDone(true);
+    }
     else onUser((await api("/api/auth/login", "POST", f)).user);
   }); };
   const input = "w-full rounded-2xl bg-white border border-green-200 px-4 py-3.5 text-lg outline-none focus:ring-2 ring-brand";
@@ -667,6 +676,23 @@ function AuthSheet({ t, initial, onUser, onClose }) {
             {mode === "signup" && <input className={input} placeholder={t.yourName} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}
             <input className={input} placeholder={t.phone} inputMode="numeric" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />
             <input className={input} placeholder={t.password} type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+            {mode === "signup" && (
+              <div>
+                <p className="text-sm font-semibold text-gray-700">{t.pickSections}</p>
+                <div className="mt-1.5 flex flex-wrap gap-2">
+                  {SHIPPED_MODULES.map((m) => {
+                    const on = picked.includes(m);
+                    return (
+                      <button type="button" key={m} role="checkbox" aria-checked={on} onClick={() => togglePick(m)}
+                        className={`rounded-full px-3.5 py-2 text-sm font-semibold border ${on ? "bg-brand text-white border-brand" : "bg-white text-gray-500 border-green-200"}`}>
+                        {on ? "✓ " : ""}{MODULE_ICON[m]} {moduleLabel(m, lang)}
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-1.5 text-xs text-gray-500">{t.pickHint}</p>
+              </div>
+            )}
             {mode === "signup" && <p className="text-xs text-gray-500">{t.approveNote}</p>}
             {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
             <Btn type="submit" disabled={busy} className="w-full py-3.5 bg-brand text-white text-lg disabled:opacity-50">{mode === "login" ? t.signIn : t.createBtn}</Btn>
@@ -764,7 +790,7 @@ function Landing({ brand, lang, onLang, onUser }) {
       </section>
       <footer className="text-center text-xs text-gray-400 py-6">© {new Date().getFullYear()} {brand.name}</footer>
 
-      {sheet && <AuthSheet t={t} initial={sheet} onUser={onUser} onClose={() => setSheet(null)} />}
+      {sheet && <AuthSheet t={t} lang={lang} initial={sheet} onUser={onUser} onClose={() => setSheet(null)} />}
     </div>
   );
 }
@@ -1191,6 +1217,169 @@ function CalendarCard({ lang, cal, onOpen }) {
   );
 }
 
+// ---------- diary ----------
+const MOODS = [["happy", "😊"], ["calm", "😌"], ["tired", "😴"], ["sad", "😔"], ["angry", "😠"]];
+const DT = {
+  en: { title: "Diary", tile: "Write about today", today: "Today", writeHere: "Write about your day…", saving: "Saving…", saved: "Saved", clear: "Delete this entry", clearAsk: "Delete this day's entry?", search: "Search your diary…", noEntries: "Nothing written this month.", onThisDay: "On this day", words: "words", charsLeft: "left", searchEmpty: "No matches.", jump: "Go to date", failed: "Could not save. Retrying…", tip: "Tip: tap the microphone on your keyboard to speak instead of typing." },
+  ta: { title: "டைரி", tile: "இன்றைய நாளை எழுதுங்கள்", today: "இன்று", writeHere: "இன்றைய நாளைப் பற்றி எழுதுங்கள்…", saving: "சேமிக்கிறது…", saved: "சேமிக்கப்பட்டது", clear: "இந்த பதிவை நீக்கு", clearAsk: "இந்த நாளின் பதிவை நீக்கவா?", search: "டைரியில் தேடுங்கள்…", noEntries: "இந்த மாதம் எதுவும் எழுதவில்லை.", onThisDay: "இதே நாளில்", words: "சொற்கள்", charsLeft: "மீதம்", searchEmpty: "பொருத்தம் இல்லை.", jump: "தேதிக்குச் செல்", failed: "சேமிக்க முடியவில்லை. மீண்டும் முயல்கிறது…", tip: "குறிப்பு: தட்டச்சுக்கு பதிலாக பேச, விசைப்பலகையில் உள்ள மைக்ரோஃபோனைத் தட்டவும்." },
+};
+const DIARY_MAX = 8000;
+const moodIcon = (m) => MOODS.find((x) => x[0] === m)?.[1] || "";
+const dayTitle = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); };
+const shortDay = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "short", day: "numeric", month: "short" }); };
+const preview = (s) => { const one = s.replace(/\s+/g, " ").trim(); return one.length > 110 ? one.slice(0, 110) + "…" : one; };
+
+// One entry per day. It saves by itself a moment after you stop typing, and nothing is lost if you leave the page.
+function DiaryEditor({ d, lang, date, onChanged, onBack }) {
+  const [text, setText] = useState(null);
+  const [mood, setMood] = useState("");
+  const [state, setState] = useState("saved"); // saved | saving | failed
+  const [memories, setMemories] = useState([]);
+  const latest = useRef({ text: "", mood: "" }), saved = useRef({ text: "", mood: "" }), timer = useRef(null), inflight = useRef(Promise.resolve());
+
+  const flush = useCallback(() => {
+    clearTimeout(timer.current);
+    const snap = { ...latest.current };
+    if (snap.text === saved.current.text && snap.mood === saved.current.mood) return inflight.current;
+    setState("saving");
+    inflight.current = inflight.current.then(async () => {
+      try {
+        await api(`/api/diary/entries/${date}`, "PUT", snap);
+        saved.current = snap;
+        setState(latest.current.text === snap.text && latest.current.mood === snap.mood ? "saved" : "saving");
+        onChanged?.();
+      } catch { setState("failed"); timer.current = setTimeout(flush, 4000); }
+    });
+    return inflight.current;
+  }, [date, onChanged]);
+
+  useEffect(() => {
+    let live = true;
+    api(`/api/diary/entries/${date}`).then((e) => {
+      if (!live) return;
+      const v = { text: e?.text ?? "", mood: e?.mood ?? "" };
+      latest.current = v; saved.current = v; setText(v.text); setMood(v.mood);
+    }).catch(() => live && setText(""));
+    api(`/api/diary/on-this-day?date=${date}`).then((m) => live && setMemories(m)).catch(() => {});
+    return () => { live = false; flush(); }; // leaving the page saves what is pending
+  }, [date]); // eslint-disable-line
+  useEffect(() => {
+    const h = () => { if (document.hidden) flush(); };
+    document.addEventListener("visibilitychange", h);
+    return () => document.removeEventListener("visibilitychange", h);
+  }, [flush]);
+
+  const change = (nt, nm) => {
+    latest.current = { text: nt, mood: nm };
+    setState("saving");
+    clearTimeout(timer.current);
+    timer.current = setTimeout(flush, 900);
+  };
+  const remove = async () => {
+    if (!confirm(d.clearAsk)) return;
+    clearTimeout(timer.current);
+    latest.current = { text: "", mood: "" }; saved.current = { text: "", mood: "" };
+    setText(""); setMood("");
+    try { await api(`/api/diary/entries/${date}`, "DELETE"); onChanged?.(); onBack?.(); } catch { setState("failed"); }
+  };
+
+  if (text === null) return <p className="text-center text-gray-400 py-8">…</p>;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <Btn onClick={() => { flush(); onBack(); }} className="w-10 h-10 text-2xl text-brand" aria-label="back">‹</Btn>
+        <h2 className="flex-1 font-bold leading-tight">{dayTitle(date, lang)}</h2>
+        <span className={`text-xs font-semibold ${state === "failed" ? "text-red-600" : "text-gray-400"}`}>{state === "saved" ? `✓ ${d.saved}` : state === "saving" ? d.saving : d.failed}</span>
+      </div>
+      <div className="flex gap-2">
+        {MOODS.map(([k, e]) => (
+          <button key={k} onClick={() => { const nm = mood === k ? "" : k; setMood(nm); change(text, nm); }} aria-pressed={mood === k}
+            className={`flex-1 rounded-2xl py-2 text-2xl border ${mood === k ? "bg-brand/10 border-brand scale-105" : "bg-white border-transparent"}`}>{e}</button>
+        ))}
+      </div>
+      <textarea value={text} maxLength={DIARY_MAX} onChange={(e) => { setText(e.target.value); change(e.target.value, mood); }}
+        placeholder={d.writeHere} rows={12} lang={lang === "ta" ? "ta" : "en"}
+        className="w-full rounded-3xl bg-white p-4 text-lg leading-relaxed outline-none focus:ring-2 ring-brand shadow-sm resize-none" />
+      <div className="flex items-center justify-between text-xs text-gray-400 px-1">
+        <span>{words} {d.words}</span><span>{DIARY_MAX - text.length} {d.charsLeft}</span>
+      </div>
+      <p className="text-xs text-gray-400 px-1">💡 {d.tip}</p>
+      {(text.trim() || mood) && <Btn onClick={remove} className="w-full py-2.5 text-sm text-red-600 bg-red-50">{d.clear}</Btn>}
+      {memories.length > 0 && (
+        <section className="space-y-2 pt-2">
+          <h3 className="font-bold">🕰️ {d.onThisDay}</h3>
+          {memories.map((m) => (
+            <div key={m.id} className="rounded-2xl bg-white p-3 shadow-sm">
+              <p className="text-xs font-bold text-brand">{parseYmd(m.date).y} {moodIcon(m.mood)}</p>
+              <p className="text-sm text-gray-700 whitespace-pre-wrap">{preview(m.text)}</p>
+            </div>
+          ))}
+        </section>
+      )}
+    </div>
+  );
+}
+
+function Diary({ lang }) {
+  const d = DT[lang], now = useClock(), today = localToday(now), t0 = parseYmd(today);
+  const [ym, setYm] = useState({ y: t0.y, m: t0.m });
+  const [rows, setRows] = useState(null);
+  const [open, setOpen] = useState(null);
+  const [q, setQ] = useState("");
+  const [hits, setHits] = useState(null);
+  const [err, setErr] = useState("");
+  const month = `${ym.y}-${pad(ym.m)}`;
+  const gen = useRef(0);
+  const load = useCallback(async () => {
+    const my = ++gen.current;
+    try { const r = await api(`/api/diary/entries?month=${month}`); if (my === gen.current) { setRows(r); setErr(""); } }
+    catch (e) { if (my === gen.current) { setErr(e.message); setRows([]); } }
+  }, [month]);
+  useEffect(() => { setRows(null); load(); }, [load]);
+  useEffect(() => {
+    const s = q.trim();
+    if (s.length < 2) { setHits(null); return; }
+    const id = setTimeout(() => api(`/api/diary/search?q=${encodeURIComponent(s)}`).then(setHits).catch(() => setHits([])), 350);
+    return () => clearTimeout(id);
+  }, [q]);
+  const go = (n) => { const x = new Date(ym.y, ym.m - 1 + n, 1); setYm({ y: x.getFullYear(), m: x.getMonth() + 1 }); };
+
+  if (open) return <DiaryEditor key={open} d={d} lang={lang} date={open} onChanged={load} onBack={() => setOpen(null)} />;
+  const list = hits ?? rows;
+  const hasToday = (rows || []).some((r) => r.date === today);
+  return (
+    <div className="space-y-3">
+      {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
+      <Btn onClick={() => setOpen(today)} className="w-full py-3.5 bg-brand text-white text-lg shadow">✏️ {hasToday ? d.today : `${d.today} · ${shortDay(today, lang)}`}</Btn>
+      <div className="relative">
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={d.search} className="w-full rounded-2xl bg-white border border-green-200 pl-4 pr-10 py-2.5 outline-none focus:ring-2 ring-brand" />
+        {q && <button onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear">✕</button>}
+      </div>
+      {hits === null && (
+        <div className="flex items-center justify-between rounded-2xl bg-white p-2 shadow-sm">
+          <Btn onClick={() => go(-1)} className="w-11 h-11 text-2xl text-brand" aria-label="previous month">‹</Btn>
+          <label className="relative text-center font-bold cursor-pointer">
+            {monthTitle(ym.y, ym.m, lang)}
+            <input type="date" aria-label={d.jump} value="" onChange={(e) => e.target.value && setOpen(e.target.value)} className="absolute inset-0 opacity-0 w-full cursor-pointer" />
+          </label>
+          <Btn onClick={() => go(1)} className="w-11 h-11 text-2xl text-brand" aria-label="next month">›</Btn>
+        </div>
+      )}
+      {list === null && <p className="text-center text-gray-400 py-4">…</p>}
+      {list && !list.length && <p className="rounded-2xl bg-white p-5 text-center text-gray-400">{hits ? d.searchEmpty : d.noEntries}</p>}
+      <div className="space-y-2">
+        {(list || []).map((e) => (
+          <button key={e.id} onClick={() => setOpen(e.date)} className="w-full rounded-2xl bg-white p-3.5 text-left shadow-sm active:scale-[.99]">
+            <p className="flex items-center gap-2 text-sm font-bold text-brand"><span>{shortDay(e.date, lang)}{hits ? ` · ${parseYmd(e.date).y}` : ""}</span><span>{moodIcon(e.mood)}</span></p>
+            <p className="mt-0.5 text-gray-700 text-sm whitespace-pre-wrap">{preview(e.text) || "…"}</p>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ---------- app ----------
 function Main({ user, brand, onLogout, onUser, lang, onLang }) {
   const [tab, setTab] = useState("home");
@@ -1249,13 +1438,14 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
   if (has("provisions")) tabs.push(["groceries", "🛒", t.groceries]);
   if (has("budget")) tabs.push(["budget", "💰", BT[lang].title]);
   if (has("calendar")) tabs.push(["calendar", "📅", CT[lang].title]);
+  if (has("diary")) tabs.push(["diary", "📔", DT[lang].title]);
   tabs.push(["more", "☰", t.more]);
   const tabIds = tabs.map(([id]) => id).join(",");
   useEffect(() => { if (!tabIds.split(",").includes(tab)) setTab("home"); }, [tabIds, tab]); // a section that was switched off must not stay open
 
   const Tab = ({ id, icon, label }) => (
-    <button onClick={() => go(id, null, null)} className={`flex-1 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
-      <span className="text-2xl leading-none">{icon}</span><span className="text-xs mt-0.5">{label}</span>
+    <button onClick={() => go(id, null, null)} className={`flex-1 min-w-0 flex flex-col items-center py-2 ${tab === id ? "text-brand font-bold" : "text-gray-400"}`}>
+      <span className="text-xl leading-none">{icon}</span><span className="text-[11px] mt-0.5 max-w-full truncate px-0.5">{label}</span>
     </button>
   );
 
@@ -1287,6 +1477,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
         )}
         {tab === "budget" && <Budget t={t} lang={lang} />}
         {tab === "calendar" && <Calendar lang={lang} cal={cal} />}
+        {tab === "diary" && <Diary lang={lang} />}
         {tab === "more" && <More t={t} lang={lang} user={user} onUser={onUser} view={moreView} setView={setMoreView} onLogout={onLogout} />}
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-green-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>

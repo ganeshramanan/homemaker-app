@@ -16,7 +16,7 @@ model User {
   role         String    @default("user")    // user | admin
   status       String    @default("pending") // pending | active | disabled
   isDemo       Boolean   @default(false)
-  modules      String    @default("provisions,budget,calendar") // sections the ADMIN allows for this user
+  modules      String    @default("provisions,budget,calendar,diary") // sections the ADMIN allows for this user
   hiddenModules String   @default("")  // sections the USER chose to hide
   createdAt    DateTime  @default(now())
   sessions     Session[]
@@ -24,6 +24,7 @@ model User {
   lists        List[]
   budgetEntries BudgetEntry[]
   calendarEvents CalendarEvent[]
+  diaryEntries DiaryEntry[]
 }
 
 model Session {
@@ -105,4 +106,17 @@ model CalendarEvent {
   createdAt DateTime @default(now())
 
   @@index([userId, date])
+}
+
+model DiaryEntry {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String   // "2026-10-20": one entry per person per day
+  text      String   @default("")
+  mood      String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date])
 }
