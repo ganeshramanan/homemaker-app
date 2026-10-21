@@ -451,7 +451,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
 
 function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
   const patch = (i, body) => {
-    setItems((p) => p.map((x) => (x.id !== i.id ? x : { ...x, ...(body.delta != null && { stock: Math.max(0, +(x.stock + body.delta).toFixed(3)) }), ...(body.minQty != null && { minQty: body.minQty }), ...(body.name != null && { name: body.name }) })));
+    setItems((p) => p.map((x) => (x.id !== i.id ? x : { ...x, ...(body.delta != null && { stock: Math.max(0, +(x.stock + body.delta).toFixed(3)) }), ...(body.minQty != null && { minQty: body.minQty }), ...(body.name != null && { name: body.name }), ...(body.unit != null && { unit: body.unit }) })));
     mutate(() => api(`/api/provisions/inventory/${i.id}`, "PATCH", body));
   };
   const [sel, setSel] = useState(null); // null = normal mode, Set = selecting
@@ -543,7 +543,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
                   {selecting ? <span className="shrink-0 text-sm font-bold text-gray-500">{fmt(i.stock)} <span className="text-[11px] font-normal">{i.unit}</span></span> : <>
                   <div className="shrink-0 flex items-center gap-0.5">
                     <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
-                    <span className={`w-[3.75rem] text-center text-sm font-bold ${low ? "text-red-600" : "text-gray-900"}`}>{fmt(i.stock)} <span className="text-[11px] font-normal text-gray-500">{i.unit}</span></span>
+                    <span className={`w-[3.75rem] text-center text-sm font-bold ${low ? "text-red-600" : "text-gray-900"}`}>{fmt(i.stock)} <select value={i.unit} onChange={(e) => patch(i, { unit: e.target.value })} aria-label="unit" className="cursor-pointer appearance-none rounded bg-transparent text-[11px] font-normal text-gray-500 underline decoration-dotted underline-offset-2 outline-none focus:ring-1 ring-brand">{UNITS.map((u) => <option key={u}>{u}</option>)}</select></span>
                     <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
                   </div>
                   <Btn onClick={() => removeItem(i)} className="shrink-0 w-7 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="remove"><Trash2 size={17} /></Btn>

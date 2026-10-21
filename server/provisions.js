@@ -149,7 +149,7 @@ r.post("/history/:id/copy", wrap(async (req, res) => {
 r.get("/inventory", wrap(async (req, res) => res.json(await prisma.item.findMany({ where: { userId: uid(req) }, orderBy: [{ category: "asc" }, { name: "asc" }] }))));
 
 r.patch("/inventory/:id", wrap(async (req, res) => {
-  const { stock, minQty, delta, name } = req.body;
+  const { stock, minQty, delta, name, unit } = req.body;
   const cur = await prisma.item.findFirst({ where: { id: +req.params.id, userId: uid(req) } });
   if (!cur) return res.status(404).json({ error: "Not found" });
   const data = {};
@@ -163,6 +163,12 @@ r.patch("/inventory/:id", wrap(async (req, res) => {
       // keep the open shopping list in step with the new name
       await prisma.listItem.updateMany({ where: { name: cur.name, bought: false, list: { userId: uid(req), status: "active" } }, data: { name: nn } });
     }
+  }
+  if (unit != null) {
+    if (!["kg", "g", "L", "ml", "pcs", "pack", "dozen"].includes(unit)) return res.status(400).json({ error: "Unknown unit" });
+    data.unit = unit;
+    // the open shopping list row for this item follows, so the two never disagree
+    await prisma.listItem.updateMany({ where: { name: data.name || cur.name, bought: false, list: { userId: uid(req), status: "active" } }, data: { unit } });
   }
   if (delta != null) data.stock = Math.max(0, +(cur.stock + +delta).toFixed(3));
   if (stock != null) data.stock = Math.max(0, +stock);
