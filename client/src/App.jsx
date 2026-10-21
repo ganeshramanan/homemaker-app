@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { getMode, saveMode, isDark } from "./theme.js";
-import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Send, RefreshCw, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon } from "lucide-react";
+import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Send, RefreshCw, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon, CheckSquare } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -20,12 +20,12 @@ const T = {
   en: { home: "Home", list: "List", stock: "Stock", low: "Running low", lowEmpty: "All stocked up", addList: "Add to list", onList: "On list ✓",
     thisList: "This month's list", toBuy: "To buy", bought: "Bought", send: "Send on WhatsApp", newMonth: "Start next month's list", empty: "Your list is empty. Tap + and type your items.",
     tap: "Tap and speak", listening: "Listening… speak now", typeHere: "Type your items, e.g. 2 kg rice, 1 litre oil, half kilo sugar", read: "Read list", addAll: "Add to list",
-    cancel: "Cancel", addCustom: "Add \u201C{n}\u201D as a new item", stockHint: "Tap items to add them to your stock", more: "More", goodMorning: "Good morning", goodAfternoon: "Good afternoon", goodEvening: "Good evening", heroBalance: "Balance this month", heroToBuy: "Items to buy", quickAdd: "Quick add", qaItem: "Grocery item", qaExpense: "Expense", qaIncome: "Income", qaEvent: "Event", qaDiary: "Diary note", appearance: "Appearance", themeLight: "Light", themeDark: "Dark", themeAuto: "Phone", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
+    cancel: "Cancel", select: "Select", selectDone: "Done", selectAll: "Select all", selectNone: "Clear", selected: "{n} selected", delSel: "Delete ({n})", delAsk: "Delete {n} items? This cannot be undone.", pickToDelete: "Tap items to select them", addCustom: "Add \u201C{n}\u201D as a new item", stockHint: "Tap items to add them to your stock", more: "More", goodMorning: "Good morning", goodAfternoon: "Good afternoon", goodEvening: "Good evening", heroBalance: "Balance this month", heroToBuy: "Items to buy", quickAdd: "Quick add", qaItem: "Grocery item", qaExpense: "Expense", qaIncome: "Income", qaEvent: "Event", qaDiary: "Diary note", appearance: "Appearance", themeLight: "Light", themeDark: "Dark", themeAuto: "Phone", pickSections: "Choose your sections", pickHint: "The admin approves your account and can change these later.", pickAtLeast: "Choose at least one section", removeAsk: "Remove {n} from your stock?", mySections: "My sections", sectionsHint: "Choose what you want to see. Your admin decides which sections are available to you.", noneAllowed: "Your admin has not turned on any sections for you yet.", noneShown: "No sections are switched on.", chooseSections: "Choose sections", sectionsFor: "Sections", sections: "Your sections", attention: "Needs attention", seeAll: "See all", nToBuy: "{n} to buy", nLow: "{n} running low", allDone: "All bought", listEmpty: "List is empty", nToday: "{n} today", nothingPlanned: "Nothing today", leftN: "{n} left", overN: "{n} over", nothingYet: "No entries yet", tapOpen: "Tap to open", groceries: "Groceries", item: "item", tapAgain: "Tap a ticked item again to remove it.", toBuyTab: "To buy", dragHint: "Clear the filters to rearrange the list.", okTab: "In stock", showing: "Showing", signIn: "Sign in", signUp: "Sign up", createAcct: "Create free account", createBtn: "Create account", tryDemo: "Try demo", loading: "Loading…", heroBadge: "For every home maker", heroA: "Your whole home, ", heroB: "in one place", heroText: "Plan the groceries, track the monthly budget and never miss a birthday or a bill. Simple, in Tamil and English.", already: "Already registered?", featTitle: "Everything your home needs, in one place", howTitle: "How it works", soon: "Coming soon: fitness tracker.", ctaTitle: "Ready to organise your home?", yourName: "Your name", phone: "Phone number", password: "Password", approveNote: "New accounts are approved by the admin before you can sign in.", thanks: "Thank you!", waitApproval: "Your account is waiting for approval. You can sign in once it is approved.", backSignin: "Back to sign in", adminUsers: "Admin: users", users: "users", waiting: "waiting for approval", approve: "Approve", enable: "Enable", disable: "Disable", reject: "Reject", del: "Delete", confirmDel: "Delete {n} and all their data?", demoAccts: "demo accounts (auto-deleted after a day)", st_pending: "pending", st_active: "active", st_disabled: "disabled", history: "History", historyEmpty: "Finished lists are saved here, month by month.", copyToList: "Copy to current list", copied: "Added to your list", nextTitle: "Start next month's list", nextNote: "This month's list is saved in History. Untick what you don't need.", startList: "Start new list", lowTag: "low stock", signOut: "Sign out", demoNote: "Demo account. Data is deleted after one day.", back: "Back", search: "Search items…", allTab: "All", lowTab: "Low", mineTab: "My items", done: "Done", readList: "Add typed text as a list", seed: "Load 100 sample items", noMatch: "No items found", min: "Min", addItem: "Add item", name: "Name", unit: "Unit", save: "Save", noSpeech: "Voice not supported in this browser. Please type.",
     check: "Please check these items", items: "items", boughtOf: "bought", stockEmpty: "No stock yet. Mark list items as bought and they appear here.", left: "left" },
   ta: { home: "முகப்பு", list: "பட்டியல்", stock: "இருப்பு", low: "குறைவான பொருட்கள்", lowEmpty: "எல்லாம் இருக்கு", addList: "பட்டியலில் சேர்", onList: "சேர்க்கப்பட்டது ✓",
     thisList: "இந்த மாத பட்டியல்", toBuy: "வாங்க வேண்டியவை", bought: "வாங்கியவை", send: "வாட்ஸ்அப்பில் அனுப்பு", newMonth: "அடுத்த மாத பட்டியல்", empty: "பட்டியல் காலி. + தட்டி பொருட்களை டைப் செய்யுங்கள்.",
     tap: "தட்டிப் பேசுங்கள்", listening: "கேட்கிறேன்… பேசுங்கள்", typeHere: "பொருட்களை டைப் செய்யுங்கள், எ.கா. 2 கிலோ அரிசி, 1 லிட்டர் எண்ணெய்", read: "பட்டியலாக்கு", addAll: "பட்டியலில் சேர்",
-    cancel: "ரத்து", addCustom: "\u201C{n}\u201D ஐ புதிய பொருளாகச் சேர்", stockHint: "இருப்பில் சேர்க்க பொருட்களைத் தொடவும்", more: "மேலும்", goodMorning: "காலை வணக்கம்", goodAfternoon: "மதிய வணக்கம்", goodEvening: "மாலை வணக்கம்", heroBalance: "இந்த மாத மீதம்", heroToBuy: "வாங்க வேண்டியவை", quickAdd: "விரைவு சேர்", qaItem: "மளிகைப் பொருள்", qaExpense: "செலவு", qaIncome: "வருமானம்", qaEvent: "நிகழ்வு", qaDiary: "டைரி குறிப்பு", appearance: "தோற்றம்", themeLight: "வெளிர்", themeDark: "இருண்ட", themeAuto: "போன்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
+    cancel: "ரத்து", select: "தேர்வு", selectDone: "முடிந்தது", selectAll: "அனைத்தும்", selectNone: "நீக்கு", selected: "{n} தேர்வு", delSel: "அழி ({n})", delAsk: "{n} பொருட்களை அழிக்கவா? திரும்பப் பெற முடியாது.", pickToDelete: "தேர்வு செய்ய பொருட்களைத் தொடவும்", addCustom: "\u201C{n}\u201D ஐ புதிய பொருளாகச் சேர்", stockHint: "இருப்பில் சேர்க்க பொருட்களைத் தொடவும்", more: "மேலும்", goodMorning: "காலை வணக்கம்", goodAfternoon: "மதிய வணக்கம்", goodEvening: "மாலை வணக்கம்", heroBalance: "இந்த மாத மீதம்", heroToBuy: "வாங்க வேண்டியவை", quickAdd: "விரைவு சேர்", qaItem: "மளிகைப் பொருள்", qaExpense: "செலவு", qaIncome: "வருமானம்", qaEvent: "நிகழ்வு", qaDiary: "டைரி குறிப்பு", appearance: "தோற்றம்", themeLight: "வெளிர்", themeDark: "இருண்ட", themeAuto: "போன்", pickSections: "உங்கள் பிரிவுகளைத் தேர்ந்தெடுக்கவும்", pickHint: "நிர்வாகி உங்கள் கணக்கை அனுமதிப்பார்; இவற்றை பின்னர் மாற்றவும் முடியும்.", pickAtLeast: "குறைந்தது ஒரு பிரிவைத் தேர்ந்தெடுக்கவும்", removeAsk: "{n} பொருளை இருப்பிலிருந்து நீக்கவா?", mySections: "என் பிரிவுகள்", sectionsHint: "நீங்கள் பார்க்க விரும்புவதைத் தேர்ந்தெடுங்கள். எந்த பிரிவுகள் உங்களுக்குக் கிடைக்கும் என்பதை நிர்வாகி தீர்மானிப்பார்.", noneAllowed: "உங்களுக்கு எந்த பிரிவையும் நிர்வாகி இன்னும் இயக்கவில்லை.", noneShown: "எந்த பிரிவும் இயக்கப்படவில்லை.", chooseSections: "பிரிவுகளைத் தேர்ந்தெடு", sectionsFor: "பிரிவுகள்", sections: "உங்கள் பிரிவுகள்", attention: "கவனிக்க வேண்டியவை", seeAll: "அனைத்தையும் காண்", nToBuy: "{n} வாங்க வேண்டும்", nLow: "{n} குறைவாக உள்ளது", allDone: "எல்லாம் வாங்கியாச்சு", listEmpty: "பட்டியல் காலி", nToday: "இன்று {n}", nothingPlanned: "இன்று எதுவும் இல்லை", leftN: "{n} மீதம்", overN: "{n} அதிகம்", nothingYet: "இன்னும் பதிவுகள் இல்லை", tapOpen: "திறக்க தட்டவும்", groceries: "மளிகை", item: "பொருள்", tapAgain: "தேர்ந்தெடுத்த பொருளை மீண்டும் தட்டினால் நீக்கப்படும்.", toBuyTab: "வாங்க வேண்டியவை", dragHint: "வரிசையை மாற்ற வடிகட்டிகளை நீக்கவும்.", okTab: "போதுமான இருப்பு", showing: "காட்டுவது", signIn: "உள்நுழை", signUp: "பதிவு செய்", createAcct: "இலவச கணக்கை உருவாக்கு", createBtn: "கணக்கை உருவாக்கு", tryDemo: "டெமோ பார்க்க", loading: "ஏற்றுகிறது…", heroBadge: "ஒவ்வொரு இல்லத்தரசிக்கும்", heroA: "உங்கள் இல்லம் முழுவதும், ", heroB: "ஒரே இடத்தில்", heroText: "மளிகையைத் திட்டமிடுங்கள், மாத பட்ஜெட்டைக் கண்காணியுங்கள், பிறந்தநாள் அல்லது பில் தேதியை மறக்காதீர்கள். எளிமையாக, தமிழிலும் ஆங்கிலத்திலும்.", already: "ஏற்கனவே பதிவு செய்துள்ளீர்களா?", featTitle: "உங்கள் இல்லத்துக்குத் தேவையான அனைத்தும், ஒரே இடத்தில்", howTitle: "எப்படி வேலை செய்கிறது", soon: "விரைவில்: உடற்பயிற்சி கண்காணிப்பு.", ctaTitle: "உங்கள் இல்லத்தை ஒழுங்குபடுத்தத் தயாரா?", yourName: "உங்கள் பெயர்", phone: "தொலைபேசி எண்", password: "கடவுச்சொல்", approveNote: "புதிய கணக்குகளை நிர்வாகி அனுமதித்த பிறகே உள்நுழையலாம்.", thanks: "நன்றி!", waitApproval: "உங்கள் கணக்கு அனுமதிக்காகக் காத்திருக்கிறது. அனுமதி கிடைத்ததும் உள்நுழையலாம்.", backSignin: "உள்நுழைவுக்குத் திரும்பு", adminUsers: "நிர்வாகி: பயனர்கள்", users: "பயனர்கள்", waiting: "அனுமதிக்காகக் காத்திருக்கின்றனர்", approve: "அனுமதி", enable: "இயக்கு", disable: "முடக்கு", reject: "நிராகரி", del: "நீக்கு", confirmDel: "{n} மற்றும் அவரது எல்லா தரவையும் நீக்கவா?", demoAccts: "டெமோ கணக்குகள் (ஒரு நாளில் தானாக நீக்கப்படும்)", st_pending: "காத்திருப்பு", st_active: "செயலில்", st_disabled: "முடக்கம்", history: "வரலாறு", historyEmpty: "முடிந்த பட்டியல்கள் மாதவாரியாக இங்கே சேமிக்கப்படும்.", copyToList: "இப்போதைய பட்டியலில் சேர்", copied: "பட்டியலில் சேர்க்கப்பட்டது", nextTitle: "அடுத்த மாத பட்டியல்", nextNote: "இந்த மாத பட்டியல் வரலாற்றில் சேமிக்கப்படும். தேவையில்லாததை நீக்குங்கள்.", startList: "புதிய பட்டியல்", lowTag: "குறைவு", signOut: "வெளியேறு", demoNote: "டெமோ கணக்கு. ஒரு நாளில் தரவு அழியும்.", back: "பின்", search: "பொருளைத் தேடுங்கள்…", allTab: "அனைத்தும்", lowTab: "குறைவு", mineTab: "என் பொருட்கள்", done: "முடிந்தது", readList: "டைப் செய்ததை பட்டியலாக்கு", seed: "100 மாதிரி பொருட்களை ஏற்று", noMatch: "பொருள் இல்லை", min: "குறைந்தபட்சம்", addItem: "பொருள் சேர்", name: "பெயர்", unit: "அலகு", save: "சேமி", noSpeech: "இந்த உலாவியில் குரல் இல்லை. டைப் செய்யுங்கள்.",
     check: "இவற்றை சரிபாருங்கள்", items: "பொருட்கள்", boughtOf: "வாங்கியது", stockEmpty: "இருப்பு இல்லை. வாங்கியதாக குறித்தால் இங்கே வரும்.", left: "உள்ளது" },
 };
 let CAT = {}, LANG = "en";
@@ -57,6 +57,15 @@ const fmt = (n) => (Math.round(n * 100) / 100).toString();
 
 // ---------- small pieces ----------
 const Btn = ({ className = "", ...p }) => <button {...p} className={`active:scale-95 transition rounded-lg font-semibold ${className}`} />;
+// Tap a name to rename it. Enter or tapping away saves; Escape cancels.
+function EditableName({ value, shown, onSave, className = "" }) {
+  const [edit, setEdit] = useState(false);
+  const [v, setV] = useState(value);
+  const done = (save) => { setEdit(false); const nv = v.trim().replace(/\s+/g, " "); if (save && nv && nv !== value) onSave(nv); else setV(value); };
+  if (edit) return <input autoFocus value={v} maxLength={60} onChange={(e) => setV(e.target.value)} onBlur={() => done(true)} onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); if (e.key === "Escape") done(false); }} className={`w-full min-w-0 rounded-md border border-brand bg-surface px-1.5 py-0.5 font-medium text-gray-900 outline-none ${className}`} aria-label="edit name" />;
+  return <button type="button" onClick={() => { setV(value); setEdit(true); }} title="Tap to rename" className={`block w-full min-w-0 text-left font-medium leading-tight text-gray-900 line-clamp-2 break-words ${className}`}>{shown ?? value}</button>;
+}
+
 const Stepper = ({ value, unit, onChange }) => (
   <div className="shrink-0 flex items-center gap-0.5">
     <Btn onClick={() => onChange(Math.max(step(unit), +(value - step(unit)).toFixed(3)))} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
@@ -69,14 +78,21 @@ const Stepper = ({ value, unit, onChange }) => (
   </div>
 );
 
-function Row({ item, t, canDrag, onQty, onDelete, onToggle }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag });
+function Row({ item, t, canDrag, onQty, onDelete, onToggle, onRename, selecting, picked, onPick }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id, disabled: !canDrag || selecting });
+  if (selecting) return (
+    <div ref={setNodeRef} onClick={() => onPick(item.id)} className={`flex items-center gap-2.5 px-3 py-2.5 cursor-pointer ${picked ? "bg-brand/5" : "bg-surface"}`}>
+      <span className={`shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center ${picked ? "bg-brand border-brand text-white" : "border-gray-300 text-transparent"}`} role="checkbox" aria-checked={picked}><Check size={15} strokeWidth={3} /></span>
+      <span className="flex-1 min-w-0 font-medium leading-tight text-gray-900 line-clamp-2 break-words">{dn(item.name)}</span>
+      <span className="shrink-0 text-sm font-bold text-gray-500">{fmt(item.qty)} <span className="text-[11px] font-normal">{item.unit}</span></span>
+    </div>
+  );
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 10 : 0 }}
       className={`flex items-center gap-1.5 bg-surface px-2 py-2.5 ${isDragging ? "shadow-xl ring-2 ring-brand rounded-lg" : ""}`}>
       {canDrag ? <span {...attributes} {...listeners} className="shrink-0 text-gray-300 touch-none select-none cursor-grab flex items-center" aria-label="drag"><GripVertical size={18} /></span> : <span className="shrink-0 w-1" />}
       <Btn onClick={() => onToggle(item)} className="shrink-0 w-7 h-7 rounded-md border-2 border-gray-300 text-transparent hover:text-gray-400 flex items-center justify-center" aria-label="bought"><Check size={16} strokeWidth={3} /></Btn>
-      <span className="flex-1 min-w-0 font-medium leading-tight text-gray-900 line-clamp-2 break-words" title={dn(item.name)}>{dn(item.name)}</span>
+      <span className="flex-1 min-w-0"><EditableName value={item.name} shown={dn(item.name)} onSave={(nm) => onRename(item, nm)} /></span>
       <Stepper value={item.qty} unit={item.unit} onChange={(q) => onQty(item, q)} />
       <Btn onClick={() => onDelete(item)} className="shrink-0 w-7 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="delete"><Trash2 size={17} /></Btn>
     </div>
@@ -336,6 +352,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
     mutate(() => api("/api/provisions/list/order", "PUT", { ids }));
   };
   const qty = (i, q) => { setList((p) => ({ ...p, items: p.items.map((x) => (x.id === i.id ? { ...x, qty: q } : x)) })); mutate(() => api(`/api/provisions/list/items/${i.id}`, "PATCH", { qty: q })); };
+  const rename = (i, name) => { setList((p) => ({ ...p, items: p.items.map((x) => (x.id === i.id ? { ...x, name } : x)) })); mutate(() => api(`/api/provisions/list/items/${i.id}`, "PATCH", { name })); };
   const del = (i) => { setList((p) => ({ ...p, items: p.items.filter((x) => x.id !== i.id) })); mutate(() => api(`/api/provisions/list/items/${i.id}`, "DELETE")); };
   const toggle = (i) => { setList((p) => ({ ...p, items: p.items.map((x) => (x.id === i.id ? { ...x, bought: !i.bought } : x)) })); mutate(() => api(`/api/provisions/list/items/${i.id}/bought`, "POST", { bought: !i.bought })); };
   const share = () => {
@@ -344,9 +361,25 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
   };
   const [nextOpen, setNextOpen] = useState(false);
+  const [sel, setSel] = useState(null);
+  const selecting = sel !== null;
+  const flip = (id) => setSel((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const bulkDelete = () => {
+    const ids = [...sel]; if (!ids.length || !confirm(t.delAsk.replace("{n}", ids.length))) return;
+    setList((p) => ({ ...p, items: p.items.filter((x) => !sel.has(x.id)) })); setSel(null);
+    const real = ids.filter((n) => n > 0);
+    if (real.length) mutate(() => api("/api/provisions/list/items/bulk-delete", "POST", { ids: real }));
+  };
 
   return (
-    <div className="space-y-3">
+    <div className={`space-y-3 ${selecting ? "pb-24" : ""}`}>
+      {selecting && (
+        <div className="fixed inset-x-0 bottom-20 lg:bottom-6 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
+          <div className="max-w-5xl mx-auto px-4 lg:px-8 lg:pl-60">
+            <Btn onClick={bulkDelete} disabled={!sel.size} className="pointer-events-auto w-full py-3.5 bg-red-600 text-white shadow-lg flex items-center justify-center gap-2 disabled:opacity-40"><Trash2 size={18} />{t.delSel.replace("{n}", sel.size)}</Btn>
+          </div>
+        </div>
+      )}
       {nextOpen && <NextSheet t={t} onClose={() => setNextOpen(false)} onDone={(l) => { setList(l); setNextOpen(false); refresh(); }} />}
       {!list.items.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.empty}</p>}
       <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
@@ -357,8 +390,19 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
               {q && <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear"><XIcon size={16} /></button>}
             </div>
           )}
-          <Btn onClick={onAdd} className={`shrink-0 h-[2.75rem] px-3.5 bg-brand text-white flex items-center gap-1.5 text-sm ${list.items.length ? "" : "flex-1 justify-center"}`}><Plus size={18} />{t.addItem}</Btn>
+          {selecting
+            ? <Btn onClick={() => setSel(null)} className="shrink-0 h-[2.75rem] px-3.5 bg-surface border border-gray-300 text-gray-700 text-sm">{t.selectDone}</Btn>
+            : <>
+                {!!list.items.length && <Btn onClick={() => setSel(new Set())} className="shrink-0 h-[2.75rem] px-3 bg-surface border border-gray-300 text-gray-700 text-sm flex items-center gap-1.5"><CheckSquare size={17} />{t.select}</Btn>}
+                <Btn onClick={onAdd} className={`shrink-0 h-[2.75rem] px-3.5 bg-brand text-white flex items-center gap-1.5 text-sm ${list.items.length ? "" : "flex-1 justify-center"}`}><Plus size={18} />{t.addItem}</Btn>
+              </>}
         </div>
+        {selecting && (
+          <div className="flex items-center justify-between rounded-lg bg-brand/10 px-3 py-2 text-sm">
+            <span className="font-semibold text-brand">{sel.size ? t.selected.replace("{n}", sel.size) : t.pickToDelete}</span>
+            <button onClick={() => { const ids = [...todo, ...done].map((i) => i.id); setSel(ids.length && ids.every((id) => sel.has(id)) ? new Set() : new Set(ids)); }} className="font-semibold text-brand underline-offset-2 hover:underline">{[...todo, ...done].length && [...todo, ...done].every((i) => sel.has(i.id)) ? t.selectNone : t.selectAll}</button>
+          </div>
+        )}
         {!!list.items.length && (
           <div className="flex gap-2 items-center">
             <div className="flex gap-2 overflow-x-auto flex-1 min-w-0">
@@ -380,19 +424,19 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
           <h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{t.toBuy} <span className="text-gray-400">({todo.length})</span></h2>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
             <SortableContext items={todo.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-              <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{todo.map((i) => <Row key={i.id} item={i} t={t} canDrag={!filtered} onQty={qty} onDelete={del} onToggle={toggle} />)}</div>
+              <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{todo.map((i) => <Row key={i.id} item={i} t={t} canDrag={!filtered} onQty={qty} onDelete={del} onToggle={toggle} onRename={rename} selecting={selecting} picked={sel?.has(i.id)} onPick={flip} />)}</div>
             </SortableContext>
           </DndContext>
           </>
       )}
-      {!!allTodo.length && <Btn onClick={share} className="w-full py-3.5 bg-[#25D366] text-white text-base flex items-center justify-center gap-2"><Send size={18} />{t.send}</Btn>}
+      {!selecting && !!allTodo.length && <Btn onClick={share} className="w-full py-3.5 bg-[#25D366] text-white text-base flex items-center justify-center gap-2"><Send size={18} />{t.send}</Btn>}
       {!!done.length && (
         <>
           <h2 className="px-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{t.bought} <span className="text-gray-400">({done.length})</span></h2>
           <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">
             {done.map((i) => (
-              <div key={i.id} className="flex items-center gap-2.5 px-2.5 py-2.5">
-                <Btn onClick={() => toggle(i)} className="shrink-0 w-7 h-7 rounded-md bg-brand text-white flex items-center justify-center" aria-label="undo bought"><Check size={16} strokeWidth={3} /></Btn>
+              <div key={i.id} onClick={selecting ? () => flip(i.id) : undefined} className={`flex items-center gap-2.5 px-2.5 py-2.5 ${selecting ? "cursor-pointer " + (sel.has(i.id) ? "bg-brand/5" : "") : ""}`}>
+                {selecting ? <span className={`shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center ${sel.has(i.id) ? "bg-brand border-brand text-white" : "border-gray-300 text-transparent"}`} role="checkbox" aria-checked={sel.has(i.id)}><Check size={15} strokeWidth={3} /></span> : <Btn onClick={() => toggle(i)} className="shrink-0 w-7 h-7 rounded-md bg-brand text-white flex items-center justify-center" aria-label="undo bought"><Check size={16} strokeWidth={3} /></Btn>}
                 <span className="flex-1 min-w-0 truncate line-through text-gray-400">{dn(i.name)}</span>
                 <span className="shrink-0 text-sm text-gray-400">{fmt(i.qty)} {i.unit}</span>
               </div>
@@ -407,8 +451,17 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
 
 function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
   const patch = (i, body) => {
-    setItems((p) => p.map((x) => (x.id !== i.id ? x : { ...x, ...(body.delta != null && { stock: Math.max(0, +(x.stock + body.delta).toFixed(3)) }), ...(body.minQty != null && { minQty: body.minQty }) })));
+    setItems((p) => p.map((x) => (x.id !== i.id ? x : { ...x, ...(body.delta != null && { stock: Math.max(0, +(x.stock + body.delta).toFixed(3)) }), ...(body.minQty != null && { minQty: body.minQty }), ...(body.name != null && { name: body.name }) })));
     mutate(() => api(`/api/provisions/inventory/${i.id}`, "PATCH", body));
+  };
+  const [sel, setSel] = useState(null); // null = normal mode, Set = selecting
+  const selecting = sel !== null;
+  const flip = (id) => setSel((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const bulkDelete = () => {
+    const ids = [...sel]; if (!ids.length || !confirm(t.delAsk.replace("{n}", ids.length))) return;
+    setItems((p) => p.filter((x) => !sel.has(x.id))); setSel(null);
+    const real = ids.filter((n) => n > 0);
+    if (real.length) mutate(() => api("/api/provisions/inventory/bulk-delete", "POST", { ids: real }));
   };
   const removeItem = (i) => {
     if (!confirm(t.removeAsk.replace("{n}", dn(i.name)))) return;
@@ -428,8 +481,9 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
   const lowCount = items.filter(isLow).length;
   const groups = useMemo(() => shown.reduce((a, i) => ((a[i.category] ??= []).push(i), a), {}), [shown]);
   const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
+  const allShownSelected = selecting && shown.length > 0 && shown.every((i) => sel.has(i.id));
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${selecting ? "pb-24" : ""}`}>
       {!items.length && <p className="rounded-lg bg-surface p-6 text-center text-gray-500">{t.stockEmpty}</p>}
       {!!items.length && (
         <div className="sticky top-14 z-10 -mx-4 px-4 py-2 space-y-2 bg-page/95 backdrop-blur">
@@ -438,14 +492,32 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.search} className="w-full rounded-lg bg-surface border border-gray-300 pl-3 pr-9 py-2.5 outline-none focus:ring-2 ring-brand" />
               {q && <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400" aria-label="clear"><XIcon size={16} /></button>}
             </div>
-            <Btn onClick={onAdd} className="shrink-0 h-[2.75rem] px-3.5 bg-brand text-white flex items-center gap-1.5 text-sm"><Plus size={18} />{t.addItem}</Btn>
+            {selecting
+              ? <Btn onClick={() => setSel(null)} className="shrink-0 h-[2.75rem] px-3.5 bg-surface border border-gray-300 text-gray-700 text-sm">{t.selectDone}</Btn>
+              : <>
+                  <Btn onClick={() => setSel(new Set())} className="shrink-0 h-[2.75rem] px-3 bg-surface border border-gray-300 text-gray-700 text-sm flex items-center gap-1.5"><CheckSquare size={17} />{t.select}</Btn>
+                  <Btn onClick={onAdd} className="shrink-0 h-[2.75rem] px-3.5 bg-brand text-white flex items-center gap-1.5 text-sm"><Plus size={18} />{t.addItem}</Btn>
+                </>}
           </div>
+          {selecting && (
+            <div className="flex items-center justify-between rounded-lg bg-brand/10 px-3 py-2 text-sm">
+              <span className="font-semibold text-brand">{sel.size ? t.selected.replace("{n}", sel.size) : t.pickToDelete}</span>
+              <button onClick={() => setSel(allShownSelected ? new Set() : new Set(shown.map((i) => i.id)))} className="font-semibold text-brand underline-offset-2 hover:underline">{allShownSelected ? t.selectNone : t.selectAll}</button>
+            </div>
+          )}
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
             {[["all", `${t.allTab} (${items.length})`], ["low", `${t.lowTab} (${lowCount})`], ["ok", `${t.okTab} (${items.length - lowCount})`]].map(([k, l]) => <button key={k} onClick={() => setStatus(k)} className={chip(status === k)}>{l}</button>)}
           </div>
           <div className="flex gap-2 overflow-x-auto -mx-4 px-4">
             <button onClick={() => setCat("")} className={chip(!cat)}>{t.allTab}</button>
             {cats.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className={chip(cat === c)}>{c}</button>)}
+          </div>
+        </div>
+      )}
+      {selecting && (
+        <div className="fixed inset-x-0 bottom-20 lg:bottom-6 z-30 pointer-events-none" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
+          <div className="max-w-5xl mx-auto px-4 lg:px-8 lg:pl-60">
+            <Btn onClick={bulkDelete} disabled={!sel.size} className="pointer-events-auto w-full py-3.5 bg-red-600 text-white shadow-lg flex items-center justify-center gap-2 disabled:opacity-40"><Trash2 size={18} />{t.delSel.replace("{n}", sel.size)}</Btn>
           </div>
         </div>
       )}
@@ -457,9 +529,10 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
             {list.map((i) => {
               const low = i.minQty > 0 && i.stock <= i.minQty;
               return (
-                <div key={i.id} className="flex items-center gap-2 px-3 py-2.5">
+                <div key={i.id} onClick={selecting ? () => flip(i.id) : undefined} className={`flex items-center gap-2 px-3 py-2.5 ${selecting ? "cursor-pointer " + (sel.has(i.id) ? "bg-brand/5" : "") : ""}`}>
+                  {selecting && <span className={`shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center ${sel.has(i.id) ? "bg-brand border-brand text-white" : "border-gray-300 text-transparent"}`} role="checkbox" aria-checked={sel.has(i.id)}><Check size={15} strokeWidth={3} /></span>}
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium leading-tight text-gray-900 line-clamp-2 break-words">{dn(i.name)}</p>
+                    {selecting ? <span className="block font-medium leading-tight text-gray-900 line-clamp-2 break-words">{dn(i.name)}</span> : <EditableName value={i.name} shown={dn(i.name)} onSave={(nm) => patch(i, { name: nm })} />}
                     <p className="flex items-center gap-1.5 text-[11px] text-gray-500">
                       <label className="flex items-center gap-1">{t.min}
                         <input type="number" inputMode="decimal" step={step(i.unit)} min="0" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-11 rounded border border-gray-300 bg-surface text-center text-gray-700" />
@@ -467,12 +540,14 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
                       {low && <span className="rounded bg-red-50 px-1.5 py-0.5 font-semibold text-red-600">{t.lowTab}</span>}
                     </p>
                   </div>
+                  {selecting ? <span className="shrink-0 text-sm font-bold text-gray-500">{fmt(i.stock)} <span className="text-[11px] font-normal">{i.unit}</span></span> : <>
                   <div className="shrink-0 flex items-center gap-0.5">
                     <Btn onClick={() => patch(i, { delta: -step(i.unit) })} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="decrease"><Minus size={16} /></Btn>
                     <span className={`w-[3.75rem] text-center text-sm font-bold ${low ? "text-red-600" : "text-gray-900"}`}>{fmt(i.stock)} <span className="text-[11px] font-normal text-gray-500">{i.unit}</span></span>
                     <Btn onClick={() => patch(i, { delta: step(i.unit) })} className="shrink-0 w-7 h-7 rounded-md border border-gray-300 bg-surface text-gray-700 flex items-center justify-center" aria-label="increase"><Plus size={16} /></Btn>
                   </div>
                   <Btn onClick={() => removeItem(i)} className="shrink-0 w-7 h-8 text-gray-400 hover:text-red-600 flex items-center justify-center" aria-label="remove"><Trash2 size={17} /></Btn>
+                  </>}
                 </div>
               );
             })}

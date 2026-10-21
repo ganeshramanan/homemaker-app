@@ -149,10 +149,21 @@ r.post("/history/:id/copy", wrap(async (req, res) => {
 r.get("/inventory", wrap(async (req, res) => res.json(await prisma.item.findMany({ where: { userId: uid(req) }, orderBy: [{ category: "asc" }, { name: "asc" }] }))));
 
 r.patch("/inventory/:id", wrap(async (req, res) => {
-  const { stock, minQty, delta } = req.body;
+  const { stock, minQty, delta, name } = req.body;
   const cur = await prisma.item.findFirst({ where: { id: +req.params.id, userId: uid(req) } });
   if (!cur) return res.status(404).json({ error: "Not found" });
   const data = {};
+  if (name != null) {
+    const nn = String(name).trim().replace(/\s+/g, " ").slice(0, 60);
+    if (!nn) return res.status(400).json({ error: "Name needed" });
+    if (nn !== cur.name) {
+      const clash = await prisma.item.findFirst({ where: { userId: uid(req), name: nn, NOT: { id: cur.id } } });
+      if (clash) return res.status(409).json({ error: "You already have an item called " + nn });
+      data.name = nn;
+      // keep the open shopping list in step with the new name
+      await prisma.listItem.updateMany({ where: { name: cur.name, bought: false, list: { userId: uid(req), status: "active" } }, data: { name: nn } });
+    }
+  }
   if (delta != null) data.stock = Math.max(0, +(cur.stock + +delta).toFixed(3));
   if (stock != null) data.stock = Math.max(0, +stock);
   if (minQty != null) data.minQty = Math.max(0, +minQty);
@@ -167,6 +178,17 @@ r.post("/inventory", wrap(async (req, res) => {
 }));
 
 r.delete("/inventory/:id", wrap(async (req, res) => { await prisma.item.deleteMany({ where: { id: +req.params.id, userId: uid(req) } }); res.json({ ok: true }); }));
+const ids = (v) => (Array.isArray(v) ? v : []).map(Number).filter((n) => Number.isInteger(n) && n > 0).slice(0, 500);
+r.post("/inventory/bulk-delete", wrap(async (req, res) => {
+  const list = ids(req.body.ids);
+  const out = list.length ? await prisma.item.deleteMany({ where: { id: { in: list }, userId: uid(req) } }) : { count: 0 };
+  res.json({ deleted: out.count });
+}));
+r.post("/list/items/bulk-delete", wrap(async (req, res) => {
+  const list = ids(req.body.ids);
+  const out = list.length ? await prisma.listItem.deleteMany({ where: { id: { in: list }, list: { userId: uid(req) } } }) : { count: 0 };
+  res.json({ deleted: out.count });
+}));
 r.post("/inventory/seed", wrap(async (req, res) => res.json({ added: await seedInventory(uid(req)) })));
 
 // ----- dashboard widget data -----
