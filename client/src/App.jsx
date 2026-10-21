@@ -462,7 +462,7 @@ function Stock({ t, items, setItems, mutate, refresh, onSeed, onAdd }) {
                     <p className="font-medium leading-tight text-gray-900 line-clamp-2 break-words">{dn(i.name)}</p>
                     <p className="flex items-center gap-1.5 text-[11px] text-gray-500">
                       <label className="flex items-center gap-1">{t.min}
-                        <input type="number" inputMode="decimal" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-11 rounded border border-gray-300 bg-surface text-center text-gray-700" />
+                        <input type="number" inputMode="decimal" step={step(i.unit)} min="0" defaultValue={i.minQty} onBlur={(e) => +e.target.value !== i.minQty && patch(i, { minQty: +e.target.value })} className="w-11 rounded border border-gray-300 bg-surface text-center text-gray-700" />
                       </label>
                       {low && <span className="rounded bg-red-50 px-1.5 py-0.5 font-semibold text-red-600">{t.lowTab}</span>}
                     </p>
