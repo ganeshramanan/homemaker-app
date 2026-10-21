@@ -357,7 +357,7 @@ function ListTab({ t, brand, list, setList, mutate, refresh, onAdd }) {
   const toggle = (i) => { setList((p) => ({ ...p, items: p.items.map((x) => (x.id === i.id ? { ...x, bought: !i.bought } : x)) })); mutate(() => api(`/api/provisions/list/items/${i.id}/bought`, "POST", { bought: !i.bought })); };
   const share = () => {
     const lines = allTodo.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
-    const msg = `🛒 *${brand.name}*\n${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}\n\n${lines}\n\n_Sent via ${brand.name}_`;
+    const msg = `*${brand.name}*\n${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}\n\n${lines}\n\n_Sent via ${brand.name}_`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
   };
   const [nextOpen, setNextOpen] = useState(false);
@@ -607,7 +607,7 @@ function History({ t, brand, onCopied }) {
   if (open) {
     const share = () => {
       const lines = open.items.map((i, n) => `${n + 1}. ${i.name} - ${fmt(i.qty)} ${i.unit}`).join("\n");
-      window.open(`https://wa.me/?text=${encodeURIComponent(`🛒 *${brand.name}* · ${monthOf(open.closedAt)}\n\n${lines}`)}`, "_blank");
+      window.open(`https://wa.me/?text=${encodeURIComponent(`*${brand.name}* · ${monthOf(open.closedAt)}\n\n${lines}`)}`, "_blank");
     };
     return (
       <div className="space-y-3">
