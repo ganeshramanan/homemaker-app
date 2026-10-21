@@ -1131,8 +1131,8 @@ const eIcon = (c) => ECAT_LUCIDE[c] || Pin;
 const EVENT_CATS = ["Birthday", "Anniversary", "Bill due", "EMI due", "Credit card", "Doctor", "Meeting", "School", "Festival", "Reminder", "Other"];
 const ECAT_TA = { Birthday: "பிறந்தநாள்", Anniversary: "திருமண நாள்", "Bill due": "பில் கட்டணம்", "EMI due": "EMI தேதி", "Credit card": "கிரெடிட் கார்டு", Doctor: "மருத்துவர்", Meeting: "சந்திப்பு", School: "பள்ளி", Festival: "பண்டிகை", Reminder: "நினைவூட்டல்", Other: "மற்றவை" };
 const CT = {
-  en: { title: "Calendar", addEvent: "Add event", newEvent: "New event", editEvent: "Edit event", eventTitle: "What is it?", date: "Date", time: "Time", allDay: "All day", repeat: "Repeat", none: "Does not repeat", yearly: "Every year", monthly: "Every month", note: "Note (optional)", category: "Type", today: "Today", tomorrow: "Tomorrow", now: "Now", soon: "Later today", upcoming: "Coming up", nothingToday: "Nothing planned today", nothingSoon: "No events in the next 7 days", noEvents: "No events on this day", onThisDay: "On this day", viewAll: "Open calendar", save: "Save", cancel: "Cancel", del: "Delete", pickDate: "Choose a date", gotoToday: "Today", repeatsYearly: "every year", repeatsMonthly: "every month", wd: ["S", "M", "T", "W", "T", "F", "S"] },
-  ta: { title: "நாட்காட்டி", addEvent: "நிகழ்வு சேர்", newEvent: "புதிய நிகழ்வு", editEvent: "நிகழ்வைத் திருத்து", eventTitle: "என்ன நிகழ்வு?", date: "தேதி", time: "நேரம்", allDay: "நாள் முழுவதும்", repeat: "மீண்டும் வருமா", none: "மீண்டும் வராது", yearly: "ஒவ்வொரு ஆண்டும்", monthly: "ஒவ்வொரு மாதமும்", note: "குறிப்பு (விருப்பம்)", category: "வகை", today: "இன்று", tomorrow: "நாளை", now: "இப்போது", soon: "இன்று பின்னர்", upcoming: "வரவிருப்பவை", nothingToday: "இன்று எதுவும் இல்லை", nothingSoon: "அடுத்த 7 நாட்களில் நிகழ்வுகள் இல்லை", noEvents: "இந்த நாளில் நிகழ்வுகள் இல்லை", onThisDay: "இந்த நாளில்", viewAll: "நாட்காட்டியைத் திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", pickDate: "தேதியைத் தேர்ந்தெடுக்கவும்", gotoToday: "இன்று", repeatsYearly: "ஒவ்வொரு ஆண்டும்", repeatsMonthly: "ஒவ்வொரு மாதமும்", wd: ["ஞா", "தி", "செ", "பு", "வி", "வெ", "ச"] },
+  en: { title: "Calendar", viewMonth: "Month", viewUpcoming: "Upcoming", range7: "7 days", range30: "30 days", range90: "3 months", rangeYear: "1 year", all: "All", sortDate: "By date", sortType: "By type", total: "events", thisWeek: "This week", nextMonth: "Next 30 days", nothingRange: "Nothing planned in this period", jumpToday: "Today", daysAway: "in {n} days", dayAway: "tomorrow", todayTag: "today", types: "Types", addEvent: "Add event", newEvent: "New event", editEvent: "Edit event", eventTitle: "What is it?", date: "Date", time: "Time", allDay: "All day", repeat: "Repeat", none: "Does not repeat", yearly: "Every year", monthly: "Every month", note: "Note (optional)", category: "Type", today: "Today", tomorrow: "Tomorrow", now: "Now", soon: "Later today", upcoming: "Coming up", nothingToday: "Nothing planned today", nothingSoon: "No events in the next 7 days", noEvents: "No events on this day", onThisDay: "On this day", viewAll: "Open calendar", save: "Save", cancel: "Cancel", del: "Delete", pickDate: "Choose a date", gotoToday: "Today", repeatsYearly: "every year", repeatsMonthly: "every month", wd: ["S", "M", "T", "W", "T", "F", "S"] },
+  ta: { title: "நாட்காட்டி", viewMonth: "மாதம்", viewUpcoming: "வரவிருப்பவை", range7: "7 நாள்", range30: "30 நாள்", range90: "3 மாதம்", rangeYear: "1 வருடம்", all: "அனைத்தும்", sortDate: "தேதி வரிசை", sortType: "வகை வரிசை", total: "நிகழ்வுகள்", thisWeek: "இந்த வாரம்", nextMonth: "அடுத்த 30 நாள்", nothingRange: "இந்த காலத்தில் நிகழ்வுகள் இல்லை", jumpToday: "இன்று", daysAway: "{n} நாட்களில்", dayAway: "நாளை", todayTag: "இன்று", types: "வகைகள்", addEvent: "நிகழ்வு சேர்", newEvent: "புதிய நிகழ்வு", editEvent: "நிகழ்வைத் திருத்து", eventTitle: "என்ன நிகழ்வு?", date: "தேதி", time: "நேரம்", allDay: "நாள் முழுவதும்", repeat: "மீண்டும் வருமா", none: "மீண்டும் வராது", yearly: "ஒவ்வொரு ஆண்டும்", monthly: "ஒவ்வொரு மாதமும்", note: "குறிப்பு (விருப்பம்)", category: "வகை", today: "இன்று", tomorrow: "நாளை", now: "இப்போது", soon: "இன்று பின்னர்", upcoming: "வரவிருப்பவை", nothingToday: "இன்று எதுவும் இல்லை", nothingSoon: "அடுத்த 7 நாட்களில் நிகழ்வுகள் இல்லை", noEvents: "இந்த நாளில் நிகழ்வுகள் இல்லை", onThisDay: "இந்த நாளில்", viewAll: "நாட்காட்டியைத் திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", pickDate: "தேதியைத் தேர்ந்தெடுக்கவும்", gotoToday: "இன்று", repeatsYearly: "ஒவ்வொரு ஆண்டும்", repeatsMonthly: "ஒவ்வொரு மாதமும்", wd: ["ஞா", "தி", "செ", "பு", "வி", "வெ", "ச"] },
 };
 const ecat = (c, lang) => (lang === "ta" && ECAT_TA[c]) || c;
 const longDate = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "short", day: "numeric", month: "short" }); };
@@ -1243,6 +1243,7 @@ function Calendar({ lang, cal, signal }) {
   const [ym, setYm] = useState({ y: t0.y, m: t0.m });
   const [sel, setSel] = useState(today);
   const [sheet, setSheet] = useState(null);
+  const [view, setView] = useState("month");
   useEffect(() => { if (signal?.n && signal.kind === "event") setSheet({ date: today }); }, [signal?.n]); // eslint-disable-line
   const first = ymd(ym.y, ym.m, 1), last = ymd(ym.y, ym.m, daysIn(ym.y, ym.m));
   const occ = useMemo(() => occurrences(events || [], first, last), [events, first, last]);
@@ -1252,16 +1253,23 @@ function Calendar({ lang, cal, signal }) {
   const go = (n) => { const d = new Date(ym.y, ym.m - 1 + n, 1); setYm({ y: d.getFullYear(), m: d.getMonth() + 1 }); };
   const openDay = (d) => { setSel(d); };
   const dayEvents = byDay[sel] || [];
+  const awayFromToday = ym.y !== t0.y || ym.m !== t0.m || sel !== today;
+  const jumpToday = () => { setYm({ y: t0.y, m: t0.m }); setSel(today); };
   const onOpen = (o) => { const ev = (events || []).find((e) => e.id === o.id); if (ev && ev.id > 0) setSheet(ev); }; // still-saving events have a temporary id
   const saveSheet = (e) => { setSheet(null); save(e); };
   const delSheet = (id) => { setSheet(null); remove(id); };
   return (
     <div className="space-y-3">
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
+      <div className="flex rounded-lg bg-gray-100 p-1 text-sm font-medium" role="tablist">
+        {[["month", c.viewMonth], ["upcoming", c.viewUpcoming]].map(([k, l]) => <button key={k} role="tab" aria-selected={view === k} onClick={() => setView(k)} className={`flex-1 rounded-md py-1.5 ${view === k ? "bg-surface text-gray-900 shadow-sm" : "text-gray-500"}`}>{l}</button>)}
+      </div>
+      {view === "upcoming" && <Upcoming c={c} lang={lang} events={events} today={today} onOpen={onOpen} />}
+      {view === "month" && <>
       <div className="rounded-xl bg-surface p-3 border border-line">
         <div className="flex items-center justify-between mb-2">
           <Btn onClick={() => go(-1)} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="previous month"><ChevronLeft size={18} /></Btn>
-          <button onClick={() => { setYm({ y: t0.y, m: t0.m }); setSel(today); }} className="font-semibold text-gray-900">{monthTitle(ym.y, ym.m, lang)}</button>
+          <button onClick={jumpToday} className="font-semibold text-gray-900 flex items-center gap-2">{monthTitle(ym.y, ym.m, lang)}{awayFromToday && <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand">{c.jumpToday}</span>}</button>
           <Btn onClick={() => go(1)} className="w-9 h-9 rounded-lg border border-gray-300 text-gray-700 flex items-center justify-center" aria-label="next month"><ChevronRight size={18} /></Btn>
         </div>
         <div className="grid grid-cols-7 text-center text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1">{c.wd.map((w, i) => <span key={i}>{w}</span>)}</div>
@@ -1285,7 +1293,69 @@ function Calendar({ lang, cal, signal }) {
       {events === null && <SkeletonRows n={2} />}
       {events && !dayEvents.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{c.noEvents}</p>}
       {!!dayEvents.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{dayEvents.map((o) => <EventRow key={o.key} o={o} c={c} lang={lang} today={today} nowM={nowM} onOpen={onOpen} />)}</div>}
+      </>}
       {sheet && <EventSheet key={sheet.id || "new"} c={c} lang={lang} initial={sheet} onSave={saveSheet} onDelete={delSheet} onClose={() => setSheet(null)} />}
+    </div>
+  );
+}
+
+// Upcoming: every planned event in a chosen period, with totals, a type filter and sorting.
+function Upcoming({ c, lang, events, today, onOpen }) {
+  const [days, setDays] = useState(30);
+  const [type, setType] = useState("");
+  const [sort, setSort] = useState("date");
+  const occ = useMemo(() => occurrences(events || [], today, addDays(today, days)), [events, today, days]);
+  const types = useMemo(() => { const m = {}; occ.forEach((o) => { m[o.category] = (m[o.category] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1]); }, [occ]);
+  const shown = useMemo(() => { const l = occ.filter((o) => !type || o.category === type); return sort === "type" ? [...l].sort((a, b) => a.category.localeCompare(b.category) || a.date.localeCompare(b.date) || (a.time || "").localeCompare(b.time || "")) : l; }, [occ, type, sort]);
+  const week = occ.filter((o) => o.date <= addDays(today, 6)).length;
+  const groups = useMemo(() => shown.reduce((a, o) => { const k = sort === "type" ? o.category : o.date; (a[k] ||= []).push(o); return a; }, {}), [shown, sort]);
+  const dayNum = (d) => { const p = parseYmd(d); return Date.UTC(p.y, p.m - 1, p.d) / 864e5; };
+  const away = (d) => { const n = dayNum(d) - dayNum(today); return n === 0 ? c.todayTag : n === 1 ? c.dayAway : c.daysAway.replace("{n}", n); };
+  const pill = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium border ${on ? "bg-brand text-white border-brand" : "bg-surface text-gray-700 border-gray-300"}`;
+  if (events === null) return <SkeletonRows n={3} />;
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-3 gap-2">
+        {[[occ.length, c.total], [week, c.thisWeek], [types.length, c.types]].map(([n, l], i) => (
+          <div key={i} className="rounded-xl bg-surface border border-line px-3 py-2.5"><p className="text-xl font-bold text-gray-900 leading-none">{n}</p><p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{l}</p></div>
+        ))}
+      </div>
+      <div className="flex gap-2 overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0">
+        {[[7, c.range7], [30, c.range30], [90, c.range90], [365, c.rangeYear]].map(([d, l]) => <button key={d} onClick={() => setDays(d)} className={pill(days === d)}>{l}</button>)}
+      </div>
+      {!!types.length && (
+        <div className="flex gap-2 overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0">
+          <button onClick={() => setType("")} className={pill(!type)}>{c.all} ({occ.length})</button>
+          {types.map(([k, n]) => <button key={k} onClick={() => setType(type === k ? "" : k)} className={pill(type === k)}>{ecat(k, lang)} ({n})</button>)}
+        </div>
+      )}
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">{shown.length} {c.total}</span>
+        <select value={sort} onChange={(e) => setSort(e.target.value)} className="rounded-lg border border-gray-300 bg-surface px-2.5 py-1.5 text-sm text-gray-700" aria-label="sort">
+          <option value="date">{c.sortDate}</option><option value="type">{c.sortType}</option>
+        </select>
+      </div>
+      {!shown.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{c.nothingRange}</p>}
+      {Object.entries(groups).map(([k, list]) => (
+        <section key={k}>
+          <h3 className="mb-1.5 px-1 flex items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-gray-500">
+            <span>{sort === "type" ? ecat(k, lang) : dayLabel(k, today, c, lang)}</span>
+            {sort === "date" && <span className="font-medium normal-case tracking-normal text-gray-400">{away(k)}</span>}
+          </h3>
+          <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">
+            {list.map((o) => (
+              <button key={o.key} onClick={() => onOpen(o)} className="w-full flex items-center gap-3 px-3.5 py-3 text-left active:bg-gray-50">
+                <IconBox Icon={eIcon(o.category)} />
+                <span className="flex-1 min-w-0">
+                  <span className="block font-semibold text-gray-900 truncate">{o.title}</span>
+                  <span className="block text-xs text-gray-500 truncate">{sort === "type" ? `${longDate(o.date, lang)} · ` : ""}{o.time ? fmtTime(o.time) : c.allDay}{o.repeat === "yearly" ? ` · ${c.repeatsYearly}` : o.repeat === "monthly" ? ` · ${c.repeatsMonthly}` : ""}</span>
+                </span>
+                {sort === "type" && <span className="shrink-0 text-xs text-gray-400">{away(o.date)}</span>}
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
