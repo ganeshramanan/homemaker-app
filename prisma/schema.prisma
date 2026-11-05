@@ -19,6 +19,8 @@ model User {
   modules      String    @default("provisions,budget,calendar,diary") // sections the ADMIN allows for this user
   hiddenModules String   @default("")  // sections the USER chose to hide
   hiddenCats   String    @default("")  // budget categories the USER removed, as JSON {income:[],expense:[]}
+  reminderEmails String   @default("")  // comma-separated addresses that get event reminder emails
+  reminderDays   String   @default("7") // comma-separated days before an event: e.g. "7,1,0"
   createdAt    DateTime  @default(now())
   sessions     Session[]
   items        Item[]
@@ -134,4 +136,16 @@ model DiaryPhoto {
   createdAt DateTime @default(now())
 
   @@index([userId, date])
+}
+
+// One row per reminder already emailed (user + event + the day it happens + how many days ahead), so retries never double-send.
+model ReminderSent {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  onDate    String
+  daysAhead Int
+  sentAt    DateTime @default(now())
+
+  @@unique([userId, eventId, onDate, daysAhead])
 }

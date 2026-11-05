@@ -10,6 +10,7 @@ import provisions from "./provisions.js";
 import budget from "./budget.js";
 import calendar from "./calendar.js";
 import diary from "./diary.js";
+import { settingsRouter as reminderSettings, internalRouter } from "./reminders.js";
 
 const app = express();
 const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), "../dist");
@@ -52,10 +53,12 @@ app.get("/icon-:size.png", (req, res) => res.type("png").send(png(Math.min(512, 
 
 // ---------- API ----------
 app.use("/api/auth", authRouter);
+app.use("/api/internal", internalRouter); // called by the daily GitHub job, protected by CRON_KEY, not by a login
 app.use("/api", requireUser);
 app.use("/api/provisions", requireModule("provisions"), provisions);   // future: /api/budget, /api/reminders, /api/diary ...
 app.use("/api/budget", budget);
 app.use("/api/calendar", calendar);
+app.use("/api/reminders", reminderSettings);
 app.use("/api/diary", diary);
 app.use("/api/admin", adminRouter);
 app.use("/api", (_, res) => res.status(404).json({ error: "Not found" }));

@@ -1,0 +1,44 @@
+name: Daily event reminders
+
+# Runs every morning at 7:30 AM India time (02:00 UTC) and asks the app to email today's reminders.
+# It can also be run by hand: GitHub > Actions > Daily event reminders > Run workflow.
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: count what would be sent, send nothing"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Ask the app to send reminders
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_KEY: ${{ secrets.CRON_KEY }}
+          DRY: ${{ inputs.dry_run }}
+        run: |
+          if [ -z "$APP_URL" ] || [ -z "$CRON_KEY" ]; then
+            echo "::error::Add the APP_URL and CRON_KEY secrets (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          URL="${APP_URL%/}/api/internal/send-reminders"
+          [ "$DRY" = "true" ] && URL="$URL?dry=1"
+          # The free Render app sleeps when idle, so the first call can take up to a minute. Try up to 4 times.
+          for attempt in 1 2 3 4; do
+            echo "Attempt $attempt"
+            code=$(curl -sS -m 120 -o response.json -w "%{http_code}" -X POST -H "x-cron-key: $CRON_KEY" "$URL" || echo 000)
+            echo "HTTP $code"; cat response.json 2>/dev/null; echo
+            if [ "$code" = "200" ]; then exit 0; fi
+            if [ "$code" = "401" ] || [ "$code" = "503" ]; then echo "::error::The app refused the request (HTTP $code). Check CRON_KEY, SMTP_USER and SMTP_PASS on Render."; exit 1; fi
+            sleep 45
+          done
+          echo "::error::The app did not answer in time."; exit 1
