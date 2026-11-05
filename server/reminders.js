@@ -17,8 +17,9 @@ export const parseDays = (s) => [...new Set(String(s || "").split(",").map((x) =
 const settingsOf = (u) => ({ emails: parseEmails(u.reminderEmails), days: parseDays(u.reminderDays), allowedDays: ALLOWED_DAYS, max: MAX_EMAILS, mailReady: mailReady() });
 
 // ----- mail -----
-const fromAddr = () => process.env.MAIL_FROM || process.env.SMTP_USER || "";
-const mailReady = () => !!((process.env.BREVO_API_KEY && fromAddr()) || (process.env.SMTP_USER && process.env.SMTP_PASS));
+// With a Resend key and no MAIL_FROM, Resend's shared test sender is used (it can only mail your own Resend login address).
+const fromAddr = () => process.env.MAIL_FROM || (process.env.RESEND_API_KEY ? "onboarding@resend.dev" : process.env.SMTP_USER || "");
+const mailReady = () => !!(process.env.RESEND_API_KEY || (process.env.SMTP_USER && process.env.SMTP_PASS));
 let transport = null;
 const getTransport = () => transport ||= nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.gmail.com", port: Number(process.env.SMTP_PORT || 465), secure: Number(process.env.SMTP_PORT || 465) === 465,
@@ -26,24 +27,30 @@ const getTransport = () => transport ||= nodemailer.createTransport({
   connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 20000, // never hang: fail fast with a clear message
 });
 
-// One place that sends mail. Brevo's HTTPS API works on hosts that block SMTP ports (such as Render's free plan).
+// One place that sends mail. Resend uses HTTPS, which works on hosts that block SMTP ports (such as Render's free plan).
 async function deliver({ to, subject, text, html }) {
   const brand = process.env.BRAND_NAME || "Illam";
   const list = Array.isArray(to) ? to : [to];
-  if (process.env.BREVO_API_KEY) {
-    const r = await fetch("https://api.brevo.com/v3/smtp/email", {
+  if (process.env.RESEND_API_KEY) {
+    const r = await fetch("https://api.resend.com/emails", {
       method: "POST", signal: AbortSignal.timeout(20000),
-      headers: { "api-key": process.env.BREVO_API_KEY, "content-type": "application/json", accept: "application/json" },
-      body: JSON.stringify({ sender: { name: brand, email: fromAddr() }, to: list.map((email) => ({ email })), subject, textContent: text, htmlContent: html }),
+      headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ from: brand + " <" + fromAddr() + ">", to: list, subject, text, html }),
     });
-    if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error("Brevo said: " + (j.message || r.status)); }
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      const msg = String(j.message || r.status);
+      if (/verify a domain|only send testing emails|own email address/i.test(msg)) throw new Error("Resend only lets you email your own Resend login address until you verify a domain at resend.com/domains. Then set MAIL_FROM to an address on that domain.");
+      if (r.status === 401 || r.status === 403 && /api key/i.test(msg)) throw new Error("Resend rejected the API key. Check RESEND_API_KEY on Render.");
+      throw new Error("Resend said: " + msg);
+    }
     return;
   }
   try {
     await getTransport().sendMail({ from: '"' + brand + '" <' + fromAddr() + ">", to: list.join(", "), subject, text, html });
   } catch (e) {
     const slow = /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH/i.test(String(e.code || "") + " " + e.message);
-    throw new Error(slow ? "Could not reach the mail server. Render's free plan may block email on this port; set BREVO_API_KEY to send over the web instead." : "Mail server said: " + e.message);
+    throw new Error(slow ? "Could not reach the mail server. Render's free plan may block email on this port; add a RESEND_API_KEY on Render to send over the web instead." : "Mail server said: " + e.message);
   }
 }
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -106,7 +113,7 @@ internalRouter.post("/send-reminders", wrap(async (req, res) => {
   if (!key || key.length < 16) return res.status(503).json({ error: "CRON_KEY is not set (needs 16+ characters)" });
   const sent = String(req.get("x-cron-key") || "");
   if (!safeEqual(sent, key)) return res.status(401).json({ error: "Wrong key" });
-  if (!mailReady()) return res.status(503).json({ error: "Email is not set up: set BREVO_API_KEY + MAIL_FROM, or SMTP_USER + SMTP_PASS" });
+  if (!mailReady()) return res.status(503).json({ error: "Email is not set up: set RESEND_API_KEY (and MAIL_FROM), or SMTP_USER + SMTP_PASS" });
 
   const dry = req.query.dry === "1";
   const today = /^\d{4}-\d{2}-\d{2}$/.test(String(req.query.today || "")) ? String(req.query.today) : istToday();
