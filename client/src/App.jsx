@@ -990,8 +990,8 @@ const BCAT_LUCIDE = { Salary: Briefcase, Business: Landmark, "Rent received": Ho
 const bIcon = (c) => BCAT_LUCIDE[c] || Pin;
 const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
 const BT = {
-  en: { title: "Budget", newCat: "New category", delCatAsk: "Delete the category \u201C{n}\u201D? Entries that use it will move to Other.", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
-  ta: { title: "பட்ஜெட்", newCat: "புதிய வகை", delCatAsk: "\u201C{n}\u201D வகையை அழிக்கவா? இதைப் பயன்படுத்தும் பதிவுகள் \u201Cமற்றவை\u201D க்கு மாறும்.", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
+  en: { title: "Budget", newCat: "New category", restoreCats: "Restore default categories", delCatAsk: "Delete the category \u201C{n}\u201D? Entries that use it will move to Other.", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
+  ta: { title: "பட்ஜெட்", newCat: "புதிய வகை", restoreCats: "இயல்பு வகைகளை மீட்டெடு", delCatAsk: "\u201C{n}\u201D வகையை அழிக்கவா? இதைப் பயன்படுத்தும் பதிவுகள் \u201Cமற்றவை\u201D க்கு மாறும்.", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
 };
 const bcat = (c, lang) => (lang === "ta" && BCAT_TA[c]) || c;
 const inr = (n) => "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { maximumFractionDigits: 2 });
@@ -1038,17 +1038,27 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose, onCatsChange
   const lower = (x) => x.toLowerCase();
   const extra = [...(used[type] || []), ...added[type], ...(editing && initial.type === type && initial.category ? [initial.category] : [])]
     .filter((c, i, a) => c && !base.some((d) => lower(d) === lower(c)) && !gone[type].some((g) => lower(g) === lower(c)) && a.findIndex((z) => lower(z) === lower(c)) === i);
-  const cats = [...base.filter((c) => c !== "Other"), ...extra, "Other"];
+  const hiddenNow = [...(used.hidden?.[type] || []), ...gone[type]];
+  const isHidden = (c) => hiddenNow.some((g) => lower(g) === lower(c));
+  const editingCat = editing && initial.type === type ? initial.category : "";
+  const cats = [...base.filter((c) => c !== "Other" && (!isHidden(c) || lower(c) === lower(editingCat || ""))), ...extra, "Other"];
   const removeCat = async (c) => {
     if (!confirm(b.delCatAsk.replace("{n}", c))) return;
     const t0 = type;
-    const saved = (used[t0] || []).some((u) => lower(u) === lower(c)) || (editing && initial.type === t0 && lower(initial.category || "") === lower(c));
+    const builtin = base.some((d) => lower(d) === lower(c));
+    const saved = builtin || (used[t0] || []).some((u) => lower(u) === lower(c)) || (editing && initial.type === t0 && lower(initial.category || "") === lower(c));
     setGone((p) => ({ ...p, [t0]: [...p[t0], c] }));
     setAdded((p) => ({ ...p, [t0]: p[t0].filter((x) => lower(x) !== lower(c)) }));
     if (cat && lower(cat) === lower(c)) setCat("");
     if (!saved) return; // never saved with an entry, nothing on the server to change
-    try { await api("/api/budget/categories/delete", "POST", { type: t0, category: c }); onCatsChanged?.(); }
+    try { await api("/api/budget/categories/delete", "POST", { type: t0, category: c, builtin }); onCatsChanged?.(); }
     catch (e) { setGone((p) => ({ ...p, [t0]: p[t0].filter((x) => lower(x) !== lower(c)) })); setErr(e.message); }
+  };
+  const restoreCats = async () => {
+    const t0 = type, before = { used, gone };
+    setGone((p) => ({ ...p, [t0]: [] })); setUsed((p) => ({ ...p, hidden: { ...(p.hidden || {}), [t0]: [] } }));
+    try { await api("/api/budget/categories/restore", "POST", { type: t0 }); }
+    catch (e) { setGone(before.gone); setUsed(before.used); setErr(e.message); }
   };
   const addCat = () => {
     const name = nv.trim().replace(/\s+/g, " ").slice(0, 40);
@@ -1082,16 +1092,17 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose, onCatsChange
         <div>
           <p className="text-sm text-gray-500 mb-1.5">{b.category}</p>
           <div className="flex flex-wrap gap-2">
-            {cats.map((c) => extra.includes(c)
-              ? (
+            {cats.map((c) => c === "Other"
+              ? <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{bcat(c, lang)}</button>
+              : (
                 <span key={c} className={`shrink-0 inline-flex items-center rounded-full border ${cat === c ? "bg-brand text-white border-brand" : "bg-surface text-gray-700 border-gray-300"}`}>
                   <button onClick={() => setCat(c)} className="py-1.5 pl-3 pr-1.5 text-sm font-medium">{bcat(c, lang)}</button>
                   <button onClick={() => removeCat(c)} aria-label={`Delete ${c}`} className="py-1.5 pl-1 pr-2.5 opacity-70 hover:opacity-100"><XIcon size={13} /></button>
                 </span>
-              )
-              : <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{bcat(c, lang)}</button>)}
+              ))}
             {!adding && <button onClick={() => setAdding(true)} className="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium border border-dashed border-brand text-brand flex items-center gap-1"><Plus size={14} />{b.newCat}</button>}
           </div>
+          {hiddenNow.length > 0 && !adding && <button onClick={restoreCats} className="mt-2 text-sm font-semibold text-brand underline-offset-2 hover:underline">{b.restoreCats}</button>}
           {adding && (
             <div className="mt-2 flex gap-2">
               <input autoFocus value={nv} maxLength={40} placeholder={b.catName} onChange={(e) => setNv(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") addCat(); if (e.key === "Escape") { setAdding(false); setNv(""); } }} className="min-w-0 flex-1 rounded-lg border border-brand bg-surface px-3 py-2.5 outline-none" aria-label="new category" />

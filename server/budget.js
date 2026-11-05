@@ -16,6 +16,9 @@ const money = (v) => {
   return v !== "" && v !== null && Number.isFinite(n) && n >= 0 && n < 1e10 ? Math.round(n * 100) / 100 : null;
 };
 const text = (v, max) => String(v ?? "").trim().slice(0, max);
+const parseHidden = (s) => { try { const v = JSON.parse(s || "{}"); return { income: Array.isArray(v.income) ? v.income.map(String) : [], expense: Array.isArray(v.expense) ? v.expense.map(String) : [] }; } catch { return { income: [], expense: [] }; } };
+const readHidden = async (userId) => parseHidden((await prisma.user.findUnique({ where: { id: userId }, select: { hiddenCats: true } }))?.hiddenCats);
+const writeHidden = (userId, h) => prisma.user.update({ where: { id: userId }, data: { hiddenCats: JSON.stringify(h) } });
 
 r.get("/month", wrap(async (req, res) => {
   const m = String(req.query.m || "");
@@ -27,7 +30,7 @@ r.get("/month", wrap(async (req, res) => {
 r.get("/categories", wrap(async (req, res) => {
   const g = await prisma.budgetEntry.groupBy({ by: ["type", "category"], where: { userId: uid(req) }, _count: { _all: true } });
   const pick = (t) => g.filter((x) => x.type === t).sort((a, b) => b._count._all - a._count._all).map((x) => x.category);
-  res.json({ income: pick("income"), expense: pick("expense") });
+  res.json({ income: pick("income"), expense: pick("expense"), hidden: await readHidden(uid(req)) });
 }));
 
 // Delete a category: its entries (every month, any capital letters) move to "Other", so no amount is lost.
@@ -40,7 +43,23 @@ r.post("/categories/delete", wrap(async (req, res) => {
     where: { userId: uid(req), type, category: { equals: category, mode: "insensitive" } },
     data: { category: "Other" },
   });
+  // A built-in category (Rent, Groceries...) can't vanish from the code, so remember that this user removed it.
+  if (req.body.builtin === true) {
+    const h = await readHidden(uid(req));
+    if (!h[type].some((x) => x.toLowerCase() === category.toLowerCase()) && h[type].length < 40) h[type].push(category);
+    await writeHidden(uid(req), h);
+  }
   res.json({ moved: out.count });
+}));
+
+// Bring the removed built-in categories back.
+r.post("/categories/restore", wrap(async (req, res) => {
+  const type = req.body.type === "income" ? "income" : req.body.type === "expense" ? "expense" : null;
+  if (!type) return bad(res, "Type needed");
+  const h = await readHidden(uid(req));
+  h[type] = [];
+  await writeHidden(uid(req), h);
+  res.json({ ok: true });
 }));
 
 // Totals for the Home card.
