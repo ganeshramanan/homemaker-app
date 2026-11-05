@@ -23,6 +23,13 @@ r.get("/month", wrap(async (req, res) => {
   res.json(await prisma.budgetEntry.findMany({ where: { userId: uid(req), month: m }, orderBy: { id: "asc" } }));
 }));
 
+// Every category this user has used, so custom ones come back as chips.
+r.get("/categories", wrap(async (req, res) => {
+  const g = await prisma.budgetEntry.groupBy({ by: ["type", "category"], where: { userId: uid(req) }, _count: { _all: true } });
+  const pick = (t) => g.filter((x) => x.type === t).sort((a, b) => b._count._all - a._count._all).map((x) => x.category);
+  res.json({ income: pick("income"), expense: pick("expense") });
+}));
+
 // Totals for the Home card.
 r.get("/summary", wrap(async (req, res) => {
   const m = String(req.query.m || "");

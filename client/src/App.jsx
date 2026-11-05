@@ -990,8 +990,8 @@ const BCAT_LUCIDE = { Salary: Briefcase, Business: Landmark, "Rent received": Ho
 const bIcon = (c) => BCAT_LUCIDE[c] || Pin;
 const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
 const BT = {
-  en: { title: "Budget", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
-  ta: { title: "பட்ஜெட்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
+  en: { title: "Budget", newCat: "New category", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
+  ta: { title: "பட்ஜெட்", newCat: "புதிய வகை", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
 };
 const bcat = (c, lang) => (lang === "ta" && BCAT_TA[c]) || c;
 const inr = (n) => "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { maximumFractionDigits: 2 });
@@ -1028,7 +1028,24 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
   const [amount, setAmount] = useState(initial.amount != null ? String(initial.amount) : "");
   const [paid, setPaid] = useState(!!initial.paid);
   const [err, setErr] = useState("");
-  const cats = type === "income" ? INCOME_CATS : EXPENSE_CATS;
+  const [used, setUsed] = useState({ income: [], expense: [] });
+  const [added, setAdded] = useState({ income: [], expense: [] });
+  const [adding, setAdding] = useState(false);
+  const [nv, setNv] = useState("");
+  useEffect(() => { api("/api/budget/categories").then(setUsed).catch(() => {}); }, []);
+  const base = type === "income" ? INCOME_CATS : EXPENSE_CATS;
+  const lower = (x) => x.toLowerCase();
+  const extra = [...(used[type] || []), ...added[type], ...(editing && initial.type === type && initial.category ? [initial.category] : [])]
+    .filter((c, i, a) => c && !base.some((d) => lower(d) === lower(c)) && a.findIndex((z) => lower(z) === lower(c)) === i);
+  const cats = [...base.filter((c) => c !== "Other"), ...extra, "Other"];
+  const addCat = () => {
+    const name = nv.trim().replace(/\s+/g, " ").slice(0, 40);
+    if (!name) return;
+    const known = cats.find((c) => lower(c) === lower(name));
+    if (known) setCat(known);
+    else { setAdded((p) => ({ ...p, [type]: [...p[type], name] })); setCat(name); }
+    setNv(""); setAdding(false);
+  };
   const chip = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${on ? "bg-brand text-white border border-brand" : "bg-surface text-gray-700 border border-gray-300"}`;
   const save = () => {
     const n = Number(amount);
@@ -1052,7 +1069,15 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
           <p className="text-sm text-gray-500 mb-1.5">{b.category}</p>
           <div className="flex flex-wrap gap-2">
             {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{bcat(c, lang)}</button>)}
+            {!adding && <button onClick={() => setAdding(true)} className="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium border border-dashed border-brand text-brand flex items-center gap-1"><Plus size={14} />{b.newCat}</button>}
           </div>
+          {adding && (
+            <div className="mt-2 flex gap-2">
+              <input autoFocus value={nv} maxLength={40} placeholder={b.catName} onChange={(e) => setNv(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") addCat(); if (e.key === "Escape") { setAdding(false); setNv(""); } }} className="min-w-0 flex-1 rounded-lg border border-brand bg-surface px-3 py-2.5 outline-none" aria-label="new category" />
+              <Btn onClick={addCat} disabled={!nv.trim()} className="shrink-0 px-4 bg-brand text-white disabled:opacity-40">{b.addCat}</Btn>
+              <Btn onClick={() => { setAdding(false); setNv(""); }} className="shrink-0 w-10 bg-surface border border-gray-300 text-gray-500 flex items-center justify-center" aria-label="cancel"><XIcon size={16} /></Btn>
+            </div>
+          )}
         </div>
         <input className={input} placeholder={b.whatFor} value={title} maxLength={60} onChange={(e) => setTitle(e.target.value)} />
         {type === "expense" && (
