@@ -17,12 +17,35 @@ export const parseDays = (s) => [...new Set(String(s || "").split(",").map((x) =
 const settingsOf = (u) => ({ emails: parseEmails(u.reminderEmails), days: parseDays(u.reminderDays), allowedDays: ALLOWED_DAYS, max: MAX_EMAILS, mailReady: mailReady() });
 
 // ----- mail -----
-const mailReady = () => !!(process.env.SMTP_USER && process.env.SMTP_PASS);
+const fromAddr = () => process.env.MAIL_FROM || process.env.SMTP_USER || "";
+const mailReady = () => !!((process.env.BREVO_API_KEY && fromAddr()) || (process.env.SMTP_USER && process.env.SMTP_PASS));
 let transport = null;
 const getTransport = () => transport ||= nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.gmail.com", port: Number(process.env.SMTP_PORT || 465), secure: Number(process.env.SMTP_PORT || 465) === 465,
   auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+  connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 20000, // never hang: fail fast with a clear message
 });
+
+// One place that sends mail. Brevo's HTTPS API works on hosts that block SMTP ports (such as Render's free plan).
+async function deliver({ to, subject, text, html }) {
+  const brand = process.env.BRAND_NAME || "Illam";
+  const list = Array.isArray(to) ? to : [to];
+  if (process.env.BREVO_API_KEY) {
+    const r = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST", signal: AbortSignal.timeout(20000),
+      headers: { "api-key": process.env.BREVO_API_KEY, "content-type": "application/json", accept: "application/json" },
+      body: JSON.stringify({ sender: { name: brand, email: fromAddr() }, to: list.map((email) => ({ email })), subject, textContent: text, htmlContent: html }),
+    });
+    if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error("Brevo said: " + (j.message || r.status)); }
+    return;
+  }
+  try {
+    await getTransport().sendMail({ from: '"' + brand + '" <' + fromAddr() + ">", to: list.join(", "), subject, text, html });
+  } catch (e) {
+    const slow = /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH/i.test(String(e.code || "") + " " + e.message);
+    throw new Error(slow ? "Could not reach the mail server. Render's free plan may block email on this port; set BREVO_API_KEY to send over the web instead." : "Mail server said: " + e.message);
+  }
+}
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const fmtDate = (d) => new Date(d + "T00:00:00Z").toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 const fmtTime = (t) => { if (!t) return "All day"; const [h, m] = t.split(":").map(Number); return (h % 12 || 12) + ":" + String(m).padStart(2, "0") + " " + (h < 12 ? "AM" : "PM"); };
@@ -68,7 +91,8 @@ settingsRouter.post("/test", wrap(async (req, res) => {
   if (!mailReady()) return res.status(503).json({ error: "Email sending is not set up on the server yet" });
   const brand = process.env.BRAND_NAME || "Illam";
   const mail = buildEmail(brand, u.name, [{ daysAhead: 7, date: addDays(localToday(), 7), items: [{ title: "Test reminder", time: "09:00", category: "Reminder", note: "If you can read this, reminders work." }] }]);
-  await getTransport().sendMail({ from: '"' + brand + '" <' + process.env.SMTP_USER + ">", to: emails.join(", "), subject: "Test: " + mail.subject, text: mail.text, html: mail.html });
+  try { await deliver({ to: emails, subject: "Test: " + mail.subject, text: mail.text, html: mail.html }); }
+  catch (e) { console.error("test email failed:", e.message); return res.status(502).json({ error: e.message }); }
   res.json({ ok: true, sentTo: emails.length });
 }));
 
@@ -82,7 +106,7 @@ internalRouter.post("/send-reminders", wrap(async (req, res) => {
   if (!key || key.length < 16) return res.status(503).json({ error: "CRON_KEY is not set (needs 16+ characters)" });
   const sent = String(req.get("x-cron-key") || "");
   if (!safeEqual(sent, key)) return res.status(401).json({ error: "Wrong key" });
-  if (!mailReady()) return res.status(503).json({ error: "SMTP_USER / SMTP_PASS are not set" });
+  if (!mailReady()) return res.status(503).json({ error: "Email is not set up: set BREVO_API_KEY + MAIL_FROM, or SMTP_USER + SMTP_PASS" });
 
   const dry = req.query.dry === "1";
   const today = /^\d{4}-\d{2}-\d{2}$/.test(String(req.query.today || "")) ? String(req.query.today) : istToday();
@@ -110,7 +134,7 @@ internalRouter.post("/send-reminders", wrap(async (req, res) => {
     out.events += groups.reduce((t, g) => t + g.items.length, 0);
     if (dry) continue;
     try {
-      await getTransport().sendMail({ from: '"' + brand + '" <' + process.env.SMTP_USER + ">", to: emails.join(", "), subject: mail.subject, text: mail.text, html: mail.html });
+      await deliver({ to: emails, subject: mail.subject, text: mail.text, html: mail.html });
       for (const g of groups) for (const o of g.items) await prisma.reminderSent.create({ data: { userId: u.id, eventId: o.id, onDate: g.date, daysAhead: g.daysAhead } }).catch(() => {});
       out.emailsSent++;
     } catch (e) { out.failed++; console.error("reminder email failed for user", u.id, e.message); }

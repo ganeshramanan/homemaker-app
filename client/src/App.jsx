@@ -770,8 +770,14 @@ function ReminderSettings({ t }) {
   };
   const test = async () => {
     setBusy("test"); setMsg({ kind: "", text: "" });
-    try { if (dirty) await save(); await api("/api/reminders/test", "POST", {}); setMsg({ kind: "ok", text: t.remTestOk }); }
-    catch (e) { setMsg({ kind: "err", text: e.message }); } finally { setBusy(""); }
+    try {
+      if (dirty) await save();
+      const r = await fetch("/api/reminders/test", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}", cache: "no-store", signal: AbortSignal.timeout(40000) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || "Could not send the test email");
+      setMsg({ kind: "ok", text: t.remTestOk });
+    }
+    catch (e) { setMsg({ kind: "err", text: e.name === "TimeoutError" ? "The server took too long to send the email. Please check the mail settings." : e.message }); } finally { setBusy(""); }
   };
   if (!cfg) return msg.text ? <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{msg.text}</p> : <div className="space-y-3"><span className="skeleton block h-10" /><span className="skeleton block h-32" /></div>;
   return (
