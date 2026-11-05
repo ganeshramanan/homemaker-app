@@ -30,6 +30,19 @@ r.get("/categories", wrap(async (req, res) => {
   res.json({ income: pick("income"), expense: pick("expense") });
 }));
 
+// Delete a category: its entries (every month, any capital letters) move to "Other", so no amount is lost.
+r.post("/categories/delete", wrap(async (req, res) => {
+  const type = req.body.type === "income" ? "income" : req.body.type === "expense" ? "expense" : null;
+  const category = text(req.body.category, 40);
+  if (!type || !category) return bad(res, "Type and category needed");
+  if (category.toLowerCase() === "other") return bad(res, "Other cannot be deleted");
+  const out = await prisma.budgetEntry.updateMany({
+    where: { userId: uid(req), type, category: { equals: category, mode: "insensitive" } },
+    data: { category: "Other" },
+  });
+  res.json({ moved: out.count });
+}));
+
 // Totals for the Home card.
 r.get("/summary", wrap(async (req, res) => {
   const m = String(req.query.m || "");
