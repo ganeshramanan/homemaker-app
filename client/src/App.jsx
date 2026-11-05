@@ -1050,7 +1050,9 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose }) {
   const save = () => {
     const n = Number(amount);
     if (!amount.trim() || !Number.isFinite(n) || n <= 0) return setErr(b.needAmount);
-    const category = cat || "Other";
+    // A name typed in the "new category" box but not yet added still counts when Save is tapped.
+    const pending = adding ? nv.trim().replace(/\s+/g, " ").slice(0, 40) : "";
+    const category = pending ? (cats.find((c) => lower(c) === lower(pending)) || pending) : (cat || "Other");
     onSave({ ...(editing && { id: initial.id }), type, category, title: title.trim() || category, amount: n, paid: type === "expense" && paid });
   };
   const input = "w-full rounded-lg bg-surface border border-gray-300 px-4 py-3 text-lg outline-none focus:ring-2 ring-brand";
