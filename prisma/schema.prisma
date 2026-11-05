@@ -26,6 +26,7 @@ model User {
   budgetEntries BudgetEntry[]
   calendarEvents CalendarEvent[]
   diaryEntries DiaryEntry[]
+  diaryPhotos  DiaryPhoto[]
 }
 
 model Session {
@@ -120,4 +121,17 @@ model DiaryEntry {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, date])
+}
+
+// A photo attached to a diary day. Stored as JPEG bytes in the database; always read through a signed-in, owner-only route.
+model DiaryPhoto {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String
+  data      Bytes
+  size      Int
+  createdAt DateTime @default(now())
+
+  @@index([userId, date])
 }

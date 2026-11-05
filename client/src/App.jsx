@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { getMode, saveMode, isDark } from "./theme.js";
-import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Send, RefreshCw, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon, CheckSquare } from "lucide-react";
+import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Send, RefreshCw, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon, CheckSquare, ImagePlus, Image as ImageIcon } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -1545,10 +1545,32 @@ function CalendarCard({ lang, cal, onOpen }) {
 // ---------- diary ----------
 const MOODS = [["happy", Smile, "Happy", "மகிழ்ச்சி"], ["calm", Heart, "Calm", "அமைதி"], ["tired", Moon, "Tired", "சோர்வு"], ["sad", Frown, "Sad", "சோகம்"], ["angry", Angry, "Angry", "கோபம்"]];
 const DT = {
-  en: { title: "Diary", tile: "Write about today", today: "Today", writeHere: "Write about your day…", saving: "Saving…", saved: "Saved", clear: "Delete this entry", clearAsk: "Delete this day's entry?", search: "Search your diary…", noEntries: "Nothing written this month.", onThisDay: "On this day", words: "words", charsLeft: "left", searchEmpty: "No matches.", jump: "Go to date", failed: "Could not save. Retrying…", tip: "Tip: tap the microphone on your keyboard to speak instead of typing." },
-  ta: { title: "டைரி", tile: "இன்றைய நாளை எழுதுங்கள்", today: "இன்று", writeHere: "இன்றைய நாளைப் பற்றி எழுதுங்கள்…", saving: "சேமிக்கிறது…", saved: "சேமிக்கப்பட்டது", clear: "இந்த பதிவை நீக்கு", clearAsk: "இந்த நாளின் பதிவை நீக்கவா?", search: "டைரியில் தேடுங்கள்…", noEntries: "இந்த மாதம் எதுவும் எழுதவில்லை.", onThisDay: "இதே நாளில்", words: "சொற்கள்", charsLeft: "மீதம்", searchEmpty: "பொருத்தம் இல்லை.", jump: "தேதிக்குச் செல்", failed: "சேமிக்க முடியவில்லை. மீண்டும் முயல்கிறது…", tip: "குறிப்பு: தட்டச்சுக்கு பதிலாக பேச, விசைப்பலகையில் உள்ள மைக்ரோஃபோனைத் தட்டவும்." },
+  en: { title: "Diary", addPhoto: "Add photo", photos: "Photos", photoFail: "Could not add that photo", photoDelAsk: "Delete this photo?", photoMax: "Up to 6 photos a day", photoBusy: "Adding…", close: "Close", delPhoto: "Delete photo", tile: "Write about today", today: "Today", writeHere: "Write about your day…", saving: "Saving…", saved: "Saved", clear: "Delete this entry", clearAsk: "Delete this day's entry?", search: "Search your diary…", noEntries: "Nothing written this month.", onThisDay: "On this day", words: "words", charsLeft: "left", searchEmpty: "No matches.", jump: "Go to date", failed: "Could not save. Retrying…", tip: "Tip: tap the microphone on your keyboard to speak instead of typing." },
+  ta: { title: "டைரி", addPhoto: "படம் சேர்", photos: "படங்கள்", photoFail: "இந்தப் படத்தைச் சேர்க்க முடியவில்லை", photoDelAsk: "இந்தப் படத்தை நீக்கவா?", photoMax: "ஒரு நாளுக்கு 6 படங்கள் வரை", photoBusy: "சேர்க்கிறது…", close: "மூடு", delPhoto: "படத்தை நீக்கு", tile: "இன்றைய நாளை எழுதுங்கள்", today: "இன்று", writeHere: "இன்றைய நாளைப் பற்றி எழுதுங்கள்…", saving: "சேமிக்கிறது…", saved: "சேமிக்கப்பட்டது", clear: "இந்த பதிவை நீக்கு", clearAsk: "இந்த நாளின் பதிவை நீக்கவா?", search: "டைரியில் தேடுங்கள்…", noEntries: "இந்த மாதம் எதுவும் எழுதவில்லை.", onThisDay: "இதே நாளில்", words: "சொற்கள்", charsLeft: "மீதம்", searchEmpty: "பொருத்தம் இல்லை.", jump: "தேதிக்குச் செல்", failed: "சேமிக்க முடியவில்லை. மீண்டும் முயல்கிறது…", tip: "குறிப்பு: தட்டச்சுக்கு பதிலாக பேச, விசைப்பலகையில் உள்ள மைக்ரோஃபோனைத் தட்டவும்." },
 };
 const DIARY_MAX = 8000;
+// Shrink a photo on the phone first (long side 1280px, JPEG ~75%), so uploads are quick and use little database space.
+async function shrinkPhoto(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error("unreadable")); i.src = url; });
+    let w = img.naturalWidth, h = img.naturalHeight; if (!w || !h) throw new Error("unreadable");
+    const k = Math.min(1, 1280 / Math.max(w, h)); w = Math.round(w * k); h = Math.round(h * k);
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+    const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+    for (const q of [0.78, 0.65, 0.5]) { // try a lower quality if it is still big
+      const blob = await new Promise((ok) => cv.toBlob(ok, "image/jpeg", q));
+      if (blob && blob.size <= 800 * 1024) return blob;
+    }
+    throw new Error("too large");
+  } finally { URL.revokeObjectURL(url); }
+}
+async function uploadPhoto(date, blob) {
+  const r = await fetch(`/api/diary/entries/${date}/photos`, { method: "POST", headers: { "Content-Type": "image/jpeg" }, body: blob, cache: "no-store" });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || "Upload failed");
+  return j.id;
+}
 const moodLabel = (m, lang) => { const x = MOODS.find((y) => y[0] === m); return x ? (lang === "ta" ? x[3] : x[2]) : ""; };
 const dayTitle = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); };
 const shortDay = (d, lang) => { const { y, m, d: dd } = parseYmd(d); return new Date(y, m - 1, dd).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { weekday: "short", day: "numeric", month: "short" }); };
@@ -1560,6 +1582,11 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
   const [mood, setMood] = useState("");
   const [state, setState] = useState("saved"); // saved | saving | failed
   const [memories, setMemories] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  const [busy, setBusy] = useState(false);
+  const [perr, setPerr] = useState("");
+  const [viewer, setViewer] = useState(null);
+  const fileRef = useRef(null);
   const latest = useRef({ text: "", mood: "" }), saved = useRef({ text: "", mood: "" }), timer = useRef(null), inflight = useRef(Promise.resolve());
 
   const flush = useCallback(() => {
@@ -1583,7 +1610,7 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
     api(`/api/diary/entries/${date}`).then((e) => {
       if (!live) return;
       const v = { text: e?.text ?? "", mood: e?.mood ?? "" };
-      latest.current = v; saved.current = v; setText(v.text); setMood(v.mood);
+      latest.current = v; saved.current = v; setText(v.text); setMood(v.mood); setPhotos(e?.photos ?? []);
     }).catch(() => live && setText(""));
     api(`/api/diary/on-this-day?date=${date}`).then((m) => live && setMemories(m)).catch(() => {});
     return () => { live = false; flush(); }; // leaving the page saves what is pending
@@ -1600,11 +1627,30 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
     clearTimeout(timer.current);
     timer.current = setTimeout(flush, 900);
   };
+  const addPhotos = async (files) => {
+    setPerr("");
+    const list = [...files].slice(0, Math.max(0, 6 - photos.length));
+    if (!list.length) { setPerr(d.photoMax); return; }
+    setBusy(true);
+    try {
+      await flush(); // make sure the day exists with its words before photos join it
+      for (const file of list) {
+        try { const id = await uploadPhoto(date, await shrinkPhoto(file)); setPhotos((p) => [...p, id]); onChanged?.(); }
+        catch (e) { setPerr(e.message && e.message !== "unreadable" && e.message !== "too large" ? e.message : d.photoFail); }
+      }
+    } finally { setBusy(false); if (fileRef.current) fileRef.current.value = ""; }
+  };
+  const removePhoto = async (id) => {
+    if (!confirm(d.photoDelAsk)) return;
+    setViewer(null);
+    const before = photos; setPhotos((p) => p.filter((x) => x !== id));
+    try { await api(`/api/diary/photos/${id}`, "DELETE"); onChanged?.(); } catch { setPhotos(before); setPerr(d.photoFail); }
+  };
   const remove = async () => {
     if (!confirm(d.clearAsk)) return;
     clearTimeout(timer.current);
     latest.current = { text: "", mood: "" }; saved.current = { text: "", mood: "" };
-    setText(""); setMood("");
+    setText(""); setMood(""); setPhotos([]);
     try { await api(`/api/diary/entries/${date}`, "DELETE"); onChanged?.(); onBack?.(); } catch { setState("failed"); }
   };
 
@@ -1631,8 +1677,38 @@ function DiaryEditor({ d, lang, date, onChanged, onBack }) {
       <div className="flex items-center justify-between text-xs text-gray-400 px-1">
         <span>{words} {d.words}</span><span>{DIARY_MAX - text.length} {d.charsLeft}</span>
       </div>
+      <section className="space-y-2">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">{d.photos}{photos.length ? ` (${photos.length})` : ""}</h3>
+          {photos.length < 6 && (
+            <button onClick={() => fileRef.current?.click()} disabled={busy} className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-surface px-3 py-1.5 text-sm font-medium text-gray-700 disabled:opacity-50">
+              <ImagePlus size={16} />{busy ? d.photoBusy : d.addPhoto}
+            </button>
+          )}
+        </div>
+        <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files?.length && addPhotos(e.target.files)} />
+        {perr && <p className="px-1 text-sm text-red-600" role="alert">{perr}</p>}
+        {photos.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {photos.map((id) => (
+              <button key={id} onClick={() => setViewer(id)} className="relative aspect-square overflow-hidden rounded-lg border border-line bg-gray-100" aria-label={d.photos}>
+                <img src={`/api/diary/photos/${id}`} alt="" loading="lazy" className="h-full w-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+      {viewer && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/90" onClick={() => setViewer(null)}>
+          <div className="flex items-center justify-between p-3" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => removePhoto(viewer)} className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white"><Trash2 size={16} />{d.delPhoto}</button>
+            <button onClick={() => setViewer(null)} className="rounded-lg bg-white/10 p-2 text-white" aria-label={d.close}><XIcon size={20} /></button>
+          </div>
+          <div className="flex min-h-0 flex-1 items-center justify-center p-3"><img src={`/api/diary/photos/${viewer}`} alt="" className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} /></div>
+        </div>
+      )}
       <p className="flex items-start gap-1.5 text-xs text-gray-500 px-1"><Lightbulb size={14} className="mt-0.5 shrink-0" />{d.tip}</p>
-      {(text.trim() || mood) && <Btn onClick={remove} className="w-full py-2.5 text-sm text-red-600 bg-red-50">{d.clear}</Btn>}
+      {(text.trim() || mood || photos.length > 0) && <Btn onClick={remove} className="w-full py-2.5 text-sm text-red-600 bg-red-50">{d.clear}</Btn>}
       {memories.length > 0 && (
         <section className="space-y-2 pt-2">
           <h3 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{d.onThisDay}</h3>
@@ -1710,7 +1786,8 @@ function Diary({ lang, signal }) {
                   <span className="flex items-center gap-2 text-[11px] text-gray-500">
                     {hits ? parseYmd(e.date).y : monthTitle(ym.y, ym.m, lang)}{e.mood ? <span className="rounded-full bg-gray-100 px-2 py-0.5 text-gray-600">{moodLabel(e.mood, lang)}</span> : null}
                   </span>
-                  <span className="mt-0.5 block text-sm text-gray-800 line-clamp-2 whitespace-pre-wrap">{preview(e.text) || "…"}</span>
+                  <span className="mt-0.5 block text-sm text-gray-800 line-clamp-2 whitespace-pre-wrap">{preview(e.text) || (e.photos ? "" : "…")}</span>
+                  {e.photos > 0 && <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-gray-500"><ImageIcon size={13} />{e.photos}</span>}
                 </span>
               </button>
             );
