@@ -4,6 +4,7 @@ import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { GROUPS, groupOf, defaultGroup } from "./budget-groups.js";
 import { pad, ymd, daysIn, parseYmd, localToday, nowMin, addDays, weekday, fmtTime, occurrences, statusOf } from "./calendar-utils.js";
 
 const api = async (url, method = "GET", body) => {
@@ -228,8 +229,8 @@ function Home({ t, lang, user, inv, list, cal, onGo, onQuick }) {
   });
   if (has("budget")) tiles.push({
     key: "b", Icon: Wallet, tint: budgetOver ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700", label: b.balance,
-    big: bs === null ? "…" : bs === false || (!bs.income && !bs.expense) ? "—" : inr(bs.balance),
-    sub: bs && (bs.income || bs.expense) ? (budgetOver ? t.overN.replace("{n}", inr(-bs.balance)) : `${b.expenses}: ${inr(bs.expense)}`) : t.nothingYet,
+    big: bs === null ? "…" : bs === false || (!bs.income && !bs.expense && !bs.saved) ? "—" : inr(bs.balance),
+    sub: bs && (bs.income || bs.expense || bs.saved) ? (budgetOver ? t.overN.replace("{n}", inr(-bs.balance)) : bs.saved ? `${b.expenses}: ${inr(bs.expense)} · ${b.savingsTile}: ${inr(bs.saved)}` : `${b.expenses}: ${inr(bs.expense)}`) : t.nothingYet,
     danger: budgetOver, go: () => onGo("budget"),
   });
   if (has("calendar")) tiles.push({
@@ -243,8 +244,8 @@ function Home({ t, lang, user, inv, list, cal, onGo, onQuick }) {
   // Hero: a greeting and the one number that matters most today.
   const hr = new Date(now).getHours();
   const greet = hr < 12 ? t.goodMorning : hr < 17 ? t.goodAfternoon : t.goodEvening;
-  const hero = has("budget") && bs && (bs.income || bs.expense)
-    ? { label: t.heroBalance, big: inr(bs.balance), sub: `${b.income} ${inr(bs.income)} · ${b.expenses} ${inr(bs.expense)}`, danger: bs.balance < 0 }
+  const hero = has("budget") && bs && (bs.income || bs.expense || bs.saved)
+    ? { label: t.heroBalance, big: inr(bs.balance), sub: `${b.income} ${inr(bs.income)} · ${b.expenses} ${inr(bs.expense)}${bs.saved ? ` · ${b.savingsTile} ${inr(bs.saved)}` : ""}`, danger: bs.balance < 0 }
     : has("provisions") && total
       ? { label: t.heroToBuy, big: String(toBuy), sub: toBuy === 0 ? t.allDone : low.length ? fill(t.nLow, low.length) : t.toBuy }
       : null;
@@ -1298,8 +1299,8 @@ const BCAT_LUCIDE = { Salary: Briefcase, Business: Landmark, "Rent received": Ho
 const bIcon = (c) => BCAT_LUCIDE[c] || Pin;
 const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
 const BT = {
-  en: { title: "Budget", newCat: "New category", restoreCats: "Restore default categories", delCatAsk: "Delete the category \u201C{n}\u201D? Entries that use it will move to Other.", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
-  ta: { title: "பட்ஜெட்", newCat: "புதிய வகை", restoreCats: "இயல்பு வகைகளை மீட்டெடு", delCatAsk: "\u201C{n}\u201D வகையை அழிக்கவா? இதைப் பயன்படுத்தும் பதிவுகள் \u201Cமற்றவை\u201D க்கு மாறும்.", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
+  en: { title: "Budget", savingsTile: "Savings", gsaving: "Savings & investment", ginsurance: "Insurance", gregular: "Regular expenses", glifestyle: "Lifestyle & other", leftOver: "Left over", allocTitle: "Where the money is allocated", countsAs: "Counts as", savedInvested: "saved or invested", leftOverPct: "left over", ofIncome: "of income", ofOutgo: "of spending and savings", addSavings: "Add savings", savingsTitle: "Savings & investment", newCat: "New category", restoreCats: "Restore default categories", delCatAsk: "Delete the category \u201C{n}\u201D? Entries that use it will move to Other.", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
+  ta: { title: "பட்ஜெட்", savingsTile: "சேமிப்பு", gsaving: "சேமிப்பு & முதலீடு", ginsurance: "காப்பீடு", gregular: "வழக்கமான செலவுகள்", glifestyle: "வாழ்க்கைமுறை & பிற", leftOver: "மீதம்", allocTitle: "பணம் எப்படி ஒதுக்கப்பட்டுள்ளது", countsAs: "இதில் சேரும்", savedInvested: "சேமிப்பு/முதலீடு", leftOverPct: "மீதம்", ofIncome: "வருமானத்தில்", ofOutgo: "செலவு+சேமிப்பில்", addSavings: "சேமிப்பு சேர்", savingsTitle: "சேமிப்பு & முதலீடு", newCat: "புதிய வகை", restoreCats: "இயல்பு வகைகளை மீட்டெடு", delCatAsk: "\u201C{n}\u201D வகையை அழிக்கவா? இதைப் பயன்படுத்தும் பதிவுகள் \u201Cமற்றவை\u201D க்கு மாறும்.", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
 };
 const bcat = (c, lang) => (lang === "ta" && BCAT_TA[c]) || c;
 const inr = (n) => "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { maximumFractionDigits: 2 });
@@ -1328,7 +1329,7 @@ function Pie({ slices, total, center }) {
   );
 }
 
-function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose, onCatsChanged }) {
+function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose, onCatsChanged, groups = {}, onGroup }) {
   const editing = !!initial.id;
   const [type, setType] = useState(initial.type);
   const [cat, setCat] = useState(initial.category || "");
@@ -1410,6 +1411,14 @@ function BudgetSheet({ b, lang, initial, onSave, onDelete, onClose, onCatsChange
               ))}
             {!adding && <button onClick={() => setAdding(true)} className="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium border border-dashed border-brand text-brand flex items-center gap-1"><Plus size={14} />{b.newCat}</button>}
           </div>
+          {type === "expense" && cat && onGroup && (
+            <div className="mt-2.5">
+              <p className="text-sm text-gray-500 mb-1">{b.countsAs}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {GROUPS.map((g) => <button key={g} onClick={() => onGroup(cat, g)} aria-pressed={groupOf(cat, groups) === g} className={`rounded-full px-2.5 py-1 text-xs font-medium border ${groupOf(cat, groups) === g ? "bg-emerald-600 text-white border-emerald-600" : "bg-surface text-gray-600 border-gray-300"}`}>{b["g" + g]}</button>)}
+              </div>
+            </div>
+          )}
           {hiddenNow.length > 0 && !adding && <button onClick={restoreCats} className="mt-2 text-sm font-semibold text-brand underline-offset-2 hover:underline">{b.restoreCats}</button>}
           {adding && (
             <div className="mt-2 flex gap-2">
@@ -1444,6 +1453,13 @@ function Budget({ t, lang, signal }) {
   const [err, setErr] = useState("");
   const [note, setNote] = useState("");
   const [sheet, setSheet] = useState(null);
+  const [groups, setGroups] = useState({});
+  useEffect(() => { api("/api/budget/categories").then((c) => setGroups(c.groups || {})).catch(() => {}); }, []);
+  const setGroup = async (category, group) => {
+    setGroups((p) => { const n = { ...p }; for (const k of Object.keys(n)) if (k.toLowerCase() === category.toLowerCase()) delete n[k]; if (group !== defaultGroup(category)) n[category] = group; return n; });
+    try { await api("/api/budget/category-group", "PUT", { category, group }); }
+    catch (e) { setErr(e.message); api("/api/budget/categories").then((c) => setGroups(c.groups || {})).catch(() => {}); }
+  };
   useEffect(() => { if (signal?.n && (signal.kind === "income" || signal.kind === "expense")) setSheet({ type: signal.kind }); }, [signal?.n]); // eslint-disable-line
   const gen = useRef(0);
   const load = useCallback(async (m) => {
@@ -1472,16 +1488,26 @@ function Budget({ t, lang, signal }) {
     catch (e) { setErr(e.message); }
   };
 
+  const GCOLOR = { saving: "#16a34a", insurance: "#2563eb", regular: "#f59e0b", lifestyle: "#a855f7", left: "#9ca3af" };
   const data = useMemo(() => {
     const list = rows || [];
-    const inc = list.filter((e) => e.type === "income"), exp = list.filter((e) => e.type === "expense");
-    const sum = (a) => a.reduce((n, e) => n + e.amount, 0);
-    const income = sum(inc), expense = sum(exp), paid = sum(exp.filter((e) => e.paid));
+    const inc = list.filter((e) => e.type === "income");
+    const allExp = list.filter((e) => e.type === "expense");
+    // savings and investments are money you keep, so they are listed and totalled apart from spending
+    const exp = allExp.filter((e) => groupOf(e.category, groups) !== "saving"), sav = allExp.filter((e) => groupOf(e.category, groups) === "saving");
+    const sum = (a2) => a2.reduce((n, e) => n + e.amount, 0);
+    const income = sum(inc), expense = sum(exp), saved = sum(sav), paid = sum(exp.filter((e) => e.paid));
     const byCat = {};
     exp.forEach((e) => { byCat[e.category] = (byCat[e.category] || 0) + e.amount; });
-    const slices = Object.entries(byCat).sort((a, c) => c[1] - a[1]).map(([name, value], i) => ({ name, value, color: PIE_COLORS[Math.min(i, PIE_COLORS.length - 1)] }));
-    return { inc, exp, income, expense, paid, balance: income - expense, slices };
-  }, [rows]);
+    const slices = Object.entries(byCat).sort((x, y) => y[1] - x[1]).map(([name, value], i) => ({ name, value, color: PIE_COLORS[Math.min(i, PIE_COLORS.length - 1)] }));
+    const outgo = expense + saved, balance = income - outgo;
+    const byGroup = {};
+    allExp.forEach((e) => { const g = groupOf(e.category, groups); byGroup[g] = (byGroup[g] || 0) + e.amount; });
+    const gslices = GROUPS.map((g) => ({ name: g, value: byGroup[g] || 0, color: GCOLOR[g] })).filter((x) => x.value > 0);
+    const base = income > 0 && balance >= 0 ? income : outgo; // percentages are of income when it covers everything
+    if (base === income && balance > 0) gslices.push({ name: "left", value: balance, color: GCOLOR.left });
+    return { inc, exp, sav, income, expense, saved, paid, balance, slices, outgo, gslices, base };
+  }, [rows, groups]);
 
   const Entry = ({ e }) => {
     const isInc = e.type === "income";
@@ -1517,14 +1543,15 @@ function Budget({ t, lang, signal }) {
       {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">⚠️ {err}</p>}
       {rows === null ? <div className="space-y-4"><div className="grid grid-cols-3 gap-2"><span className="skeleton h-16" /><span className="skeleton h-16" /><span className="skeleton h-16" /></div><span className="skeleton block h-40" /><SkeletonRows n={3} /></div> : (
         <>
-          <div className="grid grid-cols-3 gap-2 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
             <div className="rounded-lg bg-gray-100 p-3"><p className="text-xs text-gray-700">{b.income}</p><p className="font-extrabold text-gray-900 text-sm sm:text-base">{inr(data.income)}</p></div>
             <div className="rounded-lg bg-amber-100 p-3"><p className="text-xs text-amber-800">{b.expenses}</p><p className="font-extrabold text-amber-900 text-sm sm:text-base">{inr(data.expense)}</p></div>
+            <div className="rounded-lg bg-emerald-100 p-3"><p className="text-xs text-emerald-800">{b.savingsTile}</p><p className="font-extrabold text-emerald-900 text-sm sm:text-base">{inr(data.saved)}</p></div>
             <div className={`rounded-lg p-3 ${data.balance >= 0 ? "bg-surface" : "bg-red-100"}`}><p className="text-xs text-gray-500">{b.balance}</p><p className={`font-extrabold text-sm sm:text-base ${data.balance >= 0 ? "text-gray-700" : "text-red-700"}`}>{inr(data.balance)}</p></div>
           </div>
           {data.income > 0 && (
             <p className={`text-center text-sm ${data.balance < 0 ? "text-red-600 font-semibold" : "text-gray-500"}`}>
-              {data.balance < 0 ? `⚠️ ${b.overspent}` : `${savedPct}% ${b.saved}`}
+              {data.balance < 0 ? `⚠️ ${b.overspent}` : data.saved > 0 ? `${Math.round((data.saved / data.income) * 100)}% ${b.savedInvested} · ${Math.round((data.balance / data.income) * 100)}% ${b.leftOverPct}` : `${savedPct}% ${b.saved}`}
             </p>
           )}
           {data.expense > 0 && <p className="text-center text-xs text-gray-500">{b.paid}: {inr(data.paid)} · {b.pending}: {inr(data.expense - data.paid)}</p>}
@@ -1551,6 +1578,28 @@ function Budget({ t, lang, signal }) {
             )}
           </section>
 
+          {data.gslices.length > 0 && (
+            <section className="rounded-xl bg-surface p-4 border border-line">
+              <h2 className="font-bold mb-2">{b.allocTitle}</h2>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <Pie slices={data.gslices} total={data.gslices.reduce((n, x) => n + x.value, 0)} center={[data.base === data.income ? b.ofIncome : b.ofOutgo, inr(data.base)]} />
+                <ul className="flex-1 w-full space-y-1.5">
+                  {data.gslices.map((sl) => {
+                    const pct = data.base > 0 ? (sl.value / data.base) * 100 : 0;
+                    return (
+                      <li key={sl.name} className="flex items-center gap-2 text-sm">
+                        <span className="w-3 h-3 rounded-full shrink-0" style={{ background: sl.color }} />
+                        <span className="flex-1 truncate">{sl.name === "left" ? b.leftOver : b["g" + sl.name]}</span>
+                        <span className="text-gray-500">{inr(sl.value)}</span>
+                        <span className="w-10 text-right font-bold">{pct < 1 ? "<1" : Math.round(pct)}%</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </section>
+          )}
+
           <section className="space-y-2">
             <div className="flex items-center justify-between"><h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{b.income}</h2>
               <Btn onClick={() => setSheet({ type: "income" })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{b.addIncome}</Btn></div>
@@ -1565,11 +1614,17 @@ function Budget({ t, lang, signal }) {
             {!!data.exp.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.exp.map((e) => <Entry key={e.id} e={e} />)}</div>}
           </section>
 
+          <section className="space-y-2">
+            <div className="flex items-center justify-between"><h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{b.savingsTitle}</h2>
+              <Btn onClick={() => setSheet({ type: "expense", category: "Savings" })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{b.addSavings}</Btn></div>
+            {!!data.sav.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.sav.map((e) => <Entry key={e.id} e={e} />)}</div>}
+          </section>
+
           {note && <p className="rounded-xl bg-gray-100 p-2.5 text-center text-sm text-gray-700">{note}</p>}
           <Btn onClick={copy} className="w-full py-3 border border-dashed border-gray-300 text-brand flex items-center justify-center gap-2"><RefreshCw size={17} />{b.copyPrev} ({monthName(shiftMonth(month, -1), lang)})</Btn>
         </>
       )}
-      {sheet && <BudgetSheet key={sheet.id || sheet.type} b={b} lang={lang} initial={sheet} onSave={save} onDelete={remove} onClose={() => setSheet(null)} onCatsChanged={() => load(month)} />}
+      {sheet && <BudgetSheet key={sheet.id || sheet.type} b={b} lang={lang} initial={sheet} groups={groups} onGroup={setGroup} onSave={save} onDelete={remove} onClose={() => setSheet(null)} onCatsChanged={() => load(month)} />}
     </div>
   );
 }

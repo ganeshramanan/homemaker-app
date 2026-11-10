@@ -19,6 +19,7 @@ model User {
   modules      String    @default("provisions,budget,calendar,diary,weight") // sections the ADMIN allows for this user
   hiddenModules String   @default("")  // sections the USER chose to hide
   hiddenCats   String    @default("")  // budget categories the USER removed, as JSON {income:[],expense:[]}
+  categoryGroups String   @default("")  // the person's own category to group choices, JSON {"Gold chit":"saving"}
   reminderEmails String   @default("")  // comma-separated addresses that get event reminder emails
   reminderDays   String   @default("7") // comma-separated days before an event: e.g. "7,1,0"
   weightReminderDay Int   @default(0)  // 0 = off, else the day of the month (1-28) to email a "log your weights" reminder

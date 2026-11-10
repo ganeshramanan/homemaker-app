@@ -2,6 +2,7 @@
 import { Router } from "express";
 import { prisma } from "./db.js";
 import { requireModule } from "./auth.js";
+import { GROUPS, groupOf, defaultGroup } from "../client/src/budget-groups.js";
 
 const r = Router();
 r.use(requireModule("budget"));
@@ -19,6 +20,8 @@ const text = (v, max) => String(v ?? "").trim().slice(0, max);
 const parseHidden = (s) => { try { const v = JSON.parse(s || "{}"); return { income: Array.isArray(v.income) ? v.income.map(String) : [], expense: Array.isArray(v.expense) ? v.expense.map(String) : [] }; } catch { return { income: [], expense: [] }; } };
 const readHidden = async (userId) => parseHidden((await prisma.user.findUnique({ where: { id: userId }, select: { hiddenCats: true } }))?.hiddenCats);
 const writeHidden = (userId, h) => prisma.user.update({ where: { id: userId }, data: { hiddenCats: JSON.stringify(h) } });
+const parseGroups = (s) => { try { const v = JSON.parse(s || "{}"); const out = {}; if (v && typeof v === "object" && !Array.isArray(v)) for (const [k, g] of Object.entries(v)) if (GROUPS.includes(g) && k.length <= 40) out[k] = g; return out; } catch { return {}; } };
+const readGroups = async (userId) => parseGroups((await prisma.user.findUnique({ where: { id: userId }, select: { categoryGroups: true } }))?.categoryGroups);
 
 r.get("/month", wrap(async (req, res) => {
   const m = String(req.query.m || "");
@@ -30,7 +33,7 @@ r.get("/month", wrap(async (req, res) => {
 r.get("/categories", wrap(async (req, res) => {
   const g = await prisma.budgetEntry.groupBy({ by: ["type", "category"], where: { userId: uid(req) }, _count: { _all: true } });
   const pick = (t) => g.filter((x) => x.type === t).sort((a, b) => b._count._all - a._count._all).map((x) => x.category);
-  res.json({ income: pick("income"), expense: pick("expense"), hidden: await readHidden(uid(req)) });
+  res.json({ income: pick("income"), expense: pick("expense"), hidden: await readHidden(uid(req)), groups: await readGroups(uid(req)) });
 }));
 
 // Delete a category: its entries (every month, any capital letters) move to "Other", so no amount is lost.
@@ -62,14 +65,36 @@ r.post("/categories/restore", wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
+// Choose the group a category belongs to (an empty group puts it back to the default).
+r.put("/category-group", wrap(async (req, res) => {
+  const category = text(req.body.category, 40), group = String(req.body.group || "");
+  if (!category) return bad(res, "Category needed");
+  if (group && !GROUPS.includes(group)) return bad(res, "Unknown group");
+  const ov = await readGroups(uid(req));
+  for (const k of Object.keys(ov)) if (k.toLowerCase() === category.toLowerCase()) delete ov[k];
+  if (group && group !== defaultGroup(category)) { if (Object.keys(ov).length >= 80) return bad(res, "Too many custom groups"); ov[category] = group; }
+  await prisma.user.update({ where: { id: uid(req) }, data: { categoryGroups: JSON.stringify(ov) } });
+  res.json({ groups: ov });
+}));
+
 // Totals for the Home card.
 r.get("/summary", wrap(async (req, res) => {
   const m = String(req.query.m || "");
   if (!MONTH.test(m)) return bad(res, "Bad month");
-  const g = await prisma.budgetEntry.groupBy({ by: ["type"], where: { userId: uid(req), month: m }, _sum: { amount: true } });
-  const sum = (t) => Math.round(((g.find((x) => x.type === t)?._sum.amount) ?? 0) * 100) / 100;
-  const income = sum("income"), expense = sum("expense");
-  res.json({ income, expense, balance: Math.round((income - expense) * 100) / 100 });
+  const [g, ov] = await Promise.all([
+    prisma.budgetEntry.groupBy({ by: ["type", "category"], where: { userId: uid(req), month: m }, _sum: { amount: true } }),
+    readGroups(uid(req)),
+  ]);
+  const r2 = (n) => Math.round(n * 100) / 100;
+  let income = 0, expense = 0, saved = 0;
+  for (const x of g) {
+    const v = x._sum.amount ?? 0;
+    if (x.type === "income") income += v;
+    else if (groupOf(x.category, ov) === "saving") saved += v; // savings and investments are kept, not spent
+    else expense += v;
+  }
+  income = r2(income); expense = r2(expense); saved = r2(saved);
+  res.json({ income, expense, saved, balance: r2(income - expense - saved) });
 }));
 
 r.post("/entries", wrap(async (req, res) => {
