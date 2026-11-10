@@ -1616,17 +1616,20 @@ function Budget({ t, lang, signal }) {
             {!!data.inc.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.inc.map((e) => <Entry key={e.id} e={e} />)}</div>}
           </section>
 
-          <section className="space-y-2">
+          <section className="space-y-3">
             <div className="flex items-center justify-between"><h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{b.expenses}</h2>
               <Btn onClick={() => setSheet({ type: "expense" })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{b.addExpense}</Btn></div>
-            {!data.exp.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
-            {!!data.exp.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.exp.map((e) => <Entry key={e.id} e={e} />)}</div>}
-          </section>
-
-          <section className="space-y-2">
-            <div className="flex items-center justify-between"><h2 className="px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{b.savingsTitle}</h2>
-              <Btn onClick={() => setSheet({ type: "expense", category: "Savings" })} className="px-3 h-9 bg-brand text-white text-sm flex items-center gap-1.5"><Plus size={16} />{b.addSavings}</Btn></div>
-            {!!data.sav.length && <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{data.sav.map((e) => <Entry key={e.id} e={e} />)}</div>}
+            {!data.exp.length && !data.sav.length && <p className="rounded-lg bg-surface border border-line p-4 text-center text-sm text-gray-400">{b.noExpenses}</p>}
+            {[...["regular", "insurance", "lifestyle"].map((g) => [g, data.exp.filter((e) => groupOf(e.category, groups) === g)]), ["saving", data.sav]].filter(([, list]) => list.length).map(([g, list]) => (
+              <div key={g} className="space-y-1.5">
+                <div className="flex items-center justify-between px-1">
+                  <h3 className="text-sm font-semibold text-gray-700">{b["g" + g]}</h3>
+                  <span className="text-sm font-semibold text-gray-500">{inr(list.reduce((n, e) => n + e.amount, 0))}</span>
+                </div>
+                <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">{list.map((e) => <Entry key={e.id} e={e} />)}</div>
+              </div>
+            ))}
+            <Btn onClick={() => setSheet({ type: "expense", category: "Savings" })} className="w-full py-2.5 border border-dashed border-gray-300 text-brand text-sm flex items-center justify-center gap-1.5"><Plus size={16} />{b.addSavings}</Btn>
           </section>
 
           {note && <p className="rounded-xl bg-gray-100 p-2.5 text-center text-sm text-gray-700">{note}</p>}
