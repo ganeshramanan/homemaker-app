@@ -1299,8 +1299,8 @@ const BCAT_LUCIDE = { Salary: Briefcase, Business: Landmark, "Rent received": Ho
 const bIcon = (c) => BCAT_LUCIDE[c] || Pin;
 const PIE_COLORS = ["#15803d", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#ec4899", "#84cc16", "#f97316", "#6366f1", "#0ea5e9", "#a3a3a3"];
 const BT = {
-  en: { title: "Budget", savingsTile: "Savings", gsaving: "Savings & investment", ginsurance: "Insurance", gregular: "Regular expenses", glifestyle: "Lifestyle & other", leftOver: "Left over", allocTitle: "Where the money is allocated", countsAs: "Counts as", savedInvested: "saved or invested", leftOverPct: "left over", ofIncome: "of income", ofOutgo: "of spending and savings", addSavings: "Add savings", savingsTitle: "Savings & investment", newCat: "New category", restoreCats: "Restore default categories", delCatAsk: "Delete the category \u201C{n}\u201D? Entries that use it will move to Other.", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
-  ta: { title: "பட்ஜெட்", savingsTile: "சேமிப்பு", gsaving: "சேமிப்பு & முதலீடு", ginsurance: "காப்பீடு", gregular: "வழக்கமான செலவுகள்", glifestyle: "வாழ்க்கைமுறை & பிற", leftOver: "மீதம்", allocTitle: "பணம் எப்படி ஒதுக்கப்பட்டுள்ளது", countsAs: "இதில் சேரும்", savedInvested: "சேமிப்பு/முதலீடு", leftOverPct: "மீதம்", ofIncome: "வருமானத்தில்", ofOutgo: "செலவு+சேமிப்பில்", addSavings: "சேமிப்பு சேர்", savingsTitle: "சேமிப்பு & முதலீடு", newCat: "புதிய வகை", restoreCats: "இயல்பு வகைகளை மீட்டெடு", delCatAsk: "\u201C{n}\u201D வகையை அழிக்கவா? இதைப் பயன்படுத்தும் பதிவுகள் \u201Cமற்றவை\u201D க்கு மாறும்.", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
+  en: { title: "Budget", savingsTile: "Savings", gsaving: "Savings & investment", ginsurance: "Insurance", gregular: "Regular expenses", glifestyle: "Lifestyle & other", leftOver: "Left over", savedInvestedLine: "Saved or invested", allocTitle: "Where the money is allocated", countsAs: "Counts as", savedInvested: "saved or invested", leftOverPct: "left over", ofIncome: "of income", ofOutgo: "of spending and savings", addSavings: "Add savings", savingsTitle: "Savings & investment", newCat: "New category", restoreCats: "Restore default categories", delCatAsk: "Delete the category \u201C{n}\u201D? Entries that use it will move to Other.", catName: "Category name", addCat: "Add", catTooLong: "Keep it under 40 letters", income: "Income", expenses: "Expenses", balance: "Balance", paid: "Paid", pending: "Pending", addIncome: "Add income", addExpense: "Add expense", newIncome: "New income", newExpense: "New expense", editEntry: "Edit", whatFor: "Details (optional)", amount: "Amount (₹)", category: "Category", markPaid: "Already paid", copyPrev: "Copy from last month", where: "Where the money goes", noExpenses: "No expenses yet. Add your first one.", noIncome: "No income yet. Add your first one.", needAmount: "Enter a valid amount", added: "Added", nothingToCopy: "Nothing new to copy", saved: "of income saved", overspent: "Spending is more than income", thisMonth: "This month", open: "Open", save: "Save", cancel: "Cancel", del: "Delete", other: "Other" },
+  ta: { title: "பட்ஜெட்", savingsTile: "சேமிப்பு", gsaving: "சேமிப்பு & முதலீடு", ginsurance: "காப்பீடு", gregular: "வழக்கமான செலவுகள்", glifestyle: "வாழ்க்கைமுறை & பிற", leftOver: "மீதம்", savedInvestedLine: "சேமித்தது/முதலீடு", allocTitle: "பணம் எப்படி ஒதுக்கப்பட்டுள்ளது", countsAs: "இதில் சேரும்", savedInvested: "சேமிப்பு/முதலீடு", leftOverPct: "மீதம்", ofIncome: "வருமானத்தில்", ofOutgo: "செலவு+சேமிப்பில்", addSavings: "சேமிப்பு சேர்", savingsTitle: "சேமிப்பு & முதலீடு", newCat: "புதிய வகை", restoreCats: "இயல்பு வகைகளை மீட்டெடு", delCatAsk: "\u201C{n}\u201D வகையை அழிக்கவா? இதைப் பயன்படுத்தும் பதிவுகள் \u201Cமற்றவை\u201D க்கு மாறும்.", catName: "வகையின் பெயர்", addCat: "சேர்", catTooLong: "40 எழுத்துகளுக்குள் வைக்கவும்", income: "வருமானம்", expenses: "செலவுகள்", balance: "மீதம்", paid: "செலுத்தியது", pending: "பாக்கி", addIncome: "வருமானம் சேர்", addExpense: "செலவு சேர்", newIncome: "புதிய வருமானம்", newExpense: "புதிய செலவு", editEntry: "திருத்து", whatFor: "விவரம் (விருப்பம்)", amount: "தொகை (₹)", category: "வகை", markPaid: "ஏற்கனவே செலுத்திவிட்டேன்", copyPrev: "கடந்த மாதத்திலிருந்து நகலெடு", where: "பணம் எங்கே போகிறது", noExpenses: "இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்கவும்.", noIncome: "இன்னும் வருமானம் இல்லை. முதல் வருமானத்தைச் சேர்க்கவும்.", needAmount: "சரியான தொகையை உள்ளிடவும்", added: "சேர்க்கப்பட்டது", nothingToCopy: "நகலெடுக்க புதிதாக எதுவும் இல்லை", saved: "வருமானத்தில் சேமிப்பு", overspent: "செலவு வருமானத்தை விட அதிகம்", thisMonth: "இந்த மாதம்", open: "திற", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", other: "மற்றவை" },
 };
 const bcat = (c, lang) => (lang === "ta" && BCAT_TA[c]) || c;
 const inr = (n) => "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { maximumFractionDigits: 2 });
@@ -1503,10 +1503,11 @@ function Budget({ t, lang, signal }) {
     const outgo = expense + saved, balance = income - outgo;
     const byGroup = {};
     allExp.forEach((e) => { const g = groupOf(e.category, groups); byGroup[g] = (byGroup[g] || 0) + e.amount; });
-    const gslices = GROUPS.map((g) => ({ name: g, value: byGroup[g] || 0, color: GCOLOR[g] })).filter((x) => x.value > 0);
     const base = income > 0 && balance >= 0 ? income : outgo; // percentages are of income when it covers everything
-    if (base === income && balance > 0) gslices.push({ name: "left", value: balance, color: GCOLOR.left });
-    return { inc, exp, sav, income, expense, saved, paid, balance, slices, outgo, gslices, base };
+    // money not spent is money kept, so what is left over counts with savings and investments
+    const leftOver = base === income && balance > 0 ? balance : 0;
+    const gslices = GROUPS.map((g) => ({ name: g, value: (byGroup[g] || 0) + (g === "saving" ? leftOver : 0), color: GCOLOR[g], ...(g === "saving" && { saved: byGroup.saving || 0, left: leftOver }) })).filter((x) => x.value > 0);
+    return { inc, exp, sav, income, expense, saved, paid, balance, slices, outgo, gslices, base, leftOver };
   }, [rows, groups]);
 
   const Entry = ({ e }) => {
@@ -1551,7 +1552,7 @@ function Budget({ t, lang, signal }) {
           </div>
           {data.income > 0 && (
             <p className={`text-center text-sm ${data.balance < 0 ? "text-red-600 font-semibold" : "text-gray-500"}`}>
-              {data.balance < 0 ? `⚠️ ${b.overspent}` : data.saved > 0 ? `${Math.round((data.saved / data.income) * 100)}% ${b.savedInvested} · ${Math.round((data.balance / data.income) * 100)}% ${b.leftOverPct}` : `${savedPct}% ${b.saved}`}
+              {data.balance < 0 ? `⚠️ ${b.overspent}` : data.saved > 0 ? `${Math.round(((data.saved + data.balance) / data.income) * 100)}% ${b.savedInvested} (${Math.round((data.saved / data.income) * 100)}% + ${Math.round((data.balance / data.income) * 100)}% ${b.leftOverPct})` : `${savedPct}% ${b.saved}`}
             </p>
           )}
           {data.expense > 0 && <p className="text-center text-xs text-gray-500">{b.paid}: {inr(data.paid)} · {b.pending}: {inr(data.expense - data.paid)}</p>}
@@ -1587,11 +1588,19 @@ function Budget({ t, lang, signal }) {
                   {data.gslices.map((sl) => {
                     const pct = data.base > 0 ? (sl.value / data.base) * 100 : 0;
                     return (
-                      <li key={sl.name} className="flex items-center gap-2 text-sm">
-                        <span className="w-3 h-3 rounded-full shrink-0" style={{ background: sl.color }} />
-                        <span className="flex-1 truncate">{sl.name === "left" ? b.leftOver : b["g" + sl.name]}</span>
-                        <span className="text-gray-500">{inr(sl.value)}</span>
-                        <span className="w-10 text-right font-bold">{pct < 1 ? "<1" : Math.round(pct)}%</span>
+                      <li key={sl.name} className="text-sm">
+                        <div className="flex items-center gap-2">
+                          <span className="w-3 h-3 rounded-full shrink-0" style={{ background: sl.color }} />
+                          <span className="flex-1 truncate">{b["g" + sl.name]}</span>
+                          <span className="text-gray-500">{inr(sl.value)}</span>
+                          <span className="w-10 text-right font-bold">{pct < 1 ? "<1" : Math.round(pct)}%</span>
+                        </div>
+                        {sl.name === "saving" && sl.left > 0 && sl.saved > 0 && (
+                          <div className="mt-0.5 ml-5 space-y-0.5 text-xs text-gray-500">
+                            <div className="flex items-center gap-2"><span className="flex-1 truncate">{b.savedInvestedLine}</span><span>{inr(sl.saved)}</span><span className="w-10 text-right">{Math.round((sl.saved / data.base) * 100)}%</span></div>
+                            <div className="flex items-center gap-2"><span className="flex-1 truncate">{b.leftOver}</span><span>{inr(sl.left)}</span><span className="w-10 text-right">{Math.round((sl.left / data.base) * 100)}%</span></div>
+                          </div>
+                        )}
                       </li>
                     );
                   })}
