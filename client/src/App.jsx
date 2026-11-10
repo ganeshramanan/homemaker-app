@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { getMode, saveMode, isDark } from "./theme.js";
-import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Send, RefreshCw, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon, CheckSquare, ImagePlus, Image as ImageIcon, Mail } from "lucide-react";
+import { Home as HomeIcon, ShoppingCart, Wallet, CalendarDays, BookOpen, Menu as MenuIcon, LogOut, IndianRupee, AlertTriangle, Bell, ChevronRight, ChevronLeft, Sun, LayoutGrid, Plus, ShieldCheck, Wheat, Milk, Apple, Carrot, Beef, Cookie, Package, SprayCan, Baby, Nut, Droplets, Flame, Leaf, Soup, CupSoda, Shirt, Briefcase, Landmark, Gift, Lightbulb, Smartphone, CreditCard, GraduationCap, Stethoscope, Fuel, Bus, PiggyBank, Clapperboard, PartyPopper, Receipt, Cake, Heart, Users, Pin, Smile, Meh, Frown, Moon, Angry, Pill, Wrench, Boxes, Tag, Egg, Coffee, Fish, Utensils, Sparkles, Send, RefreshCw, Trash2, GripVertical, Check, Minus, ShoppingBasket, ArrowUpRight, ArrowDownLeft, CalendarPlus, PenLine, X as XIcon, CheckSquare, ImagePlus, Image as ImageIcon, Mail, Scale } from "lucide-react";
 import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -643,11 +643,11 @@ function History({ t, brand, onCopied }) {
 }
 
 // ---------- admin ----------
-const MODULE_LUCIDE = { provisions: ShoppingCart, budget: Wallet, calendar: CalendarDays, diary: BookOpen };
+const MODULE_LUCIDE = { provisions: ShoppingCart, budget: Wallet, calendar: CalendarDays, diary: BookOpen, weight: Scale };
 const ModIcon = ({ m, size = 16 }) => { const I = MODULE_LUCIDE[m] || Package; return <I size={size} />; };
 // Sections that have a screen in the app.
-const SHIPPED_MODULES = ["provisions", "budget", "calendar", "diary"];
-const moduleLabel = (m, lang) => (m === "provisions" ? T[lang].groceries : m === "budget" ? BT[lang].title : m === "calendar" ? CT[lang].title : m === "diary" ? DT[lang].title : m);
+const SHIPPED_MODULES = ["provisions", "budget", "calendar", "diary", "weight"];
+const moduleLabel = (m, lang) => (m === "provisions" ? T[lang].groceries : m === "budget" ? BT[lang].title : m === "calendar" ? CT[lang].title : m === "diary" ? DT[lang].title : m === "weight" ? WGT[lang].title : m);
 const modList = (str) => (str || "").split(",").filter(Boolean);
 
 function AdminView({ t, lang, data, err, onSet, onDel, onToggleMod }) {
@@ -739,6 +739,235 @@ function Sections({ t, lang, user, onUser }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+const WGT = {
+  en: { title: "Weight", intro: "Track everyone's weight and see how it changes.", empty: "Add the people you want to track.", addPerson: "Add person", addReading: "Add reading", family: "Family", name: "Name", birthYear: "Birth year (optional)", height: "Height in cm (optional)", target: "Target weight in kg (optional)", save: "Save", cancel: "Cancel", del: "Delete", delPersonAsk: "Delete {n} and all their readings?", delReadingAsk: "Delete this reading?", person: "Person", date: "Date", kgLabel: "Weight (kg)", current: "Current", change: "Since last", month: "Last 30 days", fromTarget: "From target", noReadings: "No readings yet. Tap Add reading.", edit: "Edit", r3: "3 months", r6: "6 months", r12: "1 year", rAll: "All", bmi: "BMI", under: "Underweight", normal: "Healthy range", over: "Overweight", obese: "Obese", history: "History", reminder: "Monthly reminder", off: "Off", dayN: "Day {n} of each month", needEmail: "Add an email address in More → Email reminders to receive it.", remNote: "We will email you to log everyone's weight.", caveat: "For tracking only. This is not medical advice; please talk to a doctor about health concerns.", chart: "Weight over time", latest: "Latest", kg: "kg", none: "-", dateBad: "Pick a date that is not in the future", kgBad: "Enter a weight between 2 and 400 kg", chartLabel: "Weight chart" },
+  ta: { title: "எடை", intro: "அனைவரின் எடையையும் கண்காணித்து மாற்றத்தைப் பாருங்கள்.", empty: "கண்காணிக்க விரும்பும் நபர்களைச் சேர்க்கவும்.", addPerson: "நபரைச் சேர்", addReading: "எடை சேர்", family: "குடும்பம்", name: "பெயர்", birthYear: "பிறந்த ஆண்டு (விருப்பம்)", height: "உயரம் செ.மீ (விருப்பம்)", target: "இலக்கு எடை கிலோ (விருப்பம்)", save: "சேமி", cancel: "ரத்து", del: "நீக்கு", delPersonAsk: "{n} மற்றும் அவரது எல்லா பதிவுகளையும் நீக்கவா?", delReadingAsk: "இந்தப் பதிவை நீக்கவா?", person: "நபர்", date: "தேதி", kgLabel: "எடை (கிலோ)", current: "தற்போது", change: "கடைசிக்குப் பின்", month: "கடந்த 30 நாள்", fromTarget: "இலக்கிலிருந்து", noReadings: "இன்னும் பதிவுகள் இல்லை. எடை சேர் அழுத்தவும்.", edit: "திருத்து", r3: "3 மாதம்", r6: "6 மாதம்", r12: "1 வருடம்", rAll: "அனைத்தும்", bmi: "பிஎம்ஐ", under: "எடை குறைவு", normal: "ஆரோக்கிய வரம்பு", over: "அதிக எடை", obese: "உடல் பருமன்", history: "வரலாறு", reminder: "மாதாந்திர நினைவூட்டல்", off: "அணை", dayN: "ஒவ்வொரு மாதமும் {n}ஆம் நாள்", needEmail: "பெற, மேலும் → மின்னஞ்சல் நினைவூட்டலில் முகவரியைச் சேருங்கள்.", remNote: "அனைவரின் எடையையும் பதிவு செய்ய மின்னஞ்சல் அனுப்புவோம்.", caveat: "கண்காணிப்புக்கு மட்டுமே. இது மருத்துவ ஆலோசனை அல்ல; உடல்நலம் குறித்து மருத்துவரிடம் பேசுங்கள்.", chart: "காலப்போக்கில் எடை", latest: "சமீபத்தியது", kg: "கிலோ", none: "-", dateBad: "எதிர்காலத் தேதியைத் தேர்ந்தெடுக்க வேண்டாம்", kgBad: "2 முதல் 400 கிலோவுக்குள் எடையை உள்ளிடவும்", chartLabel: "எடை வரைபடம்" },
+};
+const WCOLORS = ["#166534", "#2563eb", "#ea580c", "#7c3aed", "#be185d", "#0891b2", "#ca8a04", "#475569", "#dc2626", "#0d9488", "#4f46e5", "#65a30d"];
+const wDay = (d) => { const p = parseYmd(d); return Date.UTC(p.y, p.m - 1, p.d) / 864e5; };
+const wShort = (d) => { const p = parseYmd(d); return new Date(p.y, p.m - 1, p.d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "2-digit" }); };
+const wFmt = (n) => (Math.round(n * 10) / 10).toString();
+const wSigned = (n) => (n > 0 ? "+" : n < 0 ? "-" : "") + wFmt(Math.abs(n));
+// BMI only for adults (18+) who have a height, never for children.
+function bmiOf(m, kg) {
+  const age = m.birthYear ? new Date().getFullYear() - m.birthYear : null;
+  if (age === null || age < 18 || !m.heightCm) return null;
+  const v = kg / Math.pow(m.heightCm / 100, 2);
+  return { v: Math.round(v * 10) / 10, band: v < 18.5 ? "under" : v < 25 ? "normal" : v < 30 ? "over" : "obese" };
+}
+
+function WeightChart({ series, target, label }) {
+  const W = 340, H = 190, L = 36, R = 10, T = 10, B = 24;
+  const pts = series.flatMap((s) => s.points);
+  if (!pts.length) return null;
+  const xs = pts.map((p) => wDay(p.date)), x0 = Math.min(...xs), x1 = Math.max(...xs);
+  const ys = pts.map((p) => p.kg).concat(target ? [target] : []);
+  let y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const pad = Math.max(1, (y1 - y0) * 0.15); y0 = Math.floor(y0 - pad); y1 = Math.ceil(y1 + pad);
+  const X = (d) => L + (x1 === x0 ? (W - L - R) / 2 : ((wDay(d) - x0) / (x1 - x0)) * (W - L - R));
+  const Y = (v) => T + (1 - (v - y0) / (y1 - y0)) * (H - T - B);
+  const first = pts.reduce((a, p) => (p.date < a ? p.date : a), pts[0].date), last = pts.reduce((a, p) => (p.date > a ? p.date : a), pts[0].date);
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label={label}>
+      {[y0, (y0 + y1) / 2, y1].map((v) => (
+        <g key={v}><line x1={L} x2={W - R} y1={Y(v)} y2={Y(v)} className="stroke-gray-200" strokeWidth="1" /><text x={L - 5} y={Y(v) + 3} textAnchor="end" fontSize="9" className="fill-gray-500">{wFmt(v)}</text></g>
+      ))}
+      {target ? <line x1={L} x2={W - R} y1={Y(target)} y2={Y(target)} stroke="#16a34a" strokeWidth="1.2" strokeDasharray="4 3" /> : null}
+      {series.map((s) => (
+        <g key={s.name}>
+          {s.points.length > 1 && <polyline fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" points={s.points.map((p) => `${X(p.date)},${Y(p.kg)}`).join(" ")} />}
+          {s.points.map((p) => <circle key={p.date} cx={X(p.date)} cy={Y(p.kg)} r="3" fill={s.color} />)}
+        </g>
+      ))}
+      <text x={L} y={H - 6} fontSize="9" className="fill-gray-500">{wShort(first)}</text>
+      {last !== first && <text x={W - R} y={H - 6} textAnchor="end" fontSize="9" className="fill-gray-500">{wShort(last)}</text>}
+    </svg>
+  );
+}
+
+function WeightSheet({ w, children, onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-end bg-black/40" onClick={onClose}>
+      <div className="w-full max-w-xl mx-auto bg-sheet rounded-t-2xl p-4 pb-8 max-h-[92vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>{children}</div>
+    </div>
+  );
+}
+const wInput = "w-full rounded-lg border border-gray-300 bg-surface px-3 py-2.5 outline-none focus:ring-2 ring-brand";
+
+function ReadingSheet({ w, members, memberId, today, onSave, onClose }) {
+  const [mid, setMid] = useState(memberId || members[0]?.id);
+  const [date, setDate] = useState(today);
+  const [kg, setKg] = useState("");
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const last = members.find((m) => m.id === mid)?.entries.slice(-1)[0];
+  const go = async () => {
+    const n = Number(kg);
+    if (!kg.trim() || !Number.isFinite(n) || n < 2 || n > 400) return setErr(w.kgBad);
+    if (!date || date > today) return setErr(w.dateBad);
+    setBusy(true);
+    try { await onSave({ memberId: mid, date, kg: n }); } catch (e) { setErr(e.message); setBusy(false); }
+  };
+  return (
+    <WeightSheet w={w} onClose={onClose}>
+      <h3 className="font-bold text-lg">{w.addReading}</h3>
+      {members.length > 1 && <label className="block text-sm text-gray-500">{w.person}<select value={mid} onChange={(e) => setMid(Number(e.target.value))} className={wInput + " mt-1"}>{members.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select></label>}
+      <label className="block text-sm text-gray-500">{w.date}<input type="date" value={date} max={today} onChange={(e) => setDate(e.target.value)} className={wInput + " mt-1"} /></label>
+      <label className="block text-sm text-gray-500">{w.kgLabel}<input autoFocus inputMode="decimal" step="0.1" value={kg} onChange={(e) => { setKg(e.target.value); setErr(""); }} placeholder={last ? wFmt(last.kg) : ""} className={wInput + " mt-1 text-lg"} /></label>
+      {err && <p className="text-sm text-red-600" role="alert">{err}</p>}
+      <div className="flex gap-2"><Btn onClick={onClose} className="flex-1 py-3 bg-surface border border-gray-300 text-gray-700">{w.cancel}</Btn><Btn onClick={go} disabled={busy} className="flex-[2] py-3 bg-brand text-white disabled:opacity-50">{w.save}</Btn></div>
+    </WeightSheet>
+  );
+}
+
+function PersonSheet({ w, member, onSave, onDelete, onClose }) {
+  const [f, setF] = useState({ name: member?.name || "", birthYear: member?.birthYear ?? "", heightCm: member?.heightCm ?? "", targetKg: member?.targetKg ?? "" });
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const set = (k) => (e) => { setF({ ...f, [k]: e.target.value }); setErr(""); };
+  const go = async () => {
+    if (!f.name.trim()) return setErr(w.name);
+    setBusy(true);
+    try { await onSave({ name: f.name, birthYear: f.birthYear === "" ? null : Number(f.birthYear), heightCm: f.heightCm === "" ? null : Number(f.heightCm), targetKg: f.targetKg === "" ? null : Number(f.targetKg) }); }
+    catch (e) { setErr(e.message); setBusy(false); }
+  };
+  return (
+    <WeightSheet w={w} onClose={onClose}>
+      <h3 className="font-bold text-lg">{member ? w.edit : w.addPerson}</h3>
+      <input autoFocus value={f.name} maxLength={40} onChange={set("name")} placeholder={w.name} className={wInput} />
+      <input inputMode="numeric" value={f.birthYear} onChange={set("birthYear")} placeholder={w.birthYear} className={wInput} />
+      <input inputMode="decimal" value={f.heightCm} onChange={set("heightCm")} placeholder={w.height} className={wInput} />
+      <input inputMode="decimal" value={f.targetKg} onChange={set("targetKg")} placeholder={w.target} className={wInput} />
+      {err && <p className="text-sm text-red-600" role="alert">{err}</p>}
+      <div className="flex gap-2"><Btn onClick={onClose} className="flex-1 py-3 bg-surface border border-gray-300 text-gray-700">{w.cancel}</Btn><Btn onClick={go} disabled={busy} className="flex-[2] py-3 bg-brand text-white disabled:opacity-50">{w.save}</Btn></div>
+      {member && <Btn onClick={() => onDelete(member)} className="w-full py-2.5 text-sm text-red-600 bg-red-50">{w.del}</Btn>}
+    </WeightSheet>
+  );
+}
+
+function Weight({ lang }) {
+  const w = WGT[lang];
+  const today = localToday(useClock());
+  const [data, setData] = useState(null);
+  const [err, setErr] = useState("");
+  const [sel, setSel] = useState("all");
+  const [range, setRange] = useState(365);
+  const [sheet, setSheet] = useState(null);
+  const load = useCallback(async () => { try { setData(await api("/api/weight/overview")); setErr(""); } catch (e) { setErr(e.message); } }, []);
+  useEffect(() => { load(); }, [load]);
+  if (!data) return err ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p> : <SkeletonRows n={3} />;
+
+  const members = data.members;
+  const one = members.length === 1 ? members[0] : sel !== "all" ? members.find((m) => m.id === sel) : null;
+  const shown = one ? [one] : members;
+  const cutoff = range ? addDays(today, -range) : "0000-00-00";
+  const colorOf = (m) => WCOLORS[members.indexOf(m) % WCOLORS.length];
+  const series = shown.map((m) => ({ name: m.name, color: colorOf(m), points: m.entries.filter((e) => e.date >= cutoff) })).filter((s) => s.points.length);
+  const latestOf = (m) => m.entries[m.entries.length - 1];
+
+  const saveReading = async (b) => { await api("/api/weight/entries", "PUT", b); setSheet(null); await load(); };
+  const savePerson = async (b) => {
+    if (sheet.member) await api(`/api/weight/members/${sheet.member.id}`, "PATCH", b);
+    else { const m = await api("/api/weight/members", "POST", b); setSel(m.id); }
+    setSheet(null); await load();
+  };
+  const delPerson = async (m) => { if (!confirm(w.delPersonAsk.replace("{n}", m.name))) return; await api(`/api/weight/members/${m.id}`, "DELETE"); setSheet(null); setSel("all"); await load(); };
+  const delReading = async (e) => { if (!confirm(w.delReadingAsk)) return; await api(`/api/weight/entries/${e.id}`, "DELETE"); await load(); };
+  const setDay = async (day) => { try { await api("/api/weight/reminder", "PUT", { day }); setData((p) => ({ ...p, reminder: { ...p.reminder, day } })); } catch (e) { setErr(e.message); } };
+
+  const pill = (on) => `shrink-0 rounded-full px-3 py-1.5 text-sm font-medium border ${on ? "bg-brand text-white border-brand" : "bg-surface text-gray-700 border-gray-300"}`;
+  const Tile = ({ label, value, sub }) => <div className="rounded-xl bg-surface border border-line px-3 py-2.5"><p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">{label}</p><p className="mt-1 text-lg font-bold text-gray-900 leading-none">{value}</p>{sub && <p className="mt-1 text-[11px] text-gray-500">{sub}</p>}</div>;
+
+  let tiles = null;
+  if (one && one.entries.length) {
+    const e = one.entries, cur = e[e.length - 1], prev = e[e.length - 2];
+    const base = [...e].reverse().find((x) => x.date <= addDays(today, -30));
+    const bmi = bmiOf(one, cur.kg);
+    tiles = (
+      <>
+        <div className="grid grid-cols-2 gap-2">
+          <Tile label={w.current} value={`${wFmt(cur.kg)} ${w.kg}`} sub={wShort(cur.date)} />
+          <Tile label={w.change} value={prev ? `${wSigned(cur.kg - prev.kg)} ${w.kg}` : w.none} sub={prev ? wShort(prev.date) : ""} />
+          <Tile label={w.month} value={base ? `${wSigned(cur.kg - base.kg)} ${w.kg}` : w.none} />
+          <Tile label={w.fromTarget} value={one.targetKg ? `${wSigned(cur.kg - one.targetKg)} ${w.kg}` : w.none} sub={one.targetKg ? `${w.target.split(" (")[0]}: ${wFmt(one.targetKg)}` : ""} />
+        </div>
+        {bmi && <p className="rounded-xl bg-surface border border-line px-3 py-2.5 text-sm text-gray-700"><span className="font-semibold">{w.bmi} {bmi.v}</span> · {w[bmi.band]}</p>}
+      </>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-start justify-between gap-2">
+        <div><h1 className="text-2xl font-bold text-gray-900">{w.title}</h1><p className="text-sm text-gray-500">{w.intro}</p></div>
+      </div>
+      {err && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{err}</p>}
+      {members.length === 0 ? (
+        <div className="rounded-xl bg-surface border border-line p-6 text-center space-y-3">
+          <p className="text-gray-600">{w.empty}</p>
+          <Btn onClick={() => setSheet({ kind: "person" })} className="px-4 py-2.5 bg-brand text-white inline-flex items-center gap-1.5"><Plus size={16} />{w.addPerson}</Btn>
+        </div>
+      ) : (
+        <>
+          <div className="flex gap-2 overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0 items-center">
+            {members.length > 1 && <button onClick={() => setSel("all")} className={pill(!one)}>{w.family}</button>}
+            {members.map((m) => <button key={m.id} onClick={() => setSel(m.id)} className={pill(one?.id === m.id)}>{m.name}</button>)}
+            <button onClick={() => setSheet({ kind: "person" })} className="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium border border-dashed border-brand text-brand flex items-center gap-1" disabled={members.length >= data.max}><Plus size={14} />{w.addPerson}</button>
+          </div>
+          <div className="flex gap-2">
+            <Btn onClick={() => setSheet({ kind: "reading", memberId: one?.id })} className="flex-1 py-3 bg-brand text-white flex items-center justify-center gap-1.5"><Plus size={18} />{w.addReading}</Btn>
+            {one && <Btn onClick={() => setSheet({ kind: "person", member: one })} className="shrink-0 px-4 py-3 bg-surface border border-gray-300 text-gray-700">{w.edit}</Btn>}
+          </div>
+          {tiles}
+          <div className="flex gap-2 overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0">
+            {[[90, w.r3], [180, w.r6], [365, w.r12], [0, w.rAll]].map(([d, l]) => <button key={d} onClick={() => setRange(d)} className={pill(range === d)}>{l}</button>)}
+          </div>
+          <div className="rounded-xl bg-surface border border-line p-3">
+            <h2 className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{w.chart}</h2>
+            {series.length ? <WeightChart series={series} target={one?.targetKg} label={w.chartLabel} /> : <p className="py-8 text-center text-sm text-gray-400">{w.noReadings}</p>}
+            {!one && series.length > 0 && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{series.map((s) => <span key={s.name} className="flex items-center gap-1.5 text-xs text-gray-600"><i className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: s.color }} />{s.name}</span>)}</div>}
+          </div>
+          {!one && (
+            <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">
+              {members.map((m) => { const c = latestOf(m); return (
+                <button key={m.id} onClick={() => setSel(m.id)} className="w-full flex items-center gap-3 px-3.5 py-3 text-left">
+                  <i className="h-3 w-3 shrink-0 rounded-full" style={{ background: colorOf(m) }} />
+                  <span className="flex-1 min-w-0 truncate font-medium text-gray-900">{m.name}</span>
+                  <span className="text-sm font-bold text-gray-900">{c ? `${wFmt(c.kg)} ${w.kg}` : w.none}</span>
+                </button>); })}
+            </div>
+          )}
+          {one && one.entries.length > 0 && (
+            <section>
+              <h2 className="mb-1.5 px-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">{w.history}</h2>
+              <div className="rounded-xl bg-surface border border-line divide-y divide-line overflow-hidden">
+                {[...one.entries].reverse().map((e) => (
+                  <div key={e.id} className="flex items-center gap-3 px-3.5 py-2.5">
+                    <span className="flex-1 text-sm text-gray-600">{wShort(e.date)}</span>
+                    <span className="font-bold text-gray-900">{wFmt(e.kg)} {w.kg}</span>
+                    <button onClick={() => delReading(e)} aria-label={w.del} className="p-1 text-gray-400 hover:text-red-600"><Trash2 size={16} /></button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+          <section className="rounded-xl bg-surface border border-line p-3.5 space-y-2">
+            <h2 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">{w.reminder}</h2>
+            <select value={data.reminder.day} onChange={(e) => setDay(Number(e.target.value))} className={wInput} aria-label={w.reminder}>
+              <option value={0}>{w.off}</option>
+              {Array.from({ length: 28 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{w.dayN.replace("{n}", n)}</option>)}
+            </select>
+            <p className="text-xs text-gray-500">{data.reminder.day > 0 && !data.reminder.hasEmail ? w.needEmail : w.remNote}</p>
+          </section>
+        </>
+      )}
+      <p className="flex items-start gap-1.5 text-xs text-gray-500 px-1"><Lightbulb size={14} className="mt-0.5 shrink-0" />{w.caveat}</p>
+      {sheet?.kind === "reading" && <ReadingSheet w={w} members={members} memberId={sheet.memberId} today={today} onSave={saveReading} onClose={() => setSheet(null)} />}
+      {sheet?.kind === "person" && <PersonSheet w={w} member={sheet.member} onSave={savePerson} onDelete={delPerson} onClose={() => setSheet(null)} />}
     </div>
   );
 }
@@ -1956,6 +2185,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
   if (has("budget")) tabs.push(["budget", Wallet, BT[lang].title]);
   if (has("calendar")) tabs.push(["calendar", CalendarDays, CT[lang].title]);
   if (has("diary")) tabs.push(["diary", BookOpen, DT[lang].title]);
+  if (has("weight")) tabs.push(["weight", Scale, WGT[lang].title]);
   tabs.push(["more", MenuIcon, t.more]);
   const tabIds = tabs.map(([id]) => id).join(",");
   useEffect(() => { if (!tabIds.split(",").includes(tab)) setTab("home"); }, [tabIds, tab]); // a section that was switched off must not stay open
@@ -2021,6 +2251,7 @@ function Main({ user, brand, onLogout, onUser, lang, onLang }) {
           {tab === "budget" && <Budget t={t} lang={lang} signal={signal} />}
           {tab === "calendar" && <Calendar lang={lang} cal={cal} signal={signal} />}
           {tab === "diary" && <Diary lang={lang} signal={signal} />}
+          {tab === "weight" && <Weight lang={lang} />}
           {tab === "more" && <More t={t} lang={lang} user={user} onUser={onUser} view={moreView} setView={setMoreView} onLogout={onLogout} extra={mainTabs.filter(([id]) => ![...barLeft, ...barRight].some(([b]) => b === id) && id !== "home")} onOpen={(id) => go(id, null, null)} />}
         </main>
       </div>

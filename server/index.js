@@ -10,6 +10,7 @@ import provisions from "./provisions.js";
 import budget from "./budget.js";
 import calendar from "./calendar.js";
 import diary from "./diary.js";
+import weight from "./weight.js";
 import { settingsRouter as reminderSettings, internalRouter } from "./reminders.js";
 
 const app = express();
@@ -60,6 +61,7 @@ app.use("/api/budget", budget);
 app.use("/api/calendar", calendar);
 app.use("/api/reminders", reminderSettings);
 app.use("/api/diary", diary);
+app.use("/api/weight", weight);
 app.use("/api/admin", adminRouter);
 app.use("/api", (_, res) => res.status(404).json({ error: "Not found" }));
 app.use((e, _req, res, _next) => { console.error(e); res.status(e.status || 500).json({ error: e.status ? e.message : "Something went wrong. Please try again." }); });

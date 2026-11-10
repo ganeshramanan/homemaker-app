@@ -76,6 +76,15 @@ export function buildEmail(brandName, name, groups) { // groups: [{ daysAhead, d
   return { subject, text, html };
 }
 
+export function buildWeightEmail(brandName, name, who, appUrl) {
+  const names = who.length ? who.join(", ") : "your family";
+  const subject = brandName + ": time to log your family's weights";
+  const link = appUrl ? appUrl.replace(/\/$/, "") + "/" : "";
+  const text = "Hello " + name + ",\n\nIt is time for this month's weight check for " + names + ".\nOpen " + brandName + (link ? " (" + link + ")" : "") + " and go to Weight to add the new readings.\n\n- " + brandName;
+  const html = '<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:auto;color:#111"><p>Hello ' + esc(name) + ",</p><p>It is time for this month's weight check for <b>" + esc(names) + "</b>.</p><p>Open " + esc(brandName) + " and go to <b>Weight</b> to add the new readings.</p>" + (link ? '<p><a href="' + esc(link) + '" style="background:#166534;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;display:inline-block">Open ' + esc(brandName) + "</a></p>" : "") + '<p style="color:#888;font-size:12px;margin-top:22px">You can change or turn off this reminder in Weight → Monthly reminder.</p></div>';
+  return { subject, text, html };
+}
+
 // ----- settings (signed in, calendar section) -----
 export const settingsRouter = Router();
 settingsRouter.use(requireModule("calendar"));
@@ -145,6 +154,25 @@ internalRouter.post("/send-reminders", wrap(async (req, res) => {
       for (const g of groups) for (const o of g.items) await prisma.reminderSent.create({ data: { userId: u.id, eventId: o.id, onDate: g.date, daysAhead: g.daysAhead } }).catch(() => {});
       out.emailsSent++;
     } catch (e) { out.failed++; console.error("reminder email failed for user", u.id, e.message); }
+  }
+  // Monthly "log your weights" nudge: on the chosen day of the month, once per month.
+  out.weightReminders = 0;
+  const dayOfMonth = Number(today.slice(8, 10)), monthKey = today.slice(0, 7);
+  const wUsers = await prisma.user.findMany({ where: { status: "active", weightReminderDay: dayOfMonth, reminderEmails: { not: "" } } });
+  for (const u of wUsers) {
+    const emails = parseEmails(u.reminderEmails);
+    if (!emails.length) continue;
+    const marker = await prisma.reminderSent.findUnique({ where: { userId_eventId_onDate_daysAhead: { userId: u.id, eventId: -1, onDate: monthKey, daysAhead: 0 } } });
+    if (marker) continue;
+    const people = await prisma.familyMember.findMany({ where: { userId: u.id }, select: { name: true } });
+    if (!people.length) continue;
+    if (dry) { out.weightReminders++; continue; }
+    try {
+      const mail = buildWeightEmail(brand, u.name, people.map((p) => p.name), process.env.APP_URL || "");
+      await deliver({ to: emails, subject: mail.subject, text: mail.text, html: mail.html });
+      await prisma.reminderSent.create({ data: { userId: u.id, eventId: -1, onDate: monthKey, daysAhead: 0 } }).catch(() => {});
+      out.weightReminders++;
+    } catch (e) { out.failed++; console.error("weight reminder failed for user", u.id, e.message); }
   }
   // tidy: forget reminders for dates long past
   await prisma.reminderSent.deleteMany({ where: { onDate: { lt: addDays(today, -30) } } }).catch(() => {});
